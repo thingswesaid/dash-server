@@ -12,7 +12,7 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://dash-server-fe5c16403b.herokuapp.com`,
+  endpoint: `https://dash-server-a8c25bbfd8.herokuapp.com`,
   secret: `uhsomesecretyouhaveuh`
 });
 exports.prisma = new exports.Prisma();
