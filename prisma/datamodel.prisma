@@ -4,3 +4,24 @@ type Post {
   title: String!
   content: String!
 }
+
+type User {
+  email: String!
+  ips: [String!] #TODO MAX 2 IPS ADD VALIDATION ON CLIENT
+  subscribed: Boolean! @default(value: "true")
+  # save credit card? Depends data returned from Stripe
+}
+
+type Video {
+  id: ID! @unique
+  link: String!
+  users: [User]
+}
+
+type Product {
+  id: ID! @unique
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+}
