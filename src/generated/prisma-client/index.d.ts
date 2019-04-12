@@ -81,6 +81,7 @@ export interface Prisma {
       last?: Int;
     }
   ) => ProductConnectionPromise;
+  user: (where: UserWhereUniqueInput) => UserPromise;
   users: (
     args?: {
       where?: UserWhereInput;
@@ -165,9 +166,20 @@ export interface Prisma {
   deleteProduct: (where: ProductWhereUniqueInput) => ProductPromise;
   deleteManyProducts: (where?: ProductWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
+  updateUser: (
+    args: { data: UserUpdateInput; where: UserWhereUniqueInput }
+  ) => UserPromise;
   updateManyUsers: (
     args: { data: UserUpdateManyMutationInput; where?: UserWhereInput }
   ) => BatchPayloadPromise;
+  upsertUser: (
+    args: {
+      where: UserWhereUniqueInput;
+      create: UserCreateInput;
+      update: UserUpdateInput;
+    }
+  ) => UserPromise;
+  deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
   createVideo: (data: VideoCreateInput) => VideoPromise;
   updateVideo: (
@@ -247,12 +259,12 @@ export type ProductOrderByInput =
   | "updatedAt_DESC";
 
 export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
   | "email_ASC"
   | "email_DESC"
   | "subscribed_ASC"
   | "subscribed_DESC"
-  | "id_ASC"
-  | "id_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -263,6 +275,10 @@ export type VideoOrderByInput =
   | "id_DESC"
   | "link_ASC"
   | "link_DESC"
+  | "preview_ASC"
+  | "preview_DESC"
+  | "image_ASC"
+  | "image_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -404,7 +420,25 @@ export interface ProductWhereInput {
   NOT?: ProductWhereInput[] | ProductWhereInput;
 }
 
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
 export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
   email?: String;
   email_not?: String;
   email_in?: String[] | String;
@@ -459,6 +493,34 @@ export interface VideoWhereInput {
   link_not_starts_with?: String;
   link_ends_with?: String;
   link_not_ends_with?: String;
+  preview?: String;
+  preview_not?: String;
+  preview_in?: String[] | String;
+  preview_not_in?: String[] | String;
+  preview_lt?: String;
+  preview_lte?: String;
+  preview_gt?: String;
+  preview_gte?: String;
+  preview_contains?: String;
+  preview_not_contains?: String;
+  preview_starts_with?: String;
+  preview_not_starts_with?: String;
+  preview_ends_with?: String;
+  preview_not_ends_with?: String;
+  image?: String;
+  image_not?: String;
+  image_in?: String[] | String;
+  image_not_in?: String[] | String;
+  image_lt?: String;
+  image_lte?: String;
+  image_gt?: String;
+  image_gte?: String;
+  image_contains?: String;
+  image_not_contains?: String;
+  image_starts_with?: String;
+  image_not_starts_with?: String;
+  image_ends_with?: String;
+  image_not_ends_with?: String;
   users_every?: UserWhereInput;
   users_some?: UserWhereInput;
   users_none?: UserWhereInput;
@@ -516,7 +578,7 @@ export interface UserCreateipsInput {
   set?: String[] | String;
 }
 
-export interface UserUpdateManyMutationInput {
+export interface UserUpdateInput {
   email?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
@@ -526,29 +588,80 @@ export interface UserUpdateipsInput {
   set?: String[] | String;
 }
 
+export interface UserUpdateManyMutationInput {
+  email?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+}
+
 export interface VideoCreateInput {
   link: String;
+  preview: String;
+  image: String;
   users?: UserCreateManyInput;
 }
 
 export interface UserCreateManyInput {
   create?: UserCreateInput[] | UserCreateInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
 }
 
 export interface VideoUpdateInput {
   link?: String;
+  preview?: String;
+  image?: String;
   users?: UserUpdateManyInput;
 }
 
 export interface UserUpdateManyInput {
   create?: UserCreateInput[] | UserCreateInput;
+  update?:
+    | UserUpdateWithWhereUniqueNestedInput[]
+    | UserUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | UserUpsertWithWhereUniqueNestedInput[]
+    | UserUpsertWithWhereUniqueNestedInput;
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
   deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
   updateMany?:
     | UserUpdateManyWithWhereNestedInput[]
     | UserUpdateManyWithWhereNestedInput;
 }
 
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateDataInput;
+}
+
+export interface UserUpdateDataInput {
+  email?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
 export interface UserScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
   email?: String;
   email_not?: String;
   email_in?: String[] | String;
@@ -583,6 +696,8 @@ export interface UserUpdateManyDataInput {
 
 export interface VideoUpdateManyMutationInput {
   link?: String;
+  preview?: String;
+  image?: String;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -806,12 +921,14 @@ export interface AggregateProductSubscription
 }
 
 export interface User {
+  id: ID_Output;
   email: String;
   ips: String[];
   subscribed: Boolean;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
@@ -820,6 +937,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
 export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
@@ -878,11 +996,15 @@ export interface AggregateUserSubscription
 export interface Video {
   id: ID_Output;
   link: String;
+  preview: String;
+  image: String;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
   id: () => Promise<ID_Output>;
   link: () => Promise<String>;
+  preview: () => Promise<String>;
+  image: () => Promise<String>;
   users: <T = FragmentableArray<User>>(
     args?: {
       where?: UserWhereInput;
@@ -901,6 +1023,8 @@ export interface VideoSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   link: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
   users: <T = Promise<AsyncIterator<UserSubscription>>>(
     args?: {
       where?: UserWhereInput;
@@ -1103,6 +1227,7 @@ export interface UserSubscriptionPayloadSubscription
 }
 
 export interface UserPreviousValues {
+  id: ID_Output;
   email: String;
   ips: String[];
   subscribed: Boolean;
@@ -1111,6 +1236,7 @@ export interface UserPreviousValues {
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
+  id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
@@ -1119,6 +1245,7 @@ export interface UserPreviousValuesPromise
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
@@ -1150,6 +1277,8 @@ export interface VideoSubscriptionPayloadSubscription
 export interface VideoPreviousValues {
   id: ID_Output;
   link: String;
+  preview: String;
+  image: String;
 }
 
 export interface VideoPreviousValuesPromise
@@ -1157,6 +1286,8 @@ export interface VideoPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   link: () => Promise<String>;
+  preview: () => Promise<String>;
+  image: () => Promise<String>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -1164,6 +1295,8 @@ export interface VideoPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   link: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
 }
 
 /*

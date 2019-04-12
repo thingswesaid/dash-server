@@ -35,7 +35,10 @@ type Mutation {
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   createVideo(data: VideoCreateInput!): Video!
   updateVideo(data: VideoUpdateInput!, where: VideoWhereUniqueInput!): Video
@@ -362,6 +365,7 @@ type Query {
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   video(where: VideoWhereUniqueInput!): Video
@@ -378,6 +382,7 @@ type Subscription {
 }
 
 type User {
+  id: ID!
   email: String!
   ips: [String!]!
   subscribed: Boolean!
@@ -401,6 +406,7 @@ input UserCreateipsInput {
 
 input UserCreateManyInput {
   create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 type UserEdge {
@@ -409,12 +415,12 @@ type UserEdge {
 }
 
 enum UserOrderByInput {
+  id_ASC
+  id_DESC
   email_ASC
   email_DESC
   subscribed_ASC
   subscribed_DESC
-  id_ASC
-  id_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -422,12 +428,27 @@ enum UserOrderByInput {
 }
 
 type UserPreviousValues {
+  id: ID!
   email: String!
   ips: [String!]!
   subscribed: Boolean!
 }
 
 input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   email: String
   email_not: String
   email_in: [String!]
@@ -467,6 +488,18 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  email: String
+  ips: UserUpdateipsInput
+  subscribed: Boolean
+}
+
+input UserUpdateInput {
+  email: String
+  ips: UserUpdateipsInput
+  subscribed: Boolean
+}
+
 input UserUpdateipsInput {
   set: [String!]
 }
@@ -479,6 +512,11 @@ input UserUpdateManyDataInput {
 
 input UserUpdateManyInput {
   create: [UserCreateInput!]
+  update: [UserUpdateWithWhereUniqueNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -494,7 +532,32 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateDataInput!
+}
+
+input UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
 input UserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   email: String
   email_not: String
   email_in: [String!]
@@ -516,9 +579,15 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
 }
 
+input UserWhereUniqueInput {
+  id: ID
+}
+
 type Video {
   id: ID!
   link: String!
+  preview: String!
+  image: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
@@ -530,6 +599,8 @@ type VideoConnection {
 
 input VideoCreateInput {
   link: String!
+  preview: String!
+  image: String!
   users: UserCreateManyInput
 }
 
@@ -543,6 +614,10 @@ enum VideoOrderByInput {
   id_DESC
   link_ASC
   link_DESC
+  preview_ASC
+  preview_DESC
+  image_ASC
+  image_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -552,6 +627,8 @@ enum VideoOrderByInput {
 type VideoPreviousValues {
   id: ID!
   link: String!
+  preview: String!
+  image: String!
 }
 
 type VideoSubscriptionPayload {
@@ -574,11 +651,15 @@ input VideoSubscriptionWhereInput {
 
 input VideoUpdateInput {
   link: String
+  preview: String
+  image: String
   users: UserUpdateManyInput
 }
 
 input VideoUpdateManyMutationInput {
   link: String
+  preview: String
+  image: String
 }
 
 input VideoWhereInput {
@@ -610,6 +691,34 @@ input VideoWhereInput {
   link_not_starts_with: String
   link_ends_with: String
   link_not_ends_with: String
+  preview: String
+  preview_not: String
+  preview_in: [String!]
+  preview_not_in: [String!]
+  preview_lt: String
+  preview_lte: String
+  preview_gt: String
+  preview_gte: String
+  preview_contains: String
+  preview_not_contains: String
+  preview_starts_with: String
+  preview_not_starts_with: String
+  preview_ends_with: String
+  preview_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput

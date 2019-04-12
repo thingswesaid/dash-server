@@ -6,6 +6,7 @@ type Post {
 }
 
 type User {
+  id: ID! @unique
   email: String!
   ips: [String!] #TODO MAX 2 IPS ADD VALIDATION ON CLIENT
   subscribed: Boolean! @default(value: "true")
@@ -15,6 +16,8 @@ type User {
 type Video {
   id: ID! @unique
   link: String!
+  preview: String!
+  image: String!
   users: [User]
 }
 
