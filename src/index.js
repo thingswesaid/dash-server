@@ -12,6 +12,9 @@ const resolvers = {
     post: (parent, { id }, context) => {
       return context.prisma.post({ id })
     },
+    videos: (parent, { id }, context) => {
+      return context.prisma.videos({ where: { id_contains: id } })
+    },
   },
   Mutation: {
     createDraft(parent, { title, content }, context) {

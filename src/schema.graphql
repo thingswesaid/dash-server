@@ -2,12 +2,18 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
+  videos(id: ID!): Video!
 }
 
 type Mutation {
   createDraft(title: String!, content: String): Post
   deletePost(id: ID!): Post
   publish(id: ID!): Post
+}
+
+type Video {
+  id: ID!
+  link: String!
 }
 
 type Post {
