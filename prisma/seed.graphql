@@ -1,7 +1,7 @@
 mutation {
   post1: createPost(
     data: {
-      title: "Join us for GraphQL Conf 2019 in Berlin"
+      title: "TEST TEST TEST"
       content: "https://www.graphqlconf.org/"
       published: true
     }
