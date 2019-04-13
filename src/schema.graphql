@@ -2,7 +2,7 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
-  videos(id: ID!): Video!
+  videos(id: ID!): [Video]
 }
 
 type Mutation {
@@ -11,9 +11,19 @@ type Mutation {
   publish(id: ID!): Post
 }
 
-type Video {
+type User {
   id: ID!
+  email: String!
+  ips: [String!]
+  subscribed: Boolean!
+}
+
+type Video {
+  id: ID! 
   link: String!
+  preview: String!
+  image: String!
+  users: [User]
 }
 
 type Post {
