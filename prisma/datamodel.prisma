@@ -7,7 +7,7 @@ type Post {
 
 type User {
   id: ID! @unique
-  email: String!
+  email: String! @unique
   ips: [String!] #TODO MAX 2 IPS ADD VALIDATION ON CLIENT
   subscribed: Boolean! @default(value: "true")
   # save credit card? Depends data returned from Stripe

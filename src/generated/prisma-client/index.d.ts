@@ -422,6 +422,7 @@ export interface ProductWhereInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  email?: String;
 }>;
 
 export interface UserWhereInput {
