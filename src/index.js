@@ -16,7 +16,8 @@ const resolvers = {
       return context.prisma.videos({ where: { id_contains: id } })
     },
     userIp: (parent, args, context) => {
-      return context.userIp();
+      // return context.userIp();
+      return "THIS-IS-USER-IP";
     },
   },
   Mutation: {
@@ -46,7 +47,6 @@ const server = new GraphQLServer({
     context,
     userIp: () => {
       const headers = context.request.headers;
-      console.log("HEADERS", headers)
       if (!headers) return null;
       const ipAddress = headers['x-forwarded-for'];
       if (!ipAddress) return null;

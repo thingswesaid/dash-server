@@ -3,7 +3,7 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post
   videos(id: ID!): [Video]
-  userIp: String!
+  userIp: String
 }
 
 type Mutation {
@@ -17,6 +17,7 @@ type User {
   email: String!
   ips: [String!]
   subscribed: Boolean!
+  videos: [Video]
 }
 
 type Video {
