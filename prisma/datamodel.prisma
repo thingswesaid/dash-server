@@ -8,9 +8,11 @@ type Post {
 type User {
   id: ID! @unique
   email: String! @unique
-  ips: [String!] #TODO MAX 2 IPS ADD VALIDATION ON CLIENT
+  ips: [String!]
   subscribed: Boolean! @default(value: "true")
-  # save credit card? Depends data returned from Stripe
+  videos: [Video]!
+  status: Status!
+  # save credit card? Depends data returned from Stripe | save paypal Gpay info?
 }
 
 type Video {
@@ -18,7 +20,7 @@ type Video {
   link: String!
   preview: String!
   image: String!
-  users: [User]
+  users: [User]!
 }
 
 type Product {
@@ -27,4 +29,9 @@ type Product {
   title: String!
   description: String!
   image: String!
+}
+
+enum Status {
+  ACTIVE
+  BLOCKED
 }

@@ -20,6 +20,11 @@ const resolvers = {
       return "THIS-IS-USER-IP";
     },
   },
+  Video: {
+    users(parent) {
+      return prisma.video({ id: parent.id }).users()
+    }
+  },
   Mutation: {
     createDraft(parent, { title, content }, context) {
       return context.prisma.createPost({
@@ -34,6 +39,11 @@ const resolvers = {
       return context.prisma.updatePost({
         where: { id },
         data: { published: true },
+      })
+    },
+    createUser(parent, { email, ip }, context) {
+      return context.prisma.createUser({
+        data: { email, ips: { set: ip } },
       })
     },
   },

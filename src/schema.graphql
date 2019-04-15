@@ -10,6 +10,7 @@ type Mutation {
   createDraft(title: String!, content: String): Post
   deletePost(id: ID!): Post
   publish(id: ID!): Post
+  createUser(email: String!, ip: String!): User
 }
 
 type User {
@@ -17,7 +18,7 @@ type User {
   email: String!
   ips: [String!]
   subscribed: Boolean!
-  videos: [Video]
+  status: Status
 }
 
 type Video {
@@ -33,4 +34,9 @@ type Post {
   published: Boolean!
   title: String!
   content: String!
+}
+
+enum Status {
+  ACTIVE
+  BLOCKED
 }
