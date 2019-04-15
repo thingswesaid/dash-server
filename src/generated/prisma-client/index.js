@@ -9,19 +9,19 @@ var models = [
     embedded: false
   },
   {
-    name: "User",
-    embedded: false
-  },
-  {
-    name: "Video",
-    embedded: false
-  },
-  {
     name: "Product",
     embedded: false
   },
   {
     name: "Status",
+    embedded: false
+  },
+  {
+    name: "User",
+    embedded: false
+  },
+  {
+    name: "Video",
     embedded: false
   }
 ];
@@ -32,3 +32,25 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
   secret: `uhsomesecretyouhaveuh`
 });
 exports.prisma = new exports.Prisma();
+var models = [
+  {
+    name: "Post",
+    embedded: false
+  },
+  {
+    name: "Product",
+    embedded: false
+  },
+  {
+    name: "Status",
+    embedded: false
+  },
+  {
+    name: "User",
+    embedded: false
+  },
+  {
+    name: "Video",
+    embedded: false
+  }
+];
