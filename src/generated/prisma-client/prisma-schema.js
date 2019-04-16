@@ -625,6 +625,7 @@ type Video {
   preview: String!
   image: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  published: Boolean!
 }
 
 type VideoConnection {
@@ -638,6 +639,7 @@ input VideoCreateInput {
   preview: String!
   image: String!
   users: UserCreateManyWithoutVideosInput
+  published: Boolean
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -649,6 +651,7 @@ input VideoCreateWithoutUsersInput {
   link: String!
   preview: String!
   image: String!
+  published: Boolean
 }
 
 type VideoEdge {
@@ -665,6 +668,8 @@ enum VideoOrderByInput {
   preview_DESC
   image_ASC
   image_DESC
+  published_ASC
+  published_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -676,6 +681,7 @@ type VideoPreviousValues {
   link: String!
   preview: String!
   image: String!
+  published: Boolean!
 }
 
 input VideoScalarWhereInput {
@@ -735,6 +741,8 @@ input VideoScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  published: Boolean
+  published_not: Boolean
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -763,18 +771,21 @@ input VideoUpdateInput {
   preview: String
   image: String
   users: UserUpdateManyWithoutVideosInput
+  published: Boolean
 }
 
 input VideoUpdateManyDataInput {
   link: String
   preview: String
   image: String
+  published: Boolean
 }
 
 input VideoUpdateManyMutationInput {
   link: String
   preview: String
   image: String
+  published: Boolean
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -797,6 +808,7 @@ input VideoUpdateWithoutUsersDataInput {
   link: String
   preview: String
   image: String
+  published: Boolean
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -870,6 +882,8 @@ input VideoWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
+  published: Boolean
+  published_not: Boolean
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

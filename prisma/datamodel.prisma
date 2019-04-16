@@ -21,6 +21,7 @@ type Video {
   preview: String!
   image: String!
   users: [User]!
+  published: Boolean! @default(value: "false")
 }
 
 type Product {
