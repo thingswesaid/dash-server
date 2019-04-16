@@ -46,6 +46,11 @@ const resolvers = {
         data: { email, ips: { set: ip } },
       })
     },
+    addUserIp(parent, { email, ips }, context) {
+      return context.prisma.updateUser({
+        where: { email }, data: { ips: { set: ips } },
+      })
+    },
   },
 }
 

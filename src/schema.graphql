@@ -11,6 +11,7 @@ type Mutation {
   deletePost(id: ID!): Post
   publish(id: ID!): Post
   createUser(email: String!, ip: String!): User
+  addUserIp(email: String!, ips: [String]!): User
 }
 
 type User {
