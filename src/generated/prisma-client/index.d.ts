@@ -271,6 +271,8 @@ export type VideoOrderByInput =
   | "image_DESC"
   | "published_ASC"
   | "published_DESC"
+  | "amount_ASC"
+  | "amount_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -493,6 +495,14 @@ export interface VideoWhereInput {
   users_none?: UserWhereInput;
   published?: Boolean;
   published_not?: Boolean;
+  amount?: Int;
+  amount_not?: Int;
+  amount_in?: Int[] | Int;
+  amount_not_in?: Int[] | Int;
+  amount_lt?: Int;
+  amount_lte?: Int;
+  amount_gt?: Int;
+  amount_gte?: Int;
   AND?: VideoWhereInput[] | VideoWhereInput;
   OR?: VideoWhereInput[] | VideoWhereInput;
   NOT?: VideoWhereInput[] | VideoWhereInput;
@@ -606,6 +616,7 @@ export interface VideoCreateWithoutUsersInput {
   preview: String;
   image: String;
   published?: Boolean;
+  amount: Int;
 }
 
 export interface UserUpdateInput {
@@ -647,6 +658,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   preview?: String;
   image?: String;
   published?: Boolean;
+  amount?: Int;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -714,6 +726,14 @@ export interface VideoScalarWhereInput {
   image_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
+  amount?: Int;
+  amount_not?: Int;
+  amount_in?: Int[] | Int;
+  amount_not_in?: Int[] | Int;
+  amount_lt?: Int;
+  amount_lte?: Int;
+  amount_gt?: Int;
+  amount_gte?: Int;
   AND?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   OR?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   NOT?: VideoScalarWhereInput[] | VideoScalarWhereInput;
@@ -729,6 +749,7 @@ export interface VideoUpdateManyDataInput {
   preview?: String;
   image?: String;
   published?: Boolean;
+  amount?: Int;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -744,6 +765,7 @@ export interface VideoCreateInput {
   image: String;
   users?: UserCreateManyWithoutVideosInput;
   published?: Boolean;
+  amount: Int;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -764,6 +786,7 @@ export interface VideoUpdateInput {
   image?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
+  amount?: Int;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -858,6 +881,7 @@ export interface VideoUpdateManyMutationInput {
   preview?: String;
   image?: String;
   published?: Boolean;
+  amount?: Int;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -1134,6 +1158,7 @@ export interface Video {
   preview: String;
   image: String;
   published: Boolean;
+  amount: Int;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
@@ -1153,6 +1178,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
     }
   ) => T;
   published: () => Promise<Boolean>;
+  amount: () => Promise<Int>;
 }
 
 export interface VideoSubscription
@@ -1174,6 +1200,7 @@ export interface VideoSubscription
     }
   ) => T;
   published: () => Promise<AsyncIterator<Boolean>>;
+  amount: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserConnection {}
@@ -1471,6 +1498,7 @@ export interface VideoPreviousValues {
   preview: String;
   image: String;
   published: Boolean;
+  amount: Int;
 }
 
 export interface VideoPreviousValuesPromise
@@ -1481,6 +1509,7 @@ export interface VideoPreviousValuesPromise
   preview: () => Promise<String>;
   image: () => Promise<String>;
   published: () => Promise<Boolean>;
+  amount: () => Promise<Int>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -1491,6 +1520,7 @@ export interface VideoPreviousValuesSubscription
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
+  amount: () => Promise<AsyncIterator<Int>>;
 }
 
 /*

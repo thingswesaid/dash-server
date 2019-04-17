@@ -22,6 +22,7 @@ type Video {
   image: String!
   users: [User]!
   published: Boolean! @default(value: "false")
+  amount: Int!
 }
 
 type Product {

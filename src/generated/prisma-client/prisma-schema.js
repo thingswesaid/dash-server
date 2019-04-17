@@ -626,6 +626,7 @@ type Video {
   image: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
+  amount: Int!
 }
 
 type VideoConnection {
@@ -640,6 +641,7 @@ input VideoCreateInput {
   image: String!
   users: UserCreateManyWithoutVideosInput
   published: Boolean
+  amount: Int!
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -652,6 +654,7 @@ input VideoCreateWithoutUsersInput {
   preview: String!
   image: String!
   published: Boolean
+  amount: Int!
 }
 
 type VideoEdge {
@@ -670,6 +673,8 @@ enum VideoOrderByInput {
   image_DESC
   published_ASC
   published_DESC
+  amount_ASC
+  amount_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -682,6 +687,7 @@ type VideoPreviousValues {
   preview: String!
   image: String!
   published: Boolean!
+  amount: Int!
 }
 
 input VideoScalarWhereInput {
@@ -743,6 +749,14 @@ input VideoScalarWhereInput {
   image_not_ends_with: String
   published: Boolean
   published_not: Boolean
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -772,6 +786,7 @@ input VideoUpdateInput {
   image: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
+  amount: Int
 }
 
 input VideoUpdateManyDataInput {
@@ -779,6 +794,7 @@ input VideoUpdateManyDataInput {
   preview: String
   image: String
   published: Boolean
+  amount: Int
 }
 
 input VideoUpdateManyMutationInput {
@@ -786,6 +802,7 @@ input VideoUpdateManyMutationInput {
   preview: String
   image: String
   published: Boolean
+  amount: Int
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -809,6 +826,7 @@ input VideoUpdateWithoutUsersDataInput {
   preview: String
   image: String
   published: Boolean
+  amount: Int
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -884,6 +902,14 @@ input VideoWhereInput {
   users_none: UserWhereInput
   published: Boolean
   published_not: Boolean
+  amount: Int
+  amount_not: Int
+  amount_in: [Int!]
+  amount_not_in: [Int!]
+  amount_lt: Int
+  amount_lte: Int
+  amount_gt: Int
+  amount_gte: Int
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

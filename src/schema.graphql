@@ -27,6 +27,8 @@ type Video {
   link: String!
   preview: String!
   image: String!
+  amount: Int!
+  published: Boolean!
   users: [User]
 }
 
