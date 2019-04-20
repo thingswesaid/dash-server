@@ -17,7 +17,7 @@ const resolvers = {
     },
     userIp: (parent, args, context) => {
       // return context.userIp();
-      return "THIS-IS-USER-IP";
+      return "HOME4-USER-IP";
     },
   },
   Video: {
@@ -42,14 +42,15 @@ const resolvers = {
       })
     },
     createUser(parent, { email, ip }, context) {
-      return context.prisma.createUser({
-        data: { email, ips: { set: ip } },
-      })
+      return context.prisma.createUser({ email, ips: { set: ip } })
     },
     addUserIp(parent, { email, ips }, context) {
       return context.prisma.updateUser({
         where: { email }, data: { ips: { set: ips } },
       })
+    },
+    createAnonymousIp(parent, { ip }, context) {
+      return context.prisma.createAnonymousIp({ ip });
     },
   },
 }

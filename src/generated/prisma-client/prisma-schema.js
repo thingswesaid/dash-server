@@ -1,5 +1,9 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregatePost {
+        typeDefs: /* GraphQL */ `type AggregateAnonymousIp {
+  count: Int!
+}
+
+type AggregatePost {
   count: Int!
 }
 
@@ -15,6 +19,117 @@ type AggregateVideo {
   count: Int!
 }
 
+type AnonymousIp {
+  id: ID!
+  status: Status!
+  ip: String!
+}
+
+type AnonymousIpConnection {
+  pageInfo: PageInfo!
+  edges: [AnonymousIpEdge]!
+  aggregate: AggregateAnonymousIp!
+}
+
+input AnonymousIpCreateInput {
+  status: Status
+  ip: String!
+}
+
+type AnonymousIpEdge {
+  node: AnonymousIp!
+  cursor: String!
+}
+
+enum AnonymousIpOrderByInput {
+  id_ASC
+  id_DESC
+  status_ASC
+  status_DESC
+  ip_ASC
+  ip_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type AnonymousIpPreviousValues {
+  id: ID!
+  status: Status!
+  ip: String!
+}
+
+type AnonymousIpSubscriptionPayload {
+  mutation: MutationType!
+  node: AnonymousIp
+  updatedFields: [String!]
+  previousValues: AnonymousIpPreviousValues
+}
+
+input AnonymousIpSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: AnonymousIpWhereInput
+  AND: [AnonymousIpSubscriptionWhereInput!]
+  OR: [AnonymousIpSubscriptionWhereInput!]
+  NOT: [AnonymousIpSubscriptionWhereInput!]
+}
+
+input AnonymousIpUpdateInput {
+  status: Status
+  ip: String
+}
+
+input AnonymousIpUpdateManyMutationInput {
+  status: Status
+  ip: String
+}
+
+input AnonymousIpWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  status: Status
+  status_not: Status
+  status_in: [Status!]
+  status_not_in: [Status!]
+  ip: String
+  ip_not: String
+  ip_in: [String!]
+  ip_not_in: [String!]
+  ip_lt: String
+  ip_lte: String
+  ip_gt: String
+  ip_gte: String
+  ip_contains: String
+  ip_not_contains: String
+  ip_starts_with: String
+  ip_not_starts_with: String
+  ip_ends_with: String
+  ip_not_ends_with: String
+  AND: [AnonymousIpWhereInput!]
+  OR: [AnonymousIpWhereInput!]
+  NOT: [AnonymousIpWhereInput!]
+}
+
+input AnonymousIpWhereUniqueInput {
+  id: ID
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -22,6 +137,12 @@ type BatchPayload {
 scalar Long
 
 type Mutation {
+  createAnonymousIp(data: AnonymousIpCreateInput!): AnonymousIp!
+  updateAnonymousIp(data: AnonymousIpUpdateInput!, where: AnonymousIpWhereUniqueInput!): AnonymousIp
+  updateManyAnonymousIps(data: AnonymousIpUpdateManyMutationInput!, where: AnonymousIpWhereInput): BatchPayload!
+  upsertAnonymousIp(where: AnonymousIpWhereUniqueInput!, create: AnonymousIpCreateInput!, update: AnonymousIpUpdateInput!): AnonymousIp!
+  deleteAnonymousIp(where: AnonymousIpWhereUniqueInput!): AnonymousIp
+  deleteManyAnonymousIps(where: AnonymousIpWhereInput): BatchPayload!
   createPost(data: PostCreateInput!): Post!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -359,6 +480,9 @@ input ProductWhereUniqueInput {
 }
 
 type Query {
+  anonymousIp(where: AnonymousIpWhereUniqueInput!): AnonymousIp
+  anonymousIps(where: AnonymousIpWhereInput, orderBy: AnonymousIpOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AnonymousIp]!
+  anonymousIpsConnection(where: AnonymousIpWhereInput, orderBy: AnonymousIpOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AnonymousIpConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
@@ -380,6 +504,7 @@ enum Status {
 }
 
 type Subscription {
+  anonymousIp(where: AnonymousIpSubscriptionWhereInput): AnonymousIpSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -406,7 +531,7 @@ input UserCreateInput {
   ips: UserCreateipsInput
   subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
-  status: Status!
+  status: Status
 }
 
 input UserCreateipsInput {
@@ -422,7 +547,7 @@ input UserCreateWithoutVideosInput {
   email: String!
   ips: UserCreateipsInput
   subscribed: Boolean
-  status: Status!
+  status: Status
 }
 
 type UserEdge {
@@ -621,12 +746,13 @@ input UserWhereUniqueInput {
 
 type Video {
   id: ID!
+  name: String!
   link: String!
   preview: String!
   image: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
-  amount: Int!
+  amount: Float
 }
 
 type VideoConnection {
@@ -636,12 +762,13 @@ type VideoConnection {
 }
 
 input VideoCreateInput {
+  name: String!
   link: String!
   preview: String!
   image: String!
   users: UserCreateManyWithoutVideosInput
   published: Boolean
-  amount: Int!
+  amount: Float
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -650,11 +777,12 @@ input VideoCreateManyWithoutUsersInput {
 }
 
 input VideoCreateWithoutUsersInput {
+  name: String!
   link: String!
   preview: String!
   image: String!
   published: Boolean
-  amount: Int!
+  amount: Float
 }
 
 type VideoEdge {
@@ -665,6 +793,8 @@ type VideoEdge {
 enum VideoOrderByInput {
   id_ASC
   id_DESC
+  name_ASC
+  name_DESC
   link_ASC
   link_DESC
   preview_ASC
@@ -683,11 +813,12 @@ enum VideoOrderByInput {
 
 type VideoPreviousValues {
   id: ID!
+  name: String!
   link: String!
   preview: String!
   image: String!
   published: Boolean!
-  amount: Int!
+  amount: Float
 }
 
 input VideoScalarWhereInput {
@@ -705,6 +836,20 @@ input VideoScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   link: String
   link_not: String
   link_in: [String!]
@@ -749,14 +894,14 @@ input VideoScalarWhereInput {
   image_not_ends_with: String
   published: Boolean
   published_not: Boolean
-  amount: Int
-  amount_not: Int
-  amount_in: [Int!]
-  amount_not_in: [Int!]
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
+  amount: Float
+  amount_not: Float
+  amount_in: [Float!]
+  amount_not_in: [Float!]
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -781,28 +926,31 @@ input VideoSubscriptionWhereInput {
 }
 
 input VideoUpdateInput {
+  name: String
   link: String
   preview: String
   image: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
-  amount: Int
+  amount: Float
 }
 
 input VideoUpdateManyDataInput {
+  name: String
   link: String
   preview: String
   image: String
   published: Boolean
-  amount: Int
+  amount: Float
 }
 
 input VideoUpdateManyMutationInput {
+  name: String
   link: String
   preview: String
   image: String
   published: Boolean
-  amount: Int
+  amount: Float
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -822,11 +970,12 @@ input VideoUpdateManyWithWhereNestedInput {
 }
 
 input VideoUpdateWithoutUsersDataInput {
+  name: String
   link: String
   preview: String
   image: String
   published: Boolean
-  amount: Int
+  amount: Float
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -855,6 +1004,20 @@ input VideoWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   link: String
   link_not: String
   link_in: [String!]
@@ -902,14 +1065,14 @@ input VideoWhereInput {
   users_none: UserWhereInput
   published: Boolean
   published_not: Boolean
-  amount: Int
-  amount_not: Int
-  amount_in: [Int!]
-  amount_not_in: [Int!]
-  amount_lt: Int
-  amount_lte: Int
-  amount_gt: Int
-  amount_gte: Int
+  amount: Float
+  amount_not: Float
+  amount_in: [Float!]
+  amount_not_in: [Float!]
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

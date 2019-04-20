@@ -11,18 +11,19 @@ type User {
   ips: [String!]
   subscribed: Boolean! @default(value: "true")
   videos: [Video]!
-  status: Status!
+  status: Status! @default(value: "ACTIVE")
   # save credit card? Depends data returned from Stripe | save paypal Gpay info?
 }
 
 type Video {
   id: ID! @unique
+  name: String!
   link: String!
   preview: String!
   image: String!
   users: [User]!
   published: Boolean! @default(value: "false")
-  amount: Int!
+  amount: Float
 }
 
 type Product {
@@ -31,6 +32,12 @@ type Product {
   title: String!
   description: String!
   image: String!
+}
+
+type AnonymousIp {
+  id: ID! @unique
+  status: Status! @default(value: "ACTIVE")
+  ip: String!
 }
 
 enum Status {

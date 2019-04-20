@@ -10,6 +10,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  anonymousIp: (where?: AnonymousIpWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -35,6 +36,29 @@ export interface Prisma {
    * Queries
    */
 
+  anonymousIp: (where: AnonymousIpWhereUniqueInput) => AnonymousIpPromise;
+  anonymousIps: (
+    args?: {
+      where?: AnonymousIpWhereInput;
+      orderBy?: AnonymousIpOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<AnonymousIp>;
+  anonymousIpsConnection: (
+    args?: {
+      where?: AnonymousIpWhereInput;
+      orderBy?: AnonymousIpOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => AnonymousIpConnectionPromise;
   post: (where: PostWhereUniqueInput) => PostPromise;
   posts: (
     args?: {
@@ -133,6 +157,27 @@ export interface Prisma {
    * Mutations
    */
 
+  createAnonymousIp: (data: AnonymousIpCreateInput) => AnonymousIpPromise;
+  updateAnonymousIp: (
+    args: { data: AnonymousIpUpdateInput; where: AnonymousIpWhereUniqueInput }
+  ) => AnonymousIpPromise;
+  updateManyAnonymousIps: (
+    args: {
+      data: AnonymousIpUpdateManyMutationInput;
+      where?: AnonymousIpWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertAnonymousIp: (
+    args: {
+      where: AnonymousIpWhereUniqueInput;
+      create: AnonymousIpCreateInput;
+      update: AnonymousIpUpdateInput;
+    }
+  ) => AnonymousIpPromise;
+  deleteAnonymousIp: (where: AnonymousIpWhereUniqueInput) => AnonymousIpPromise;
+  deleteManyAnonymousIps: (
+    where?: AnonymousIpWhereInput
+  ) => BatchPayloadPromise;
   createPost: (data: PostCreateInput) => PostPromise;
   updatePost: (
     args: { data: PostUpdateInput; where: PostWhereUniqueInput }
@@ -206,6 +251,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  anonymousIp: (
+    where?: AnonymousIpSubscriptionWhereInput
+  ) => AnonymousIpSubscriptionPayloadSubscription;
   post: (
     where?: PostSubscriptionWhereInput
   ) => PostSubscriptionPayloadSubscription;
@@ -227,6 +275,20 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type Status = "ACTIVE" | "BLOCKED";
+
+export type AnonymousIpOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "status_ASC"
+  | "status_DESC"
+  | "ip_ASC"
+  | "ip_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type PostOrderByInput =
   | "id_ASC"
@@ -258,11 +320,11 @@ export type ProductOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type Status = "ACTIVE" | "BLOCKED";
-
 export type VideoOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "link_ASC"
   | "link_DESC"
   | "preview_ASC"
@@ -293,6 +355,48 @@ export type UserOrderByInput =
   | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type AnonymousIpWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface AnonymousIpWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  status?: Status;
+  status_not?: Status;
+  status_in?: Status[] | Status;
+  status_not_in?: Status[] | Status;
+  ip?: String;
+  ip_not?: String;
+  ip_in?: String[] | String;
+  ip_not_in?: String[] | String;
+  ip_lt?: String;
+  ip_lte?: String;
+  ip_gt?: String;
+  ip_gte?: String;
+  ip_contains?: String;
+  ip_not_contains?: String;
+  ip_starts_with?: String;
+  ip_not_starts_with?: String;
+  ip_ends_with?: String;
+  ip_not_ends_with?: String;
+  AND?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
+  OR?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
+  NOT?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
+}
 
 export type PostWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -448,6 +552,20 @@ export interface VideoWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   link?: String;
   link_not?: String;
   link_in?: String[] | String;
@@ -495,14 +613,14 @@ export interface VideoWhereInput {
   users_none?: UserWhereInput;
   published?: Boolean;
   published_not?: Boolean;
-  amount?: Int;
-  amount_not?: Int;
-  amount_in?: Int[] | Int;
-  amount_not_in?: Int[] | Int;
-  amount_lt?: Int;
-  amount_lte?: Int;
-  amount_gt?: Int;
-  amount_gte?: Int;
+  amount?: Float;
+  amount_not?: Float;
+  amount_in?: Float[] | Float;
+  amount_not_in?: Float[] | Float;
+  amount_lt?: Float;
+  amount_lte?: Float;
+  amount_gt?: Float;
+  amount_gte?: Float;
   AND?: VideoWhereInput[] | VideoWhereInput;
   OR?: VideoWhereInput[] | VideoWhereInput;
   NOT?: VideoWhereInput[] | VideoWhereInput;
@@ -555,6 +673,21 @@ export type VideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
+export interface AnonymousIpCreateInput {
+  status?: Status;
+  ip: String;
+}
+
+export interface AnonymousIpUpdateInput {
+  status?: Status;
+  ip?: String;
+}
+
+export interface AnonymousIpUpdateManyMutationInput {
+  status?: Status;
+  ip?: String;
+}
+
 export interface PostCreateInput {
   published?: Boolean;
   title: String;
@@ -599,7 +732,7 @@ export interface UserCreateInput {
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
   videos?: VideoCreateManyWithoutUsersInput;
-  status: Status;
+  status?: Status;
 }
 
 export interface UserCreateipsInput {
@@ -612,11 +745,12 @@ export interface VideoCreateManyWithoutUsersInput {
 }
 
 export interface VideoCreateWithoutUsersInput {
+  name: String;
   link: String;
   preview: String;
   image: String;
   published?: Boolean;
-  amount: Int;
+  amount?: Float;
 }
 
 export interface UserUpdateInput {
@@ -654,11 +788,12 @@ export interface VideoUpdateWithWhereUniqueWithoutUsersInput {
 }
 
 export interface VideoUpdateWithoutUsersDataInput {
+  name?: String;
   link?: String;
   preview?: String;
   image?: String;
   published?: Boolean;
-  amount?: Int;
+  amount?: Float;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -682,6 +817,20 @@ export interface VideoScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   link?: String;
   link_not?: String;
   link_in?: String[] | String;
@@ -726,14 +875,14 @@ export interface VideoScalarWhereInput {
   image_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
-  amount?: Int;
-  amount_not?: Int;
-  amount_in?: Int[] | Int;
-  amount_not_in?: Int[] | Int;
-  amount_lt?: Int;
-  amount_lte?: Int;
-  amount_gt?: Int;
-  amount_gte?: Int;
+  amount?: Float;
+  amount_not?: Float;
+  amount_in?: Float[] | Float;
+  amount_not_in?: Float[] | Float;
+  amount_lt?: Float;
+  amount_lte?: Float;
+  amount_gt?: Float;
+  amount_gte?: Float;
   AND?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   OR?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   NOT?: VideoScalarWhereInput[] | VideoScalarWhereInput;
@@ -745,11 +894,12 @@ export interface VideoUpdateManyWithWhereNestedInput {
 }
 
 export interface VideoUpdateManyDataInput {
+  name?: String;
   link?: String;
   preview?: String;
   image?: String;
   published?: Boolean;
-  amount?: Int;
+  amount?: Float;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -760,12 +910,13 @@ export interface UserUpdateManyMutationInput {
 }
 
 export interface VideoCreateInput {
+  name: String;
   link: String;
   preview: String;
   image: String;
   users?: UserCreateManyWithoutVideosInput;
   published?: Boolean;
-  amount: Int;
+  amount?: Float;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -777,16 +928,17 @@ export interface UserCreateWithoutVideosInput {
   email: String;
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
-  status: Status;
+  status?: Status;
 }
 
 export interface VideoUpdateInput {
+  name?: String;
   link?: String;
   preview?: String;
   image?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Int;
+  amount?: Float;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -877,11 +1029,23 @@ export interface UserUpdateManyDataInput {
 }
 
 export interface VideoUpdateManyMutationInput {
+  name?: String;
   link?: String;
   preview?: String;
   image?: String;
   published?: Boolean;
-  amount?: Int;
+  amount?: Float;
+}
+
+export interface AnonymousIpSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: AnonymousIpWhereInput;
+  AND?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
+  OR?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
+  NOT?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -932,6 +1096,101 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface AnonymousIp {
+  id: ID_Output;
+  status: Status;
+  ip: String;
+}
+
+export interface AnonymousIpPromise extends Promise<AnonymousIp>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  status: () => Promise<Status>;
+  ip: () => Promise<String>;
+}
+
+export interface AnonymousIpSubscription
+  extends Promise<AsyncIterator<AnonymousIp>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  status: () => Promise<AsyncIterator<Status>>;
+  ip: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AnonymousIpConnection {}
+
+export interface AnonymousIpConnectionPromise
+  extends Promise<AnonymousIpConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AnonymousIpEdge>>() => T;
+  aggregate: <T = AggregateAnonymousIpPromise>() => T;
+}
+
+export interface AnonymousIpConnectionSubscription
+  extends Promise<AsyncIterator<AnonymousIpConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AnonymousIpEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAnonymousIpSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AnonymousIpEdge {
+  cursor: String;
+}
+
+export interface AnonymousIpEdgePromise
+  extends Promise<AnonymousIpEdge>,
+    Fragmentable {
+  node: <T = AnonymousIpPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AnonymousIpEdgeSubscription
+  extends Promise<AsyncIterator<AnonymousIpEdge>>,
+    Fragmentable {
+  node: <T = AnonymousIpSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAnonymousIp {
+  count: Int;
+}
+
+export interface AggregateAnonymousIpPromise
+  extends Promise<AggregateAnonymousIp>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAnonymousIpSubscription
+  extends Promise<AsyncIterator<AggregateAnonymousIp>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface Post {
   id: ID_Output;
   published: Boolean;
@@ -971,29 +1230,6 @@ export interface PostConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
   aggregate: <T = AggregatePostSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PostEdge {
@@ -1154,15 +1390,17 @@ export interface UserSubscription
 
 export interface Video {
   id: ID_Output;
+  name: String;
   link: String;
   preview: String;
   image: String;
   published: Boolean;
-  amount: Int;
+  amount?: Float;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
@@ -1178,13 +1416,14 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
     }
   ) => T;
   published: () => Promise<Boolean>;
-  amount: () => Promise<Int>;
+  amount: () => Promise<Float>;
 }
 
 export interface VideoSubscription
   extends Promise<AsyncIterator<Video>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
@@ -1200,7 +1439,7 @@ export interface VideoSubscription
     }
   ) => T;
   published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Int>>;
+  amount: () => Promise<AsyncIterator<Float>>;
 }
 
 export interface UserConnection {}
@@ -1317,6 +1556,51 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AnonymousIpSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface AnonymousIpSubscriptionPayloadPromise
+  extends Promise<AnonymousIpSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AnonymousIpPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AnonymousIpPreviousValuesPromise>() => T;
+}
+
+export interface AnonymousIpSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AnonymousIpSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AnonymousIpSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AnonymousIpPreviousValuesSubscription>() => T;
+}
+
+export interface AnonymousIpPreviousValues {
+  id: ID_Output;
+  status: Status;
+  ip: String;
+}
+
+export interface AnonymousIpPreviousValuesPromise
+  extends Promise<AnonymousIpPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  status: () => Promise<Status>;
+  ip: () => Promise<String>;
+}
+
+export interface AnonymousIpPreviousValuesSubscription
+  extends Promise<AsyncIterator<AnonymousIpPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  status: () => Promise<AsyncIterator<Status>>;
+  ip: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PostSubscriptionPayload {
@@ -1494,33 +1778,36 @@ export interface VideoSubscriptionPayloadSubscription
 
 export interface VideoPreviousValues {
   id: ID_Output;
+  name: String;
   link: String;
   preview: String;
   image: String;
   published: Boolean;
-  amount: Int;
+  amount?: Float;
 }
 
 export interface VideoPreviousValuesPromise
   extends Promise<VideoPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
   published: () => Promise<Boolean>;
-  amount: () => Promise<Int>;
+  amount: () => Promise<Float>;
 }
 
 export interface VideoPreviousValuesSubscription
   extends Promise<AsyncIterator<VideoPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Int>>;
+  amount: () => Promise<AsyncIterator<Float>>;
 }
 
 /*
@@ -1528,11 +1815,6 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1544,6 +1826,16 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 */
 export type Int = number;
 
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). 
+*/
+export type Float = number;
+
 export type Long = string;
 
 /**
@@ -1551,6 +1843,10 @@ export type Long = string;
  */
 
 export const models = [
+  {
+    name: "AnonymousIp",
+    embedded: false
+  },
   {
     name: "Post",
     embedded: false

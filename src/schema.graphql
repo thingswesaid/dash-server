@@ -12,6 +12,7 @@ type Mutation {
   publish(id: ID!): Post
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
+  createAnonymousIp(ip: String!): AnonymousIp
 }
 
 type User {
@@ -24,10 +25,11 @@ type User {
 
 type Video {
   id: ID! 
+  name: String!
   link: String!
   preview: String!
   image: String!
-  amount: Int!
+  amount: Float!
   published: Boolean!
   users: [User]
 }
@@ -37,6 +39,10 @@ type Post {
   published: Boolean!
   title: String!
   content: String!
+}
+
+type AnonymousIp {
+  ip: String!
 }
 
 enum Status {
