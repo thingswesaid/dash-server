@@ -32,6 +32,7 @@ type Video {
   amount: Float!
   published: Boolean!
   users: [User]
+  start: Int!
 }
 
 type Post {

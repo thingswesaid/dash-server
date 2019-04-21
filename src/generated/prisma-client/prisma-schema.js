@@ -753,6 +753,7 @@ type Video {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
   amount: Float
+  start: Int!
 }
 
 type VideoConnection {
@@ -769,6 +770,7 @@ input VideoCreateInput {
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   amount: Float
+  start: Int!
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -783,6 +785,7 @@ input VideoCreateWithoutUsersInput {
   image: String!
   published: Boolean
   amount: Float
+  start: Int!
 }
 
 type VideoEdge {
@@ -805,6 +808,8 @@ enum VideoOrderByInput {
   published_DESC
   amount_ASC
   amount_DESC
+  start_ASC
+  start_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -819,6 +824,7 @@ type VideoPreviousValues {
   image: String!
   published: Boolean!
   amount: Float
+  start: Int!
 }
 
 input VideoScalarWhereInput {
@@ -902,6 +908,14 @@ input VideoScalarWhereInput {
   amount_lte: Float
   amount_gt: Float
   amount_gte: Float
+  start: Int
+  start_not: Int
+  start_in: [Int!]
+  start_not_in: [Int!]
+  start_lt: Int
+  start_lte: Int
+  start_gt: Int
+  start_gte: Int
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -933,6 +947,7 @@ input VideoUpdateInput {
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
   amount: Float
+  start: Int
 }
 
 input VideoUpdateManyDataInput {
@@ -942,6 +957,7 @@ input VideoUpdateManyDataInput {
   image: String
   published: Boolean
   amount: Float
+  start: Int
 }
 
 input VideoUpdateManyMutationInput {
@@ -951,6 +967,7 @@ input VideoUpdateManyMutationInput {
   image: String
   published: Boolean
   amount: Float
+  start: Int
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -976,6 +993,7 @@ input VideoUpdateWithoutUsersDataInput {
   image: String
   published: Boolean
   amount: Float
+  start: Int
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -1073,6 +1091,14 @@ input VideoWhereInput {
   amount_lte: Float
   amount_gt: Float
   amount_gte: Float
+  start: Int
+  start_not: Int
+  start_in: [Int!]
+  start_not_in: [Int!]
+  start_lt: Int
+  start_lte: Int
+  start_gt: Int
+  start_gte: Int
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]
