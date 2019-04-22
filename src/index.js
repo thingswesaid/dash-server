@@ -17,7 +17,7 @@ const resolvers = {
     },
     userIp: (parent, args, context) => {
       // return context.userIp();
-      return "HOME4-USER-IP";
+      return "HOME77-USER-IP";
     },
   },
   Video: {
@@ -51,6 +51,34 @@ const resolvers = {
     },
     createAnonymousIp(parent, { ip }, context) {
       return context.prisma.createAnonymousIp({ ip });
+    },
+    async addUserToVideo(parent, { 
+      email, 
+      ips, 
+      videoId, 
+      phone, 
+      firstName, 
+      lastName, 
+      paymentId 
+    }, context) {
+      const user = await context.prisma.user({ email });
+      const paymentIds = user ? [...user.paymentIds, paymentId] : [paymentId];
+      return context.prisma.upsertUser({
+        where: { email }, 
+        create: {
+          email,
+          firstName,
+          lastName,
+          phone,
+          ips: {set: ips },
+          videos: { connect: { id: videoId } },
+          paymentIds: { set: paymentIds }
+        }, update: {
+          phone,
+          videos: { connect: { id: videoId } },
+          paymentIds: { set: paymentIds }
+        }
+      }); 
     },
   },
 }

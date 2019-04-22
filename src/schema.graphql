@@ -13,6 +13,15 @@ type Mutation {
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
   createAnonymousIp(ip: String!): AnonymousIp
+  addUserToVideo(
+    email: String!, 
+    ips: [String], 
+    videoId: String!, 
+    phone: String,
+    firstName: String,
+    lastName: String,
+    paymentId: String
+  ): User
 }
 
 type User {
@@ -20,7 +29,8 @@ type User {
   email: String!
   ips: [String!]
   subscribed: Boolean!
-  status: Status
+  status: Status!
+  videos: [Video]!
 }
 
 type Video {

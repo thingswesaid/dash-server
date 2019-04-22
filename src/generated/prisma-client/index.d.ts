@@ -345,8 +345,14 @@ export type VideoOrderByInput =
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "firstName_ASC"
+  | "firstName_DESC"
+  | "lastName_ASC"
+  | "lastName_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
   | "subscribed_ASC"
   | "subscribed_DESC"
   | "status_ASC"
@@ -651,6 +657,34 @@ export interface UserWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  firstName?: String;
+  firstName_not?: String;
+  firstName_in?: String[] | String;
+  firstName_not_in?: String[] | String;
+  firstName_lt?: String;
+  firstName_lte?: String;
+  firstName_gt?: String;
+  firstName_gte?: String;
+  firstName_contains?: String;
+  firstName_not_contains?: String;
+  firstName_starts_with?: String;
+  firstName_not_starts_with?: String;
+  firstName_ends_with?: String;
+  firstName_not_ends_with?: String;
+  lastName?: String;
+  lastName_not?: String;
+  lastName_in?: String[] | String;
+  lastName_not_in?: String[] | String;
+  lastName_lt?: String;
+  lastName_lte?: String;
+  lastName_gt?: String;
+  lastName_gte?: String;
+  lastName_contains?: String;
+  lastName_not_contains?: String;
+  lastName_starts_with?: String;
+  lastName_not_starts_with?: String;
+  lastName_ends_with?: String;
+  lastName_not_ends_with?: String;
   email?: String;
   email_not?: String;
   email_in?: String[] | String;
@@ -665,6 +699,20 @@ export interface UserWhereInput {
   email_not_starts_with?: String;
   email_ends_with?: String;
   email_not_ends_with?: String;
+  phone?: String;
+  phone_not?: String;
+  phone_in?: String[] | String;
+  phone_not_in?: String[] | String;
+  phone_lt?: String;
+  phone_lte?: String;
+  phone_gt?: String;
+  phone_gte?: String;
+  phone_contains?: String;
+  phone_not_contains?: String;
+  phone_starts_with?: String;
+  phone_not_starts_with?: String;
+  phone_ends_with?: String;
+  phone_not_ends_with?: String;
   subscribed?: Boolean;
   subscribed_not?: Boolean;
   videos_every?: VideoWhereInput;
@@ -738,11 +786,15 @@ export interface ProductUpdateManyMutationInput {
 }
 
 export interface UserCreateInput {
+  firstName?: String;
+  lastName?: String;
   email: String;
+  phone?: String;
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
   videos?: VideoCreateManyWithoutUsersInput;
   status?: Status;
+  paymentIds?: UserCreatepaymentIdsInput;
 }
 
 export interface UserCreateipsInput {
@@ -762,14 +814,27 @@ export interface VideoCreateWithoutUsersInput {
   published?: Boolean;
   amount?: Float;
   start: Int;
+  orderIds?: VideoCreateorderIdsInput;
+}
+
+export interface VideoCreateorderIdsInput {
+  set?: String[] | String;
+}
+
+export interface UserCreatepaymentIdsInput {
+  set?: String[] | String;
 }
 
 export interface UserUpdateInput {
+  firstName?: String;
+  lastName?: String;
   email?: String;
+  phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   videos?: VideoUpdateManyWithoutUsersInput;
   status?: Status;
+  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface UserUpdateipsInput {
@@ -806,6 +871,11 @@ export interface VideoUpdateWithoutUsersDataInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
+  orderIds?: VideoUpdateorderIdsInput;
+}
+
+export interface VideoUpdateorderIdsInput {
+  set?: String[] | String;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -921,13 +991,22 @@ export interface VideoUpdateManyDataInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
+  orderIds?: VideoUpdateorderIdsInput;
+}
+
+export interface UserUpdatepaymentIdsInput {
+  set?: String[] | String;
 }
 
 export interface UserUpdateManyMutationInput {
+  firstName?: String;
+  lastName?: String;
   email?: String;
+  phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   status?: Status;
+  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface VideoCreateInput {
@@ -939,6 +1018,7 @@ export interface VideoCreateInput {
   published?: Boolean;
   amount?: Float;
   start: Int;
+  orderIds?: VideoCreateorderIdsInput;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -947,10 +1027,14 @@ export interface UserCreateManyWithoutVideosInput {
 }
 
 export interface UserCreateWithoutVideosInput {
+  firstName?: String;
+  lastName?: String;
   email: String;
+  phone?: String;
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
   status?: Status;
+  paymentIds?: UserCreatepaymentIdsInput;
 }
 
 export interface VideoUpdateInput {
@@ -962,6 +1046,7 @@ export interface VideoUpdateInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
+  orderIds?: VideoUpdateorderIdsInput;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -987,10 +1072,14 @@ export interface UserUpdateWithWhereUniqueWithoutVideosInput {
 }
 
 export interface UserUpdateWithoutVideosDataInput {
+  firstName?: String;
+  lastName?: String;
   email?: String;
+  phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   status?: Status;
+  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutVideosInput {
@@ -1014,6 +1103,34 @@ export interface UserScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  firstName?: String;
+  firstName_not?: String;
+  firstName_in?: String[] | String;
+  firstName_not_in?: String[] | String;
+  firstName_lt?: String;
+  firstName_lte?: String;
+  firstName_gt?: String;
+  firstName_gte?: String;
+  firstName_contains?: String;
+  firstName_not_contains?: String;
+  firstName_starts_with?: String;
+  firstName_not_starts_with?: String;
+  firstName_ends_with?: String;
+  firstName_not_ends_with?: String;
+  lastName?: String;
+  lastName_not?: String;
+  lastName_in?: String[] | String;
+  lastName_not_in?: String[] | String;
+  lastName_lt?: String;
+  lastName_lte?: String;
+  lastName_gt?: String;
+  lastName_gte?: String;
+  lastName_contains?: String;
+  lastName_not_contains?: String;
+  lastName_starts_with?: String;
+  lastName_not_starts_with?: String;
+  lastName_ends_with?: String;
+  lastName_not_ends_with?: String;
   email?: String;
   email_not?: String;
   email_in?: String[] | String;
@@ -1028,6 +1145,20 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: String;
   email_ends_with?: String;
   email_not_ends_with?: String;
+  phone?: String;
+  phone_not?: String;
+  phone_in?: String[] | String;
+  phone_not_in?: String[] | String;
+  phone_lt?: String;
+  phone_lte?: String;
+  phone_gt?: String;
+  phone_gte?: String;
+  phone_contains?: String;
+  phone_not_contains?: String;
+  phone_starts_with?: String;
+  phone_not_starts_with?: String;
+  phone_ends_with?: String;
+  phone_not_ends_with?: String;
   subscribed?: Boolean;
   subscribed_not?: Boolean;
   status?: Status;
@@ -1045,10 +1176,14 @@ export interface UserUpdateManyWithWhereNestedInput {
 }
 
 export interface UserUpdateManyDataInput {
+  firstName?: String;
+  lastName?: String;
   email?: String;
+  phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   status?: Status;
+  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface VideoUpdateManyMutationInput {
@@ -1059,6 +1194,7 @@ export interface VideoUpdateManyMutationInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
+  orderIds?: VideoUpdateorderIdsInput;
 }
 
 export interface AnonymousIpSubscriptionWhereInput {
@@ -1366,15 +1502,22 @@ export interface AggregateProductSubscription
 
 export interface User {
   id: ID_Output;
+  firstName?: String;
+  lastName?: String;
   email: String;
+  phone?: String;
   ips: String[];
   subscribed: Boolean;
   status: Status;
+  paymentIds: String[];
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
   email: () => Promise<String>;
+  phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
   videos: <T = FragmentableArray<Video>>(
@@ -1389,13 +1532,17 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     }
   ) => T;
   status: () => Promise<Status>;
+  paymentIds: () => Promise<String[]>;
 }
 
 export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
   videos: <T = Promise<AsyncIterator<VideoSubscription>>>(
@@ -1410,6 +1557,7 @@ export interface UserSubscription
     }
   ) => T;
   status: () => Promise<AsyncIterator<Status>>;
+  paymentIds: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface Video {
@@ -1421,6 +1569,7 @@ export interface Video {
   published: Boolean;
   amount?: Float;
   start: Int;
+  orderIds: String[];
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
@@ -1443,6 +1592,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   published: () => Promise<Boolean>;
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
+  orderIds: () => Promise<String[]>;
 }
 
 export interface VideoSubscription
@@ -1467,6 +1617,7 @@ export interface VideoSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
+  orderIds: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface UserConnection {}
@@ -1754,30 +1905,42 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
+  firstName?: String;
+  lastName?: String;
   email: String;
+  phone?: String;
   ips: String[];
   subscribed: Boolean;
   status: Status;
+  paymentIds: String[];
 }
 
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
   email: () => Promise<String>;
+  phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
   status: () => Promise<Status>;
+  paymentIds: () => Promise<String[]>;
 }
 
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
   status: () => Promise<AsyncIterator<Status>>;
+  paymentIds: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface VideoSubscriptionPayload {
@@ -1812,6 +1975,7 @@ export interface VideoPreviousValues {
   published: Boolean;
   amount?: Float;
   start: Int;
+  orderIds: String[];
 }
 
 export interface VideoPreviousValuesPromise
@@ -1825,6 +1989,7 @@ export interface VideoPreviousValuesPromise
   published: () => Promise<Boolean>;
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
+  orderIds: () => Promise<String[]>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -1838,6 +2003,7 @@ export interface VideoPreviousValuesSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
+  orderIds: () => Promise<AsyncIterator<String[]>>;
 }
 
 /*

@@ -7,12 +7,15 @@ type Post {
 
 type User {
   id: ID! @unique
+  firstName: String
+  lastName: String
   email: String! @unique
+  phone: String
   ips: [String!]
   subscribed: Boolean! @default(value: "true")
   videos: [Video]!
   status: Status! @default(value: "ACTIVE")
-  # save credit card? Depends data returned from Stripe | save paypal Gpay info?
+  paymentIds: [String]! @default(value: [])
 }
 
 type Video {
@@ -25,6 +28,7 @@ type Video {
   published: Boolean! @default(value: "false")
   amount: Float
   start: Int!
+  orderIds: [String]! @default(value: [])
 }
 
 type Product {

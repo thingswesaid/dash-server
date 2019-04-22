@@ -513,11 +513,15 @@ type Subscription {
 
 type User {
   id: ID!
+  firstName: String
+  lastName: String
   email: String!
+  phone: String
   ips: [String!]!
   subscribed: Boolean!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
   status: Status!
+  paymentIds: [String!]!
 }
 
 type UserConnection {
@@ -527,11 +531,15 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  firstName: String
+  lastName: String
   email: String!
+  phone: String
   ips: UserCreateipsInput
   subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
   status: Status
+  paymentIds: UserCreatepaymentIdsInput
 }
 
 input UserCreateipsInput {
@@ -543,11 +551,19 @@ input UserCreateManyWithoutVideosInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreatepaymentIdsInput {
+  set: [String!]
+}
+
 input UserCreateWithoutVideosInput {
+  firstName: String
+  lastName: String
   email: String!
+  phone: String
   ips: UserCreateipsInput
   subscribed: Boolean
   status: Status
+  paymentIds: UserCreatepaymentIdsInput
 }
 
 type UserEdge {
@@ -558,8 +574,14 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  firstName_ASC
+  firstName_DESC
+  lastName_ASC
+  lastName_DESC
   email_ASC
   email_DESC
+  phone_ASC
+  phone_DESC
   subscribed_ASC
   subscribed_DESC
   status_ASC
@@ -572,10 +594,14 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
+  firstName: String
+  lastName: String
   email: String!
+  phone: String
   ips: [String!]!
   subscribed: Boolean!
   status: Status!
+  paymentIds: [String!]!
 }
 
 input UserScalarWhereInput {
@@ -593,6 +619,34 @@ input UserScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
   email: String
   email_not: String
   email_in: [String!]
@@ -607,6 +661,20 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   subscribed: Boolean
   subscribed_not: Boolean
   status: Status
@@ -637,11 +705,15 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
+  firstName: String
+  lastName: String
   email: String
+  phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
   status: Status
+  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateipsInput {
@@ -649,17 +721,25 @@ input UserUpdateipsInput {
 }
 
 input UserUpdateManyDataInput {
+  firstName: String
+  lastName: String
   email: String
+  phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
   status: Status
+  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateManyMutationInput {
+  firstName: String
+  lastName: String
   email: String
+  phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
   status: Status
+  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateManyWithoutVideosInput {
@@ -678,11 +758,19 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdatepaymentIdsInput {
+  set: [String!]
+}
+
 input UserUpdateWithoutVideosDataInput {
+  firstName: String
+  lastName: String
   email: String
+  phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
   status: Status
+  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateWithWhereUniqueWithoutVideosInput {
@@ -711,6 +799,34 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  firstName: String
+  firstName_not: String
+  firstName_in: [String!]
+  firstName_not_in: [String!]
+  firstName_lt: String
+  firstName_lte: String
+  firstName_gt: String
+  firstName_gte: String
+  firstName_contains: String
+  firstName_not_contains: String
+  firstName_starts_with: String
+  firstName_not_starts_with: String
+  firstName_ends_with: String
+  firstName_not_ends_with: String
+  lastName: String
+  lastName_not: String
+  lastName_in: [String!]
+  lastName_not_in: [String!]
+  lastName_lt: String
+  lastName_lte: String
+  lastName_gt: String
+  lastName_gte: String
+  lastName_contains: String
+  lastName_not_contains: String
+  lastName_starts_with: String
+  lastName_not_starts_with: String
+  lastName_ends_with: String
+  lastName_not_ends_with: String
   email: String
   email_not: String
   email_in: [String!]
@@ -725,6 +841,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   subscribed: Boolean
   subscribed_not: Boolean
   videos_every: VideoWhereInput
@@ -754,6 +884,7 @@ type Video {
   published: Boolean!
   amount: Float
   start: Int!
+  orderIds: [String!]!
 }
 
 type VideoConnection {
@@ -771,11 +902,16 @@ input VideoCreateInput {
   published: Boolean
   amount: Float
   start: Int!
+  orderIds: VideoCreateorderIdsInput
 }
 
 input VideoCreateManyWithoutUsersInput {
   create: [VideoCreateWithoutUsersInput!]
   connect: [VideoWhereUniqueInput!]
+}
+
+input VideoCreateorderIdsInput {
+  set: [String!]
 }
 
 input VideoCreateWithoutUsersInput {
@@ -786,6 +922,7 @@ input VideoCreateWithoutUsersInput {
   published: Boolean
   amount: Float
   start: Int!
+  orderIds: VideoCreateorderIdsInput
 }
 
 type VideoEdge {
@@ -825,6 +962,7 @@ type VideoPreviousValues {
   published: Boolean!
   amount: Float
   start: Int!
+  orderIds: [String!]!
 }
 
 input VideoScalarWhereInput {
@@ -948,6 +1086,7 @@ input VideoUpdateInput {
   published: Boolean
   amount: Float
   start: Int
+  orderIds: VideoUpdateorderIdsInput
 }
 
 input VideoUpdateManyDataInput {
@@ -958,6 +1097,7 @@ input VideoUpdateManyDataInput {
   published: Boolean
   amount: Float
   start: Int
+  orderIds: VideoUpdateorderIdsInput
 }
 
 input VideoUpdateManyMutationInput {
@@ -968,6 +1108,7 @@ input VideoUpdateManyMutationInput {
   published: Boolean
   amount: Float
   start: Int
+  orderIds: VideoUpdateorderIdsInput
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -986,6 +1127,10 @@ input VideoUpdateManyWithWhereNestedInput {
   data: VideoUpdateManyDataInput!
 }
 
+input VideoUpdateorderIdsInput {
+  set: [String!]
+}
+
 input VideoUpdateWithoutUsersDataInput {
   name: String
   link: String
@@ -994,6 +1139,7 @@ input VideoUpdateWithoutUsersDataInput {
   published: Boolean
   amount: Float
   start: Int
+  orderIds: VideoUpdateorderIdsInput
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
