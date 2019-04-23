@@ -27,6 +27,10 @@ var models = [
   {
     name: "Video",
     embedded: false
+  },
+  {
+    name: "VideoType",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
@@ -59,6 +63,10 @@ var models = [
   },
   {
     name: "Video",
+    embedded: false
+  },
+  {
+    name: "VideoType",
     embedded: false
   }
 ];

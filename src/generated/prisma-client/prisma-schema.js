@@ -885,6 +885,8 @@ type Video {
   amount: Float
   start: Int!
   orderIds: [String!]!
+  type: VideoType!
+  familyId: String
 }
 
 type VideoConnection {
@@ -903,6 +905,8 @@ input VideoCreateInput {
   amount: Float
   start: Int!
   orderIds: VideoCreateorderIdsInput
+  type: VideoType!
+  familyId: String
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -923,6 +927,8 @@ input VideoCreateWithoutUsersInput {
   amount: Float
   start: Int!
   orderIds: VideoCreateorderIdsInput
+  type: VideoType!
+  familyId: String
 }
 
 type VideoEdge {
@@ -947,6 +953,10 @@ enum VideoOrderByInput {
   amount_DESC
   start_ASC
   start_DESC
+  type_ASC
+  type_DESC
+  familyId_ASC
+  familyId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -963,6 +973,8 @@ type VideoPreviousValues {
   amount: Float
   start: Int!
   orderIds: [String!]!
+  type: VideoType!
+  familyId: String
 }
 
 input VideoScalarWhereInput {
@@ -1054,6 +1066,24 @@ input VideoScalarWhereInput {
   start_lte: Int
   start_gt: Int
   start_gte: Int
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  familyId: String
+  familyId_not: String
+  familyId_in: [String!]
+  familyId_not_in: [String!]
+  familyId_lt: String
+  familyId_lte: String
+  familyId_gt: String
+  familyId_gte: String
+  familyId_contains: String
+  familyId_not_contains: String
+  familyId_starts_with: String
+  familyId_not_starts_with: String
+  familyId_ends_with: String
+  familyId_not_ends_with: String
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -1077,6 +1107,11 @@ input VideoSubscriptionWhereInput {
   NOT: [VideoSubscriptionWhereInput!]
 }
 
+enum VideoType {
+  ZODIAC
+  PICKACARD
+}
+
 input VideoUpdateInput {
   name: String
   link: String
@@ -1087,6 +1122,8 @@ input VideoUpdateInput {
   amount: Float
   start: Int
   orderIds: VideoUpdateorderIdsInput
+  type: VideoType
+  familyId: String
 }
 
 input VideoUpdateManyDataInput {
@@ -1098,6 +1135,8 @@ input VideoUpdateManyDataInput {
   amount: Float
   start: Int
   orderIds: VideoUpdateorderIdsInput
+  type: VideoType
+  familyId: String
 }
 
 input VideoUpdateManyMutationInput {
@@ -1109,6 +1148,8 @@ input VideoUpdateManyMutationInput {
   amount: Float
   start: Int
   orderIds: VideoUpdateorderIdsInput
+  type: VideoType
+  familyId: String
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -1140,6 +1181,8 @@ input VideoUpdateWithoutUsersDataInput {
   amount: Float
   start: Int
   orderIds: VideoUpdateorderIdsInput
+  type: VideoType
+  familyId: String
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -1245,6 +1288,24 @@ input VideoWhereInput {
   start_lte: Int
   start_gt: Int
   start_gte: Int
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  familyId: String
+  familyId_not: String
+  familyId_in: [String!]
+  familyId_not_in: [String!]
+  familyId_lt: String
+  familyId_lte: String
+  familyId_gt: String
+  familyId_gte: String
+  familyId_contains: String
+  familyId_not_contains: String
+  familyId_starts_with: String
+  familyId_not_starts_with: String
+  familyId_ends_with: String
+  familyId_not_ends_with: String
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

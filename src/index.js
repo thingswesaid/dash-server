@@ -19,7 +19,19 @@ const resolvers = {
       // return context.userIp();
       return "HOME77-USER-IP";
     },
+    latestVideos(parent, { type, quantity, skipId, familyId }, context) {
+      const opts = familyId ? { type, id_not: skipId, familyId } : { type, id_not: skipId };
+      return context.prisma.videos({
+        where: {...opts}, 
+        orderBy: 'createdAt_DESC', 
+        first: quantity
+      });
+    },
   },
+  // TO CONTINUE:
+  // IMPLEMENT latestVideos
+  // CREATE endpoint for querying only specific pick a cards options
+    // create family ID field (manually added - example: PKCAPR2019THNKABTME)
   Video: {
     users(parent) {
       return prisma.video({ id: parent.id }).users()
@@ -79,9 +91,6 @@ const resolvers = {
           paymentIds: { set: paymentIds }
         }
       }); 
-    },
-    latestVideos(parent, { quantity }, context) {
-      return context.prisma.videos();
     },
   },
 }

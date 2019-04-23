@@ -4,7 +4,7 @@ type Query {
   post(id: ID!): Post
   videos(id: ID!): [Video]
   userIp: String
-  latestVideos(quantity: Int!): [Video!]!
+  latestVideos(type: String!, quantity: Int!, skipId: String, familyId: String): [Video!]!
 }
 
 type Mutation {

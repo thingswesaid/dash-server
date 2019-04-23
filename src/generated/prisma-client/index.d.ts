@@ -320,6 +320,8 @@ export type ProductOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type VideoType = "ZODIAC" | "PICKACARD";
+
 export type VideoOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -337,6 +339,10 @@ export type VideoOrderByInput =
   | "amount_DESC"
   | "start_ASC"
   | "start_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "familyId_ASC"
+  | "familyId_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -637,6 +643,24 @@ export interface VideoWhereInput {
   start_lte?: Int;
   start_gt?: Int;
   start_gte?: Int;
+  type?: VideoType;
+  type_not?: VideoType;
+  type_in?: VideoType[] | VideoType;
+  type_not_in?: VideoType[] | VideoType;
+  familyId?: String;
+  familyId_not?: String;
+  familyId_in?: String[] | String;
+  familyId_not_in?: String[] | String;
+  familyId_lt?: String;
+  familyId_lte?: String;
+  familyId_gt?: String;
+  familyId_gte?: String;
+  familyId_contains?: String;
+  familyId_not_contains?: String;
+  familyId_starts_with?: String;
+  familyId_not_starts_with?: String;
+  familyId_ends_with?: String;
+  familyId_not_ends_with?: String;
   AND?: VideoWhereInput[] | VideoWhereInput;
   OR?: VideoWhereInput[] | VideoWhereInput;
   NOT?: VideoWhereInput[] | VideoWhereInput;
@@ -815,6 +839,8 @@ export interface VideoCreateWithoutUsersInput {
   amount?: Float;
   start: Int;
   orderIds?: VideoCreateorderIdsInput;
+  type: VideoType;
+  familyId?: String;
 }
 
 export interface VideoCreateorderIdsInput {
@@ -872,6 +898,8 @@ export interface VideoUpdateWithoutUsersDataInput {
   amount?: Float;
   start?: Int;
   orderIds?: VideoUpdateorderIdsInput;
+  type?: VideoType;
+  familyId?: String;
 }
 
 export interface VideoUpdateorderIdsInput {
@@ -973,6 +1001,24 @@ export interface VideoScalarWhereInput {
   start_lte?: Int;
   start_gt?: Int;
   start_gte?: Int;
+  type?: VideoType;
+  type_not?: VideoType;
+  type_in?: VideoType[] | VideoType;
+  type_not_in?: VideoType[] | VideoType;
+  familyId?: String;
+  familyId_not?: String;
+  familyId_in?: String[] | String;
+  familyId_not_in?: String[] | String;
+  familyId_lt?: String;
+  familyId_lte?: String;
+  familyId_gt?: String;
+  familyId_gte?: String;
+  familyId_contains?: String;
+  familyId_not_contains?: String;
+  familyId_starts_with?: String;
+  familyId_not_starts_with?: String;
+  familyId_ends_with?: String;
+  familyId_not_ends_with?: String;
   AND?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   OR?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   NOT?: VideoScalarWhereInput[] | VideoScalarWhereInput;
@@ -992,6 +1038,8 @@ export interface VideoUpdateManyDataInput {
   amount?: Float;
   start?: Int;
   orderIds?: VideoUpdateorderIdsInput;
+  type?: VideoType;
+  familyId?: String;
 }
 
 export interface UserUpdatepaymentIdsInput {
@@ -1019,6 +1067,8 @@ export interface VideoCreateInput {
   amount?: Float;
   start: Int;
   orderIds?: VideoCreateorderIdsInput;
+  type: VideoType;
+  familyId?: String;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -1047,6 +1097,8 @@ export interface VideoUpdateInput {
   amount?: Float;
   start?: Int;
   orderIds?: VideoUpdateorderIdsInput;
+  type?: VideoType;
+  familyId?: String;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -1195,6 +1247,8 @@ export interface VideoUpdateManyMutationInput {
   amount?: Float;
   start?: Int;
   orderIds?: VideoUpdateorderIdsInput;
+  type?: VideoType;
+  familyId?: String;
 }
 
 export interface AnonymousIpSubscriptionWhereInput {
@@ -1570,6 +1624,8 @@ export interface Video {
   amount?: Float;
   start: Int;
   orderIds: String[];
+  type: VideoType;
+  familyId?: String;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
@@ -1593,6 +1649,8 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
   orderIds: () => Promise<String[]>;
+  type: () => Promise<VideoType>;
+  familyId: () => Promise<String>;
 }
 
 export interface VideoSubscription
@@ -1618,6 +1676,8 @@ export interface VideoSubscription
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
   orderIds: () => Promise<AsyncIterator<String[]>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  familyId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {}
@@ -1976,6 +2036,8 @@ export interface VideoPreviousValues {
   amount?: Float;
   start: Int;
   orderIds: String[];
+  type: VideoType;
+  familyId?: String;
 }
 
 export interface VideoPreviousValuesPromise
@@ -1990,6 +2052,8 @@ export interface VideoPreviousValuesPromise
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
   orderIds: () => Promise<String[]>;
+  type: () => Promise<VideoType>;
+  familyId: () => Promise<String>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -2004,6 +2068,8 @@ export interface VideoPreviousValuesSubscription
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
   orderIds: () => Promise<AsyncIterator<String[]>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  familyId: () => Promise<AsyncIterator<String>>;
 }
 
 /*
@@ -2061,6 +2127,10 @@ export const models = [
   },
   {
     name: "Video",
+    embedded: false
+  },
+  {
+    name: "VideoType",
     embedded: false
   }
 ];

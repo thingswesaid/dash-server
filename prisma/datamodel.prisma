@@ -29,6 +29,8 @@ type Video {
   amount: Float
   start: Int!
   orderIds: [String]! @default(value: [])
+  type: VideoType!
+  familyId: String
 }
 
 type Product {
@@ -48,4 +50,9 @@ type AnonymousIp {
 enum Status {
   ACTIVE
   BLOCKED
+}
+
+enum VideoType {
+  ZODIAC
+  PICKACARD
 }
