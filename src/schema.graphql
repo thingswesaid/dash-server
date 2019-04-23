@@ -4,6 +4,7 @@ type Query {
   post(id: ID!): Post
   videos(id: ID!): [Video]
   userIp: String
+  latestVideos(quantity: Int!): [Video!]!
 }
 
 type Mutation {

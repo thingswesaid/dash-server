@@ -80,6 +80,9 @@ const resolvers = {
         }
       }); 
     },
+    latestVideos(parent, { quantity }, context) {
+      return context.prisma.videos();
+    },
   },
 }
 
