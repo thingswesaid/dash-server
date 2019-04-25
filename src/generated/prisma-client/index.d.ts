@@ -361,6 +361,8 @@ export type ProductOrderByInput =
   | "description_DESC"
   | "image_ASC"
   | "image_DESC"
+  | "placeholder_ASC"
+  | "placeholder_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -377,6 +379,8 @@ export type PromoVideoOrderByInput =
   | "description_DESC"
   | "image_ASC"
   | "image_DESC"
+  | "placeholder_ASC"
+  | "placeholder_DESC"
   | "familyId_ASC"
   | "familyId_DESC"
   | "createdAt_ASC"
@@ -399,6 +403,8 @@ export type VideoOrderByInput =
   | "preview_DESC"
   | "image_ASC"
   | "image_DESC"
+  | "placeholder_ASC"
+  | "placeholder_DESC"
   | "published_ASC"
   | "published_DESC"
   | "amount_ASC"
@@ -607,6 +613,20 @@ export interface ProductWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
   AND?: ProductWhereInput[] | ProductWhereInput;
   OR?: ProductWhereInput[] | ProductWhereInput;
   NOT?: ProductWhereInput[] | ProductWhereInput;
@@ -687,6 +707,20 @@ export interface PromoVideoWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
   familyId?: String;
   familyId_not?: String;
   familyId_in?: String[] | String;
@@ -796,6 +830,20 @@ export interface VideoWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
   users_every?: UserWhereInput;
   users_some?: UserWhereInput;
   users_none?: UserWhereInput;
@@ -967,6 +1015,7 @@ export interface ProductCreateInput {
   title: String;
   description: String;
   image: String;
+  placeholder: String;
 }
 
 export interface ProductUpdateInput {
@@ -974,6 +1023,7 @@ export interface ProductUpdateInput {
   title?: String;
   description?: String;
   image?: String;
+  placeholder?: String;
 }
 
 export interface ProductUpdateManyMutationInput {
@@ -981,6 +1031,7 @@ export interface ProductUpdateManyMutationInput {
   title?: String;
   description?: String;
   image?: String;
+  placeholder?: String;
 }
 
 export interface PromoVideoCreateInput {
@@ -988,6 +1039,7 @@ export interface PromoVideoCreateInput {
   title: String;
   description: String;
   image: String;
+  placeholder?: String;
   familyId?: String;
 }
 
@@ -996,6 +1048,7 @@ export interface PromoVideoUpdateInput {
   title?: String;
   description?: String;
   image?: String;
+  placeholder?: String;
   familyId?: String;
 }
 
@@ -1004,6 +1057,7 @@ export interface PromoVideoUpdateManyMutationInput {
   title?: String;
   description?: String;
   image?: String;
+  placeholder?: String;
   familyId?: String;
 }
 
@@ -1034,6 +1088,7 @@ export interface VideoCreateWithoutUsersInput {
   link: String;
   preview: String;
   image: String;
+  placeholder?: String;
   published?: Boolean;
   amount?: Float;
   start: Int;
@@ -1094,6 +1149,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   link?: String;
   preview?: String;
   image?: String;
+  placeholder?: String;
   published?: Boolean;
   amount?: Float;
   start?: Int;
@@ -1197,6 +1253,20 @@ export interface VideoScalarWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
   amount?: Float;
@@ -1249,6 +1319,7 @@ export interface VideoUpdateManyDataInput {
   link?: String;
   preview?: String;
   image?: String;
+  placeholder?: String;
   published?: Boolean;
   amount?: Float;
   start?: Int;
@@ -1278,6 +1349,7 @@ export interface VideoCreateInput {
   link: String;
   preview: String;
   image: String;
+  placeholder?: String;
   users?: UserCreateManyWithoutVideosInput;
   published?: Boolean;
   amount?: Float;
@@ -1309,6 +1381,7 @@ export interface VideoUpdateInput {
   link?: String;
   preview?: String;
   image?: String;
+  placeholder?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
   amount?: Float;
@@ -1461,6 +1534,7 @@ export interface VideoUpdateManyMutationInput {
   link?: String;
   preview?: String;
   image?: String;
+  placeholder?: String;
   published?: Boolean;
   amount?: Float;
   start?: Int;
@@ -1713,6 +1787,7 @@ export interface Product {
   title: String;
   description: String;
   image: String;
+  placeholder: String;
 }
 
 export interface ProductPromise extends Promise<Product>, Fragmentable {
@@ -1721,6 +1796,7 @@ export interface ProductPromise extends Promise<Product>, Fragmentable {
   title: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
 }
 
 export interface ProductSubscription
@@ -1731,6 +1807,7 @@ export interface ProductSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductConnection {}
@@ -1789,6 +1866,7 @@ export interface PromoVideo {
   title: String;
   description: String;
   image: String;
+  placeholder?: String;
   familyId: String;
 }
 
@@ -1798,6 +1876,7 @@ export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
   title: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
 }
 
@@ -1809,6 +1888,7 @@ export interface PromoVideoSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1931,6 +2011,7 @@ export interface Video {
   link: String;
   preview: String;
   image: String;
+  placeholder?: String;
   published: Boolean;
   amount?: Float;
   start: Int;
@@ -1946,6 +2027,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
   users: <T = FragmentableArray<User>>(
     args?: {
       where?: UserWhereInput;
@@ -1974,6 +2056,7 @@ export interface VideoSubscription
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
   users: <T = Promise<AsyncIterator<UserSubscription>>>(
     args?: {
       where?: UserWhereInput;
@@ -2231,6 +2314,7 @@ export interface ProductPreviousValues {
   title: String;
   description: String;
   image: String;
+  placeholder: String;
 }
 
 export interface ProductPreviousValuesPromise
@@ -2241,6 +2325,7 @@ export interface ProductPreviousValuesPromise
   title: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
 }
 
 export interface ProductPreviousValuesSubscription
@@ -2251,6 +2336,7 @@ export interface ProductPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -2282,6 +2368,7 @@ export interface PromoVideoPreviousValues {
   title: String;
   description: String;
   image: String;
+  placeholder?: String;
   familyId: String;
 }
 
@@ -2293,6 +2380,7 @@ export interface PromoVideoPreviousValuesPromise
   title: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
 }
 
@@ -2304,6 +2392,7 @@ export interface PromoVideoPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
 }
 
@@ -2400,6 +2489,7 @@ export interface VideoPreviousValues {
   link: String;
   preview: String;
   image: String;
+  placeholder?: String;
   published: Boolean;
   amount?: Float;
   start: Int;
@@ -2417,6 +2507,7 @@ export interface VideoPreviousValuesPromise
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
+  placeholder: () => Promise<String>;
   published: () => Promise<Boolean>;
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
@@ -2434,6 +2525,7 @@ export interface VideoPreviousValuesSubscription
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;

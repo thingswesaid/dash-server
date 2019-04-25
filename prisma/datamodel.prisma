@@ -25,6 +25,7 @@ type Video {
   link: String!
   preview: String!
   image: String!
+  placeholder: String
   users: [User]!
   published: Boolean! @default(value: "false")
   amount: Float
@@ -40,6 +41,7 @@ type PromoVideo {
   title: String!
   description: String!
   image: String!
+  placeholder: String
   familyId: String! @default(value: "")
 }
 
@@ -49,6 +51,7 @@ type Product {
   title: String!
   description: String!
   image: String!
+  placeholder: String!
 }
 
 type AnonymousIp {

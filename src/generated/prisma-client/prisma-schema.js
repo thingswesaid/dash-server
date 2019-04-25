@@ -332,6 +332,7 @@ type Product {
   title: String!
   description: String!
   image: String!
+  placeholder: String!
 }
 
 type ProductConnection {
@@ -345,6 +346,7 @@ input ProductCreateInput {
   title: String!
   description: String!
   image: String!
+  placeholder: String!
 }
 
 type ProductEdge {
@@ -363,6 +365,8 @@ enum ProductOrderByInput {
   description_DESC
   image_ASC
   image_DESC
+  placeholder_ASC
+  placeholder_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -375,6 +379,7 @@ type ProductPreviousValues {
   title: String!
   description: String!
   image: String!
+  placeholder: String!
 }
 
 type ProductSubscriptionPayload {
@@ -400,6 +405,7 @@ input ProductUpdateInput {
   title: String
   description: String
   image: String
+  placeholder: String
 }
 
 input ProductUpdateManyMutationInput {
@@ -407,6 +413,7 @@ input ProductUpdateManyMutationInput {
   title: String
   description: String
   image: String
+  placeholder: String
 }
 
 input ProductWhereInput {
@@ -480,6 +487,20 @@ input ProductWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  placeholder: String
+  placeholder_not: String
+  placeholder_in: [String!]
+  placeholder_not_in: [String!]
+  placeholder_lt: String
+  placeholder_lte: String
+  placeholder_gt: String
+  placeholder_gte: String
+  placeholder_contains: String
+  placeholder_not_contains: String
+  placeholder_starts_with: String
+  placeholder_not_starts_with: String
+  placeholder_ends_with: String
+  placeholder_not_ends_with: String
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
@@ -495,6 +516,7 @@ type PromoVideo {
   title: String!
   description: String!
   image: String!
+  placeholder: String
   familyId: String!
 }
 
@@ -509,6 +531,7 @@ input PromoVideoCreateInput {
   title: String!
   description: String!
   image: String!
+  placeholder: String
   familyId: String
 }
 
@@ -528,6 +551,8 @@ enum PromoVideoOrderByInput {
   description_DESC
   image_ASC
   image_DESC
+  placeholder_ASC
+  placeholder_DESC
   familyId_ASC
   familyId_DESC
   createdAt_ASC
@@ -542,6 +567,7 @@ type PromoVideoPreviousValues {
   title: String!
   description: String!
   image: String!
+  placeholder: String
   familyId: String!
 }
 
@@ -568,6 +594,7 @@ input PromoVideoUpdateInput {
   title: String
   description: String
   image: String
+  placeholder: String
   familyId: String
 }
 
@@ -576,6 +603,7 @@ input PromoVideoUpdateManyMutationInput {
   title: String
   description: String
   image: String
+  placeholder: String
   familyId: String
 }
 
@@ -650,6 +678,20 @@ input PromoVideoWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  placeholder: String
+  placeholder_not: String
+  placeholder_in: [String!]
+  placeholder_not_in: [String!]
+  placeholder_lt: String
+  placeholder_lte: String
+  placeholder_gt: String
+  placeholder_gte: String
+  placeholder_contains: String
+  placeholder_not_contains: String
+  placeholder_starts_with: String
+  placeholder_not_starts_with: String
+  placeholder_ends_with: String
+  placeholder_not_ends_with: String
   familyId: String
   familyId_not: String
   familyId_in: [String!]
@@ -1079,6 +1121,7 @@ type Video {
   link: String!
   preview: String!
   image: String!
+  placeholder: String
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
   amount: Float
@@ -1100,6 +1143,7 @@ input VideoCreateInput {
   link: String!
   preview: String!
   image: String!
+  placeholder: String
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   amount: Float
@@ -1124,6 +1168,7 @@ input VideoCreateWithoutUsersInput {
   link: String!
   preview: String!
   image: String!
+  placeholder: String
   published: Boolean
   amount: Float
   start: Int!
@@ -1150,6 +1195,8 @@ enum VideoOrderByInput {
   preview_DESC
   image_ASC
   image_DESC
+  placeholder_ASC
+  placeholder_DESC
   published_ASC
   published_DESC
   amount_ASC
@@ -1173,6 +1220,7 @@ type VideoPreviousValues {
   link: String!
   preview: String!
   image: String!
+  placeholder: String
   published: Boolean!
   amount: Float
   start: Int!
@@ -1266,6 +1314,20 @@ input VideoScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  placeholder: String
+  placeholder_not: String
+  placeholder_in: [String!]
+  placeholder_not_in: [String!]
+  placeholder_lt: String
+  placeholder_lte: String
+  placeholder_gt: String
+  placeholder_gte: String
+  placeholder_contains: String
+  placeholder_not_contains: String
+  placeholder_starts_with: String
+  placeholder_not_starts_with: String
+  placeholder_ends_with: String
+  placeholder_not_ends_with: String
   published: Boolean
   published_not: Boolean
   amount: Float
@@ -1336,6 +1398,7 @@ input VideoUpdateInput {
   link: String
   preview: String
   image: String
+  placeholder: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
   amount: Float
@@ -1351,6 +1414,7 @@ input VideoUpdateManyDataInput {
   link: String
   preview: String
   image: String
+  placeholder: String
   published: Boolean
   amount: Float
   start: Int
@@ -1365,6 +1429,7 @@ input VideoUpdateManyMutationInput {
   link: String
   preview: String
   image: String
+  placeholder: String
   published: Boolean
   amount: Float
   start: Int
@@ -1399,6 +1464,7 @@ input VideoUpdateWithoutUsersDataInput {
   link: String
   preview: String
   image: String
+  placeholder: String
   published: Boolean
   amount: Float
   start: Int
@@ -1503,6 +1569,20 @@ input VideoWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  placeholder: String
+  placeholder_not: String
+  placeholder_in: [String!]
+  placeholder_not_in: [String!]
+  placeholder_lt: String
+  placeholder_lte: String
+  placeholder_gt: String
+  placeholder_gte: String
+  placeholder_contains: String
+  placeholder_not_contains: String
+  placeholder_starts_with: String
+  placeholder_not_starts_with: String
+  placeholder_ends_with: String
+  placeholder_not_ends_with: String
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
