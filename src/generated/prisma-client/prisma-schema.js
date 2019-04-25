@@ -11,6 +11,10 @@ type AggregateProduct {
   count: Int!
 }
 
+type AggregatePromoVideo {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -155,6 +159,12 @@ type Mutation {
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  createPromoVideo(data: PromoVideoCreateInput!): PromoVideo!
+  updatePromoVideo(data: PromoVideoUpdateInput!, where: PromoVideoWhereUniqueInput!): PromoVideo
+  updateManyPromoVideos(data: PromoVideoUpdateManyMutationInput!, where: PromoVideoWhereInput): BatchPayload!
+  upsertPromoVideo(where: PromoVideoWhereUniqueInput!, create: PromoVideoCreateInput!, update: PromoVideoUpdateInput!): PromoVideo!
+  deletePromoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
+  deleteManyPromoVideos(where: PromoVideoWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -479,6 +489,190 @@ input ProductWhereUniqueInput {
   id: ID
 }
 
+type PromoVideo {
+  id: ID!
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+  familyId: String!
+}
+
+type PromoVideoConnection {
+  pageInfo: PageInfo!
+  edges: [PromoVideoEdge]!
+  aggregate: AggregatePromoVideo!
+}
+
+input PromoVideoCreateInput {
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+  familyId: String
+}
+
+type PromoVideoEdge {
+  node: PromoVideo!
+  cursor: String!
+}
+
+enum PromoVideoOrderByInput {
+  id_ASC
+  id_DESC
+  link_ASC
+  link_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  image_ASC
+  image_DESC
+  familyId_ASC
+  familyId_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PromoVideoPreviousValues {
+  id: ID!
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+  familyId: String!
+}
+
+type PromoVideoSubscriptionPayload {
+  mutation: MutationType!
+  node: PromoVideo
+  updatedFields: [String!]
+  previousValues: PromoVideoPreviousValues
+}
+
+input PromoVideoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PromoVideoWhereInput
+  AND: [PromoVideoSubscriptionWhereInput!]
+  OR: [PromoVideoSubscriptionWhereInput!]
+  NOT: [PromoVideoSubscriptionWhereInput!]
+}
+
+input PromoVideoUpdateInput {
+  link: String
+  title: String
+  description: String
+  image: String
+  familyId: String
+}
+
+input PromoVideoUpdateManyMutationInput {
+  link: String
+  title: String
+  description: String
+  image: String
+  familyId: String
+}
+
+input PromoVideoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  link: String
+  link_not: String
+  link_in: [String!]
+  link_not_in: [String!]
+  link_lt: String
+  link_lte: String
+  link_gt: String
+  link_gte: String
+  link_contains: String
+  link_not_contains: String
+  link_starts_with: String
+  link_not_starts_with: String
+  link_ends_with: String
+  link_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  familyId: String
+  familyId_not: String
+  familyId_in: [String!]
+  familyId_not_in: [String!]
+  familyId_lt: String
+  familyId_lte: String
+  familyId_gt: String
+  familyId_gte: String
+  familyId_contains: String
+  familyId_not_contains: String
+  familyId_starts_with: String
+  familyId_not_starts_with: String
+  familyId_ends_with: String
+  familyId_not_ends_with: String
+  AND: [PromoVideoWhereInput!]
+  OR: [PromoVideoWhereInput!]
+  NOT: [PromoVideoWhereInput!]
+}
+
+input PromoVideoWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   anonymousIp(where: AnonymousIpWhereUniqueInput!): AnonymousIp
   anonymousIps(where: AnonymousIpWhereInput, orderBy: AnonymousIpOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AnonymousIp]!
@@ -489,6 +683,9 @@ type Query {
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  promoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
+  promoVideos(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoVideo]!
+  promoVideosConnection(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromoVideoConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -507,6 +704,7 @@ type Subscription {
   anonymousIp(where: AnonymousIpSubscriptionWhereInput): AnonymousIpSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
 }
@@ -877,6 +1075,7 @@ input UserWhereUniqueInput {
 type Video {
   id: ID!
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -897,6 +1096,7 @@ type VideoConnection {
 
 input VideoCreateInput {
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -920,6 +1120,7 @@ input VideoCreateorderIdsInput {
 
 input VideoCreateWithoutUsersInput {
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -941,6 +1142,8 @@ enum VideoOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  title_ASC
+  title_DESC
   link_ASC
   link_DESC
   preview_ASC
@@ -966,6 +1169,7 @@ enum VideoOrderByInput {
 type VideoPreviousValues {
   id: ID!
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -1006,6 +1210,20 @@ input VideoScalarWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   link: String
   link_not: String
   link_in: [String!]
@@ -1114,6 +1332,7 @@ enum VideoType {
 
 input VideoUpdateInput {
   name: String
+  title: String
   link: String
   preview: String
   image: String
@@ -1128,6 +1347,7 @@ input VideoUpdateInput {
 
 input VideoUpdateManyDataInput {
   name: String
+  title: String
   link: String
   preview: String
   image: String
@@ -1141,6 +1361,7 @@ input VideoUpdateManyDataInput {
 
 input VideoUpdateManyMutationInput {
   name: String
+  title: String
   link: String
   preview: String
   image: String
@@ -1174,6 +1395,7 @@ input VideoUpdateorderIdsInput {
 
 input VideoUpdateWithoutUsersDataInput {
   name: String
+  title: String
   link: String
   preview: String
   image: String
@@ -1225,6 +1447,20 @@ input VideoWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
   link: String
   link_not: String
   link_in: [String!]

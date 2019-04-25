@@ -1,16 +1,11 @@
 type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  post(id: ID!): Post
   videos(id: ID!): [Video]
   userIp: String
-  latestVideos(type: String!, quantity: Int!, skipId: String, familyId: String): [Video!]!
+  latestVideos(type: String!, skipId: String, familyId: String): [Video!]!
+  promoVideo(familyId: String): [PromoVideo!]!
 }
 
 type Mutation {
-  createDraft(title: String!, content: String): Post
-  deletePost(id: ID!): Post
-  publish(id: ID!): Post
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
   createAnonymousIp(ip: String!): AnonymousIp
@@ -37,6 +32,7 @@ type User {
 type Video {
   id: ID! 
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -44,6 +40,8 @@ type Video {
   published: Boolean!
   users: [User]
   start: Int!
+  type: String
+  familyId: String
 }
 
 type Post {
@@ -55,6 +53,14 @@ type Post {
 
 type AnonymousIp {
   ip: String!
+}
+
+type PromoVideo {
+  id: ID!
+  link: String!
+  title: String!
+  description: String!
+  image: String!
 }
 
 enum Status {

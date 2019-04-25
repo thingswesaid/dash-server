@@ -17,6 +17,10 @@ var models = [
     embedded: false
   },
   {
+    name: "PromoVideo",
+    embedded: false
+  },
+  {
     name: "Status",
     embedded: false
   },
@@ -51,6 +55,10 @@ var models = [
   },
   {
     name: "Product",
+    embedded: false
+  },
+  {
+    name: "PromoVideo",
     embedded: false
   },
   {

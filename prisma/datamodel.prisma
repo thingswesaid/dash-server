@@ -21,6 +21,7 @@ type User {
 type Video {
   id: ID! @unique
   name: String!
+  title: String
   link: String!
   preview: String!
   image: String!
@@ -30,7 +31,16 @@ type Video {
   start: Int!
   orderIds: [String]! @default(value: [])
   type: VideoType!
-  familyId: String
+  familyId: String @default(value: "")
+}
+
+type PromoVideo {
+  id: ID! @unique
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+  familyId: String! @default(value: "")
 }
 
 type Product {

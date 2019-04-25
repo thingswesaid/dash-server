@@ -3,15 +3,6 @@ const { prisma } = require('./generated/prisma-client')
 
 const resolvers = {
   Query: {
-    feed: (parent, args, context) => {
-      return context.prisma.posts({ where: { published: true } })
-    },
-    drafts: (parent, args, context) => {
-      return context.prisma.posts({ where: { published: false } })
-    },
-    post: (parent, { id }, context) => {
-      return context.prisma.post({ id })
-    },
     videos: (parent, { id }, context) => {
       return context.prisma.videos({ where: { id_contains: id } })
     },
@@ -19,40 +10,26 @@ const resolvers = {
       // return context.userIp();
       return "HOME77-USER-IP";
     },
-    latestVideos(parent, { type, quantity, skipId, familyId }, context) {
+    latestVideos(parent, { type, skipId, familyId }, context) {
       const opts = familyId ? { type, id_not: skipId, familyId } : { type, id_not: skipId };
       return context.prisma.videos({
         where: {...opts}, 
         orderBy: 'createdAt_DESC', 
-        first: quantity
+        first: 12
       });
     },
+    promoVideo(parent, { familyId }, context) {
+      const opts = familyId ? { familyId } : {};
+      return context.prisma.promoVideos({ where: {...opts} });
+      // create multiple promo videos example one with the family ID which has to come from the main video
+    },
   },
-  // TO CONTINUE:
-  // IMPLEMENT latestVideos
-  // CREATE endpoint for querying only specific pick a cards options
-    // create family ID field (manually added - example: PKCAPR2019THNKABTME)
   Video: {
     users(parent) {
       return prisma.video({ id: parent.id }).users()
     }
   },
   Mutation: {
-    createDraft(parent, { title, content }, context) {
-      return context.prisma.createPost({
-        title,
-        content,
-      })
-    },
-    deletePost(parent, { id }, context) {
-      return context.prisma.deletePost({ id })
-    },
-    publish(parent, { id }, context) {
-      return context.prisma.updatePost({
-        where: { id },
-        data: { published: true },
-      })
-    },
     createUser(parent, { email, ip }, context) {
       return context.prisma.createUser({ email, ips: { set: ip } })
     },

@@ -13,6 +13,7 @@ export interface Exists {
   anonymousIp: (where?: AnonymousIpWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
+  promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
   video: (where?: VideoWhereInput) => Promise<boolean>;
 }
@@ -105,6 +106,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => ProductConnectionPromise;
+  promoVideo: (where: PromoVideoWhereUniqueInput) => PromoVideoPromise;
+  promoVideos: (
+    args?: {
+      where?: PromoVideoWhereInput;
+      orderBy?: PromoVideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<PromoVideo>;
+  promoVideosConnection: (
+    args?: {
+      where?: PromoVideoWhereInput;
+      orderBy?: PromoVideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PromoVideoConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (
     args?: {
@@ -210,6 +234,25 @@ export interface Prisma {
   ) => ProductPromise;
   deleteProduct: (where: ProductWhereUniqueInput) => ProductPromise;
   deleteManyProducts: (where?: ProductWhereInput) => BatchPayloadPromise;
+  createPromoVideo: (data: PromoVideoCreateInput) => PromoVideoPromise;
+  updatePromoVideo: (
+    args: { data: PromoVideoUpdateInput; where: PromoVideoWhereUniqueInput }
+  ) => PromoVideoPromise;
+  updateManyPromoVideos: (
+    args: {
+      data: PromoVideoUpdateManyMutationInput;
+      where?: PromoVideoWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertPromoVideo: (
+    args: {
+      where: PromoVideoWhereUniqueInput;
+      create: PromoVideoCreateInput;
+      update: PromoVideoUpdateInput;
+    }
+  ) => PromoVideoPromise;
+  deletePromoVideo: (where: PromoVideoWhereUniqueInput) => PromoVideoPromise;
+  deleteManyPromoVideos: (where?: PromoVideoWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (
     args: { data: UserUpdateInput; where: UserWhereUniqueInput }
@@ -260,6 +303,9 @@ export interface Subscription {
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
+  promoVideo: (
+    where?: PromoVideoSubscriptionWhereInput
+  ) => PromoVideoSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -320,6 +366,24 @@ export type ProductOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type PromoVideoOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "link_ASC"
+  | "link_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "familyId_ASC"
+  | "familyId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type VideoType = "ZODIAC" | "PICKACARD";
 
 export type VideoOrderByInput =
@@ -327,6 +391,8 @@ export type VideoOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "title_ASC"
+  | "title_DESC"
   | "link_ASC"
   | "link_DESC"
   | "preview_ASC"
@@ -546,6 +612,100 @@ export interface ProductWhereInput {
   NOT?: ProductWhereInput[] | ProductWhereInput;
 }
 
+export type PromoVideoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface PromoVideoWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  link?: String;
+  link_not?: String;
+  link_in?: String[] | String;
+  link_not_in?: String[] | String;
+  link_lt?: String;
+  link_lte?: String;
+  link_gt?: String;
+  link_gte?: String;
+  link_contains?: String;
+  link_not_contains?: String;
+  link_starts_with?: String;
+  link_not_starts_with?: String;
+  link_ends_with?: String;
+  link_not_ends_with?: String;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  image?: String;
+  image_not?: String;
+  image_in?: String[] | String;
+  image_not_in?: String[] | String;
+  image_lt?: String;
+  image_lte?: String;
+  image_gt?: String;
+  image_gte?: String;
+  image_contains?: String;
+  image_not_contains?: String;
+  image_starts_with?: String;
+  image_not_starts_with?: String;
+  image_ends_with?: String;
+  image_not_ends_with?: String;
+  familyId?: String;
+  familyId_not?: String;
+  familyId_in?: String[] | String;
+  familyId_not_in?: String[] | String;
+  familyId_lt?: String;
+  familyId_lte?: String;
+  familyId_gt?: String;
+  familyId_gte?: String;
+  familyId_contains?: String;
+  familyId_not_contains?: String;
+  familyId_starts_with?: String;
+  familyId_not_starts_with?: String;
+  familyId_ends_with?: String;
+  familyId_not_ends_with?: String;
+  AND?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+  OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+  NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+}
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
@@ -580,6 +740,20 @@ export interface VideoWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
   link?: String;
   link_not?: String;
   link_in?: String[] | String;
@@ -809,6 +983,30 @@ export interface ProductUpdateManyMutationInput {
   image?: String;
 }
 
+export interface PromoVideoCreateInput {
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  familyId?: String;
+}
+
+export interface PromoVideoUpdateInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  familyId?: String;
+}
+
+export interface PromoVideoUpdateManyMutationInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  familyId?: String;
+}
+
 export interface UserCreateInput {
   firstName?: String;
   lastName?: String;
@@ -832,6 +1030,7 @@ export interface VideoCreateManyWithoutUsersInput {
 
 export interface VideoCreateWithoutUsersInput {
   name: String;
+  title?: String;
   link: String;
   preview: String;
   image: String;
@@ -891,6 +1090,7 @@ export interface VideoUpdateWithWhereUniqueWithoutUsersInput {
 
 export interface VideoUpdateWithoutUsersDataInput {
   name?: String;
+  title?: String;
   link?: String;
   preview?: String;
   image?: String;
@@ -941,6 +1141,20 @@ export interface VideoScalarWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
   link?: String;
   link_not?: String;
   link_in?: String[] | String;
@@ -1031,6 +1245,7 @@ export interface VideoUpdateManyWithWhereNestedInput {
 
 export interface VideoUpdateManyDataInput {
   name?: String;
+  title?: String;
   link?: String;
   preview?: String;
   image?: String;
@@ -1059,6 +1274,7 @@ export interface UserUpdateManyMutationInput {
 
 export interface VideoCreateInput {
   name: String;
+  title?: String;
   link: String;
   preview: String;
   image: String;
@@ -1089,6 +1305,7 @@ export interface UserCreateWithoutVideosInput {
 
 export interface VideoUpdateInput {
   name?: String;
+  title?: String;
   link?: String;
   preview?: String;
   image?: String;
@@ -1240,6 +1457,7 @@ export interface UserUpdateManyDataInput {
 
 export interface VideoUpdateManyMutationInput {
   name?: String;
+  title?: String;
   link?: String;
   preview?: String;
   image?: String;
@@ -1282,6 +1500,17 @@ export interface ProductSubscriptionWhereInput {
   AND?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
   OR?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
   NOT?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
+}
+
+export interface PromoVideoSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PromoVideoWhereInput;
+  AND?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
+  OR?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
+  NOT?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -1554,6 +1783,87 @@ export interface AggregateProductSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface PromoVideo {
+  id: ID_Output;
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  familyId: String;
+}
+
+export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  link: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  image: () => Promise<String>;
+  familyId: () => Promise<String>;
+}
+
+export interface PromoVideoSubscription
+  extends Promise<AsyncIterator<PromoVideo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  link: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  familyId: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PromoVideoConnection {}
+
+export interface PromoVideoConnectionPromise
+  extends Promise<PromoVideoConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PromoVideoEdge>>() => T;
+  aggregate: <T = AggregatePromoVideoPromise>() => T;
+}
+
+export interface PromoVideoConnectionSubscription
+  extends Promise<AsyncIterator<PromoVideoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PromoVideoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePromoVideoSubscription>() => T;
+}
+
+export interface PromoVideoEdge {
+  cursor: String;
+}
+
+export interface PromoVideoEdgePromise
+  extends Promise<PromoVideoEdge>,
+    Fragmentable {
+  node: <T = PromoVideoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PromoVideoEdgeSubscription
+  extends Promise<AsyncIterator<PromoVideoEdge>>,
+    Fragmentable {
+  node: <T = PromoVideoSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePromoVideo {
+  count: Int;
+}
+
+export interface AggregatePromoVideoPromise
+  extends Promise<AggregatePromoVideo>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePromoVideoSubscription
+  extends Promise<AsyncIterator<AggregatePromoVideo>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface User {
   id: ID_Output;
   firstName?: String;
@@ -1617,6 +1927,7 @@ export interface UserSubscription
 export interface Video {
   id: ID_Output;
   name: String;
+  title?: String;
   link: String;
   preview: String;
   image: String;
@@ -1631,6 +1942,7 @@ export interface Video {
 export interface VideoPromise extends Promise<Video>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  title: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
@@ -1658,6 +1970,7 @@ export interface VideoSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
@@ -1940,6 +2253,60 @@ export interface ProductPreviousValuesSubscription
   image: () => Promise<AsyncIterator<String>>;
 }
 
+export interface PromoVideoSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface PromoVideoSubscriptionPayloadPromise
+  extends Promise<PromoVideoSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PromoVideoPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PromoVideoPreviousValuesPromise>() => T;
+}
+
+export interface PromoVideoSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PromoVideoSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PromoVideoSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PromoVideoPreviousValuesSubscription>() => T;
+}
+
+export interface PromoVideoPreviousValues {
+  id: ID_Output;
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  familyId: String;
+}
+
+export interface PromoVideoPreviousValuesPromise
+  extends Promise<PromoVideoPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  link: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  image: () => Promise<String>;
+  familyId: () => Promise<String>;
+}
+
+export interface PromoVideoPreviousValuesSubscription
+  extends Promise<AsyncIterator<PromoVideoPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  link: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  familyId: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   updatedFields?: String[];
@@ -2029,6 +2396,7 @@ export interface VideoSubscriptionPayloadSubscription
 export interface VideoPreviousValues {
   id: ID_Output;
   name: String;
+  title?: String;
   link: String;
   preview: String;
   image: String;
@@ -2045,6 +2413,7 @@ export interface VideoPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  title: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
   image: () => Promise<String>;
@@ -2061,6 +2430,7 @@ export interface VideoPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
@@ -2115,6 +2485,10 @@ export const models = [
   },
   {
     name: "Product",
+    embedded: false
+  },
+  {
+    name: "PromoVideo",
     embedded: false
   },
   {
