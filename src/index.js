@@ -18,10 +18,9 @@ const resolvers = {
         first: 12
       });
     },
-    promoVideo(parent, { familyId }, context) {
-      const opts = familyId ? { familyId } : {};
+    promoVideos(parent, { familyId }, context) {
+      const opts = familyId ? { familyId_not: familyId } : {};
       return context.prisma.promoVideos({ where: {...opts} });
-      // create multiple promo videos example one with the family ID which has to come from the main video
     },
   },
   Video: {

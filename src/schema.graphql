@@ -2,7 +2,7 @@ type Query {
   videos(id: ID!): [Video]
   userIp: String
   latestVideos(type: String!, skipId: String, familyId: String): [Video!]!
-  promoVideo(familyId: String): [PromoVideo!]!
+  promoVideos(familyId: String): [PromoVideo!]!
 }
 
 type Mutation {
