@@ -518,6 +518,8 @@ type PromoVideo {
   image: String!
   placeholder: String
   familyId: String!
+  banner: String!
+  bannerSmall: String!
 }
 
 type PromoVideoConnection {
@@ -533,6 +535,8 @@ input PromoVideoCreateInput {
   image: String!
   placeholder: String
   familyId: String
+  banner: String!
+  bannerSmall: String!
 }
 
 type PromoVideoEdge {
@@ -555,6 +559,10 @@ enum PromoVideoOrderByInput {
   placeholder_DESC
   familyId_ASC
   familyId_DESC
+  banner_ASC
+  banner_DESC
+  bannerSmall_ASC
+  bannerSmall_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -569,6 +577,8 @@ type PromoVideoPreviousValues {
   image: String!
   placeholder: String
   familyId: String!
+  banner: String!
+  bannerSmall: String!
 }
 
 type PromoVideoSubscriptionPayload {
@@ -596,6 +606,8 @@ input PromoVideoUpdateInput {
   image: String
   placeholder: String
   familyId: String
+  banner: String
+  bannerSmall: String
 }
 
 input PromoVideoUpdateManyMutationInput {
@@ -605,6 +617,8 @@ input PromoVideoUpdateManyMutationInput {
   image: String
   placeholder: String
   familyId: String
+  banner: String
+  bannerSmall: String
 }
 
 input PromoVideoWhereInput {
@@ -706,6 +720,34 @@ input PromoVideoWhereInput {
   familyId_not_starts_with: String
   familyId_ends_with: String
   familyId_not_ends_with: String
+  banner: String
+  banner_not: String
+  banner_in: [String!]
+  banner_not_in: [String!]
+  banner_lt: String
+  banner_lte: String
+  banner_gt: String
+  banner_gte: String
+  banner_contains: String
+  banner_not_contains: String
+  banner_starts_with: String
+  banner_not_starts_with: String
+  banner_ends_with: String
+  banner_not_ends_with: String
+  bannerSmall: String
+  bannerSmall_not: String
+  bannerSmall_in: [String!]
+  bannerSmall_not_in: [String!]
+  bannerSmall_lt: String
+  bannerSmall_lte: String
+  bannerSmall_gt: String
+  bannerSmall_gte: String
+  bannerSmall_contains: String
+  bannerSmall_not_contains: String
+  bannerSmall_starts_with: String
+  bannerSmall_not_starts_with: String
+  bannerSmall_ends_with: String
+  bannerSmall_not_ends_with: String
   AND: [PromoVideoWhereInput!]
   OR: [PromoVideoWhereInput!]
   NOT: [PromoVideoWhereInput!]

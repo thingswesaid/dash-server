@@ -383,6 +383,10 @@ export type PromoVideoOrderByInput =
   | "placeholder_DESC"
   | "familyId_ASC"
   | "familyId_DESC"
+  | "banner_ASC"
+  | "banner_DESC"
+  | "bannerSmall_ASC"
+  | "bannerSmall_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -735,6 +739,34 @@ export interface PromoVideoWhereInput {
   familyId_not_starts_with?: String;
   familyId_ends_with?: String;
   familyId_not_ends_with?: String;
+  banner?: String;
+  banner_not?: String;
+  banner_in?: String[] | String;
+  banner_not_in?: String[] | String;
+  banner_lt?: String;
+  banner_lte?: String;
+  banner_gt?: String;
+  banner_gte?: String;
+  banner_contains?: String;
+  banner_not_contains?: String;
+  banner_starts_with?: String;
+  banner_not_starts_with?: String;
+  banner_ends_with?: String;
+  banner_not_ends_with?: String;
+  bannerSmall?: String;
+  bannerSmall_not?: String;
+  bannerSmall_in?: String[] | String;
+  bannerSmall_not_in?: String[] | String;
+  bannerSmall_lt?: String;
+  bannerSmall_lte?: String;
+  bannerSmall_gt?: String;
+  bannerSmall_gte?: String;
+  bannerSmall_contains?: String;
+  bannerSmall_not_contains?: String;
+  bannerSmall_starts_with?: String;
+  bannerSmall_not_starts_with?: String;
+  bannerSmall_ends_with?: String;
+  bannerSmall_not_ends_with?: String;
   AND?: PromoVideoWhereInput[] | PromoVideoWhereInput;
   OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
   NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
@@ -1041,6 +1073,8 @@ export interface PromoVideoCreateInput {
   image: String;
   placeholder?: String;
   familyId?: String;
+  banner: String;
+  bannerSmall: String;
 }
 
 export interface PromoVideoUpdateInput {
@@ -1050,6 +1084,8 @@ export interface PromoVideoUpdateInput {
   image?: String;
   placeholder?: String;
   familyId?: String;
+  banner?: String;
+  bannerSmall?: String;
 }
 
 export interface PromoVideoUpdateManyMutationInput {
@@ -1059,6 +1095,8 @@ export interface PromoVideoUpdateManyMutationInput {
   image?: String;
   placeholder?: String;
   familyId?: String;
+  banner?: String;
+  bannerSmall?: String;
 }
 
 export interface UserCreateInput {
@@ -1868,6 +1906,8 @@ export interface PromoVideo {
   image: String;
   placeholder?: String;
   familyId: String;
+  banner: String;
+  bannerSmall: String;
 }
 
 export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
@@ -1878,6 +1918,8 @@ export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
+  banner: () => Promise<String>;
+  bannerSmall: () => Promise<String>;
 }
 
 export interface PromoVideoSubscription
@@ -1890,6 +1932,8 @@ export interface PromoVideoSubscription
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
+  banner: () => Promise<AsyncIterator<String>>;
+  bannerSmall: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromoVideoConnection {}
@@ -2370,6 +2414,8 @@ export interface PromoVideoPreviousValues {
   image: String;
   placeholder?: String;
   familyId: String;
+  banner: String;
+  bannerSmall: String;
 }
 
 export interface PromoVideoPreviousValuesPromise
@@ -2382,6 +2428,8 @@ export interface PromoVideoPreviousValuesPromise
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
+  banner: () => Promise<String>;
+  bannerSmall: () => Promise<String>;
 }
 
 export interface PromoVideoPreviousValuesSubscription
@@ -2394,6 +2442,8 @@ export interface PromoVideoPreviousValuesSubscription
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
+  banner: () => Promise<AsyncIterator<String>>;
+  bannerSmall: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {

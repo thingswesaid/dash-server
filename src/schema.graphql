@@ -63,6 +63,8 @@ type PromoVideo {
   description: String!
   image: String!
   placeholder: String
+  banner: String!
+  bannerSmall: String!
 }
 
 enum Status {
