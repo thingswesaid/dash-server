@@ -329,10 +329,11 @@ input PostWhereUniqueInput {
 type Product {
   id: ID!
   link: String!
-  title: String!
+  name: String!
   description: String!
   image: String!
   placeholder: String!
+  type: ProductType!
 }
 
 type ProductConnection {
@@ -343,10 +344,11 @@ type ProductConnection {
 
 input ProductCreateInput {
   link: String!
-  title: String!
+  name: String!
   description: String!
   image: String!
   placeholder: String!
+  type: ProductType!
 }
 
 type ProductEdge {
@@ -359,14 +361,16 @@ enum ProductOrderByInput {
   id_DESC
   link_ASC
   link_DESC
-  title_ASC
-  title_DESC
+  name_ASC
+  name_DESC
   description_ASC
   description_DESC
   image_ASC
   image_DESC
   placeholder_ASC
   placeholder_DESC
+  type_ASC
+  type_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -376,10 +380,11 @@ enum ProductOrderByInput {
 type ProductPreviousValues {
   id: ID!
   link: String!
-  title: String!
+  name: String!
   description: String!
   image: String!
   placeholder: String!
+  type: ProductType!
 }
 
 type ProductSubscriptionPayload {
@@ -400,20 +405,31 @@ input ProductSubscriptionWhereInput {
   NOT: [ProductSubscriptionWhereInput!]
 }
 
+enum ProductType {
+  APPAREL
+  HOMEDECOR
+  SOCKS
+  PHONECASES
+  ACCESSORIES
+  MUGS
+}
+
 input ProductUpdateInput {
   link: String
-  title: String
+  name: String
   description: String
   image: String
   placeholder: String
+  type: ProductType
 }
 
 input ProductUpdateManyMutationInput {
   link: String
-  title: String
+  name: String
   description: String
   image: String
   placeholder: String
+  type: ProductType
 }
 
 input ProductWhereInput {
@@ -445,20 +461,20 @@ input ProductWhereInput {
   link_not_starts_with: String
   link_ends_with: String
   link_not_ends_with: String
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -501,6 +517,10 @@ input ProductWhereInput {
   placeholder_not_starts_with: String
   placeholder_ends_with: String
   placeholder_not_ends_with: String
+  type: ProductType
+  type_not: ProductType
+  type_in: [ProductType!]
+  type_not_in: [ProductType!]
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]

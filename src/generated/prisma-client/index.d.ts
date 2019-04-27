@@ -350,19 +350,29 @@ export type PostOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type ProductType =
+  | "APPAREL"
+  | "HOMEDECOR"
+  | "SOCKS"
+  | "PHONECASES"
+  | "ACCESSORIES"
+  | "MUGS";
+
 export type ProductOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "link_ASC"
   | "link_DESC"
-  | "title_ASC"
-  | "title_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "description_ASC"
   | "description_DESC"
   | "image_ASC"
   | "image_DESC"
   | "placeholder_ASC"
   | "placeholder_DESC"
+  | "type_ASC"
+  | "type_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -575,20 +585,20 @@ export interface ProductWhereInput {
   link_not_starts_with?: String;
   link_ends_with?: String;
   link_not_ends_with?: String;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
   description?: String;
   description_not?: String;
   description_in?: String[] | String;
@@ -631,6 +641,10 @@ export interface ProductWhereInput {
   placeholder_not_starts_with?: String;
   placeholder_ends_with?: String;
   placeholder_not_ends_with?: String;
+  type?: ProductType;
+  type_not?: ProductType;
+  type_in?: ProductType[] | ProductType;
+  type_not_in?: ProductType[] | ProductType;
   AND?: ProductWhereInput[] | ProductWhereInput;
   OR?: ProductWhereInput[] | ProductWhereInput;
   NOT?: ProductWhereInput[] | ProductWhereInput;
@@ -1044,26 +1058,29 @@ export interface PostUpdateManyMutationInput {
 
 export interface ProductCreateInput {
   link: String;
-  title: String;
+  name: String;
   description: String;
   image: String;
   placeholder: String;
+  type: ProductType;
 }
 
 export interface ProductUpdateInput {
   link?: String;
-  title?: String;
+  name?: String;
   description?: String;
   image?: String;
   placeholder?: String;
+  type?: ProductType;
 }
 
 export interface ProductUpdateManyMutationInput {
   link?: String;
-  title?: String;
+  name?: String;
   description?: String;
   image?: String;
   placeholder?: String;
+  type?: ProductType;
 }
 
 export interface PromoVideoCreateInput {
@@ -1822,19 +1839,21 @@ export interface AggregatePostSubscription
 export interface Product {
   id: ID_Output;
   link: String;
-  title: String;
+  name: String;
   description: String;
   image: String;
   placeholder: String;
+  type: ProductType;
 }
 
 export interface ProductPromise extends Promise<Product>, Fragmentable {
   id: () => Promise<ID_Output>;
   link: () => Promise<String>;
-  title: () => Promise<String>;
+  name: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
+  type: () => Promise<ProductType>;
 }
 
 export interface ProductSubscription
@@ -1842,10 +1861,11 @@ export interface ProductSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   link: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<ProductType>>;
 }
 
 export interface ProductConnection {}
@@ -2355,10 +2375,11 @@ export interface ProductSubscriptionPayloadSubscription
 export interface ProductPreviousValues {
   id: ID_Output;
   link: String;
-  title: String;
+  name: String;
   description: String;
   image: String;
   placeholder: String;
+  type: ProductType;
 }
 
 export interface ProductPreviousValuesPromise
@@ -2366,10 +2387,11 @@ export interface ProductPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   link: () => Promise<String>;
-  title: () => Promise<String>;
+  name: () => Promise<String>;
   description: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
+  type: () => Promise<ProductType>;
 }
 
 export interface ProductPreviousValuesSubscription
@@ -2377,10 +2399,11 @@ export interface ProductPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   link: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<ProductType>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -2627,6 +2650,10 @@ export const models = [
   },
   {
     name: "Product",
+    embedded: false
+  },
+  {
+    name: "ProductType",
     embedded: false
   },
   {

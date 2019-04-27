@@ -50,10 +50,11 @@ type PromoVideo {
 type Product {
   id: ID! @unique
   link: String!
-  title: String!
+  name: String!
   description: String!
   image: String!
   placeholder: String!
+  type: ProductType!
 }
 
 type AnonymousIp {
@@ -65,6 +66,15 @@ type AnonymousIp {
 enum Status {
   ACTIVE
   BLOCKED
+}
+
+enum ProductType {
+  APPAREL
+  HOMEDECOR
+  SOCKS
+  PHONECASES
+  ACCESSORIES
+  MUGS
 }
 
 enum VideoType {
