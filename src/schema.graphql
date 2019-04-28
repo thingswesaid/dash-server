@@ -75,16 +75,7 @@ type Product {
   description: String!
   image: String!
   placeholder: String!
-  type: ProductType
-}
-
-enum ProductType {
-  APPAREL
-  HOMEDECOR
-  SOCKS
-  PHONECASES
-  ACCESSORIES
-  MUGS
+  type: String!
 }
 
 enum Status {

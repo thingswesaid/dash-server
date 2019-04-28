@@ -350,14 +350,6 @@ export type PostOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type ProductType =
-  | "APPAREL"
-  | "HOMEDECOR"
-  | "SOCKS"
-  | "PHONECASES"
-  | "ACCESSORIES"
-  | "MUGS";
-
 export type ProductOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -641,10 +633,20 @@ export interface ProductWhereInput {
   placeholder_not_starts_with?: String;
   placeholder_ends_with?: String;
   placeholder_not_ends_with?: String;
-  type?: ProductType;
-  type_not?: ProductType;
-  type_in?: ProductType[] | ProductType;
-  type_not_in?: ProductType[] | ProductType;
+  type?: String;
+  type_not?: String;
+  type_in?: String[] | String;
+  type_not_in?: String[] | String;
+  type_lt?: String;
+  type_lte?: String;
+  type_gt?: String;
+  type_gte?: String;
+  type_contains?: String;
+  type_not_contains?: String;
+  type_starts_with?: String;
+  type_not_starts_with?: String;
+  type_ends_with?: String;
+  type_not_ends_with?: String;
   AND?: ProductWhereInput[] | ProductWhereInput;
   OR?: ProductWhereInput[] | ProductWhereInput;
   NOT?: ProductWhereInput[] | ProductWhereInput;
@@ -1062,7 +1064,7 @@ export interface ProductCreateInput {
   description: String;
   image: String;
   placeholder: String;
-  type: ProductType;
+  type: String;
 }
 
 export interface ProductUpdateInput {
@@ -1071,7 +1073,7 @@ export interface ProductUpdateInput {
   description?: String;
   image?: String;
   placeholder?: String;
-  type?: ProductType;
+  type?: String;
 }
 
 export interface ProductUpdateManyMutationInput {
@@ -1080,7 +1082,7 @@ export interface ProductUpdateManyMutationInput {
   description?: String;
   image?: String;
   placeholder?: String;
-  type?: ProductType;
+  type?: String;
 }
 
 export interface PromoVideoCreateInput {
@@ -1843,7 +1845,7 @@ export interface Product {
   description: String;
   image: String;
   placeholder: String;
-  type: ProductType;
+  type: String;
 }
 
 export interface ProductPromise extends Promise<Product>, Fragmentable {
@@ -1853,7 +1855,7 @@ export interface ProductPromise extends Promise<Product>, Fragmentable {
   description: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
-  type: () => Promise<ProductType>;
+  type: () => Promise<String>;
 }
 
 export interface ProductSubscription
@@ -1865,7 +1867,7 @@ export interface ProductSubscription
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
-  type: () => Promise<AsyncIterator<ProductType>>;
+  type: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductConnection {}
@@ -2379,7 +2381,7 @@ export interface ProductPreviousValues {
   description: String;
   image: String;
   placeholder: String;
-  type: ProductType;
+  type: String;
 }
 
 export interface ProductPreviousValuesPromise
@@ -2391,7 +2393,7 @@ export interface ProductPreviousValuesPromise
   description: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
-  type: () => Promise<ProductType>;
+  type: () => Promise<String>;
 }
 
 export interface ProductPreviousValuesSubscription
@@ -2403,7 +2405,7 @@ export interface ProductPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
-  type: () => Promise<AsyncIterator<ProductType>>;
+  type: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -2650,10 +2652,6 @@ export const models = [
   },
   {
     name: "Product",
-    embedded: false
-  },
-  {
-    name: "ProductType",
     embedded: false
   },
   {

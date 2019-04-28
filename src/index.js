@@ -22,9 +22,8 @@ const resolvers = {
       const opts = familyId ? { familyId_not: familyId } : {};
       return context.prisma.promoVideos({ where: {...opts} });
     },
-    products(parent, { type }, context) {
-      const opts = type ? { type } : {};
-      return context.prisma.products({ where: {...opts} });
+    async products(parent, args, context) {
+      return context.prisma.products();
     },
   },
   Video: {

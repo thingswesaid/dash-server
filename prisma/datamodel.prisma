@@ -54,7 +54,7 @@ type Product {
   description: String!
   image: String!
   placeholder: String!
-  type: ProductType!
+  type: String!
 }
 
 type AnonymousIp {
@@ -66,15 +66,6 @@ type AnonymousIp {
 enum Status {
   ACTIVE
   BLOCKED
-}
-
-enum ProductType {
-  APPAREL
-  HOMEDECOR
-  SOCKS
-  PHONECASES
-  ACCESSORIES
-  MUGS
 }
 
 enum VideoType {

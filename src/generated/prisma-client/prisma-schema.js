@@ -333,7 +333,7 @@ type Product {
   description: String!
   image: String!
   placeholder: String!
-  type: ProductType!
+  type: String!
 }
 
 type ProductConnection {
@@ -348,7 +348,7 @@ input ProductCreateInput {
   description: String!
   image: String!
   placeholder: String!
-  type: ProductType!
+  type: String!
 }
 
 type ProductEdge {
@@ -384,7 +384,7 @@ type ProductPreviousValues {
   description: String!
   image: String!
   placeholder: String!
-  type: ProductType!
+  type: String!
 }
 
 type ProductSubscriptionPayload {
@@ -405,22 +405,13 @@ input ProductSubscriptionWhereInput {
   NOT: [ProductSubscriptionWhereInput!]
 }
 
-enum ProductType {
-  APPAREL
-  HOMEDECOR
-  SOCKS
-  PHONECASES
-  ACCESSORIES
-  MUGS
-}
-
 input ProductUpdateInput {
   link: String
   name: String
   description: String
   image: String
   placeholder: String
-  type: ProductType
+  type: String
 }
 
 input ProductUpdateManyMutationInput {
@@ -429,7 +420,7 @@ input ProductUpdateManyMutationInput {
   description: String
   image: String
   placeholder: String
-  type: ProductType
+  type: String
 }
 
 input ProductWhereInput {
@@ -517,10 +508,20 @@ input ProductWhereInput {
   placeholder_not_starts_with: String
   placeholder_ends_with: String
   placeholder_not_ends_with: String
-  type: ProductType
-  type_not: ProductType
-  type_in: [ProductType!]
-  type_not_in: [ProductType!]
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
