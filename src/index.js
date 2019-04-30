@@ -10,19 +10,20 @@ const resolvers = {
       // return context.userIp();
       return "HOME77-USER-IP";
     },
-    latestVideos(parent, { type, skipId, familyId }, context) {
-      const opts = familyId ? { type, id_not: skipId, familyId } : { type, id_not: skipId };
+    latestVideos(parent, { type, skipId, familyId, quantity }, context) {
+      const optsFamily = familyId ? { familyId } : {};
+      const optsType = type ? { type } : {}
       return context.prisma.videos({
-        where: {...opts}, 
+        where: {...optsType, ...optsFamily, ...{ id_not: skipId, published: true }}, 
         orderBy: 'createdAt_DESC', 
-        first: 12
+        first: quantity || 12
       });
     },
     promoVideos(parent, { familyId }, context) {
       const opts = familyId ? { familyId_not: familyId } : {};
       return context.prisma.promoVideos({ where: {...opts} });
     },
-    async products(parent, args, context) {
+    products(parent, args, context) {
       return context.prisma.products();
     },
   },
