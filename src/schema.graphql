@@ -1,5 +1,5 @@
 type Query {
-  videos(id: ID!): [Video]
+  videos(id: ID, keywords: String): [Video]
   userIp: String
   latestVideos(type: String, skipId: String, familyId: String, quantity: Int): [Video!]!
   promoVideos(familyId: String): [PromoVideo!]!

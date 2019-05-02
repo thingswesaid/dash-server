@@ -3,8 +3,13 @@ const { prisma } = require('./generated/prisma-client')
 
 const resolvers = {
   Query: {
-    videos: (parent, { id }, context) => {
-      return context.prisma.videos({ where: { id_contains: id } })
+    videos: (parent, { id='', keywords='' }, context) => {
+      return context.prisma.videos({ where: { 
+        id_contains: id, 
+        name_contains: 
+        keywords, 
+        published: true 
+      }})
     },
     userIp: (parent, args, context) => {
       // return context.userIp();
