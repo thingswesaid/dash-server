@@ -3,30 +3,47 @@ const { prisma } = require('./generated/prisma-client')
 
 const resolvers = {
   Query: {
+    videoPage: async (parent, { id }, context) => {
+      const videos = await context.prisma.videos({   
+        where: { 
+          id_contains: id,
+          published: true 
+        },
+        first: 1,
+      })
+
+      if (!videos.length) {
+        return;
+      }
+      
+      const video = videos[0];
+      const { id: videoId, familyId } = video;
+      const optsFamily = familyId ? { familyId } : {};
+      const latestVideos = await context.prisma.videos({
+        where: {...optsFamily, ...{ id_not: videoId, published: true }}, 
+        orderBy: 'createdAt_DESC', 
+        first: 12
+      });
+
+      const promoVideos = await context.prisma.promoVideos({ where: optsFamily });
+      const promoVideo = promoVideos[Math.floor(Math.random() * promoVideos.length)];
+
+      return {
+        video,
+        latestVideos,
+        promoVideo,
+      };
+    },
     videos: (parent, { id='', keywords='' }, context) => {
       return context.prisma.videos({ where: { 
         id_contains: id, 
-        name_contains: 
-        keywords, 
+        name_contains: keywords, 
         published: true 
       }})
     },
     userIp: (parent, args, context) => {
       // return context.userIp();
       return "HOME77-USER-IP";
-    },
-    latestVideos(parent, { type, skipId, familyId, quantity }, context) {
-      const optsFamily = familyId ? { familyId } : {};
-      const optsType = type ? { type } : {}
-      return context.prisma.videos({
-        where: {...optsType, ...optsFamily, ...{ id_not: skipId, published: true }}, 
-        orderBy: 'createdAt_DESC', 
-        first: quantity || 12
-      });
-    },
-    promoVideos(parent, { familyId }, context) {
-      const opts = familyId ? { familyId_not: familyId } : {};
-      return context.prisma.promoVideos({ where: {...opts} });
     },
     products(parent, args, context) {
       return context.prisma.products();

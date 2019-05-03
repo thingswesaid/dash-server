@@ -387,8 +387,8 @@ export type PromoVideoOrderByInput =
   | "familyId_DESC"
   | "banner_ASC"
   | "banner_DESC"
-  | "bannerSmall_ASC"
-  | "bannerSmall_DESC"
+  | "bannerMobile_ASC"
+  | "bannerMobile_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -769,20 +769,20 @@ export interface PromoVideoWhereInput {
   banner_not_starts_with?: String;
   banner_ends_with?: String;
   banner_not_ends_with?: String;
-  bannerSmall?: String;
-  bannerSmall_not?: String;
-  bannerSmall_in?: String[] | String;
-  bannerSmall_not_in?: String[] | String;
-  bannerSmall_lt?: String;
-  bannerSmall_lte?: String;
-  bannerSmall_gt?: String;
-  bannerSmall_gte?: String;
-  bannerSmall_contains?: String;
-  bannerSmall_not_contains?: String;
-  bannerSmall_starts_with?: String;
-  bannerSmall_not_starts_with?: String;
-  bannerSmall_ends_with?: String;
-  bannerSmall_not_ends_with?: String;
+  bannerMobile?: String;
+  bannerMobile_not?: String;
+  bannerMobile_in?: String[] | String;
+  bannerMobile_not_in?: String[] | String;
+  bannerMobile_lt?: String;
+  bannerMobile_lte?: String;
+  bannerMobile_gt?: String;
+  bannerMobile_gte?: String;
+  bannerMobile_contains?: String;
+  bannerMobile_not_contains?: String;
+  bannerMobile_starts_with?: String;
+  bannerMobile_not_starts_with?: String;
+  bannerMobile_ends_with?: String;
+  bannerMobile_not_ends_with?: String;
   AND?: PromoVideoWhereInput[] | PromoVideoWhereInput;
   OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
   NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
@@ -1093,7 +1093,7 @@ export interface PromoVideoCreateInput {
   placeholder?: String;
   familyId?: String;
   banner: String;
-  bannerSmall: String;
+  bannerMobile: String;
 }
 
 export interface PromoVideoUpdateInput {
@@ -1104,7 +1104,7 @@ export interface PromoVideoUpdateInput {
   placeholder?: String;
   familyId?: String;
   banner?: String;
-  bannerSmall?: String;
+  bannerMobile?: String;
 }
 
 export interface PromoVideoUpdateManyMutationInput {
@@ -1115,7 +1115,7 @@ export interface PromoVideoUpdateManyMutationInput {
   placeholder?: String;
   familyId?: String;
   banner?: String;
-  bannerSmall?: String;
+  bannerMobile?: String;
 }
 
 export interface UserCreateInput {
@@ -1929,7 +1929,7 @@ export interface PromoVideo {
   placeholder?: String;
   familyId: String;
   banner: String;
-  bannerSmall: String;
+  bannerMobile: String;
 }
 
 export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
@@ -1941,7 +1941,7 @@ export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
   placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
   banner: () => Promise<String>;
-  bannerSmall: () => Promise<String>;
+  bannerMobile: () => Promise<String>;
 }
 
 export interface PromoVideoSubscription
@@ -1955,7 +1955,7 @@ export interface PromoVideoSubscription
   placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
   banner: () => Promise<AsyncIterator<String>>;
-  bannerSmall: () => Promise<AsyncIterator<String>>;
+  bannerMobile: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromoVideoConnection {}
@@ -2440,7 +2440,7 @@ export interface PromoVideoPreviousValues {
   placeholder?: String;
   familyId: String;
   banner: String;
-  bannerSmall: String;
+  bannerMobile: String;
 }
 
 export interface PromoVideoPreviousValuesPromise
@@ -2454,7 +2454,7 @@ export interface PromoVideoPreviousValuesPromise
   placeholder: () => Promise<String>;
   familyId: () => Promise<String>;
   banner: () => Promise<String>;
-  bannerSmall: () => Promise<String>;
+  bannerMobile: () => Promise<String>;
 }
 
 export interface PromoVideoPreviousValuesSubscription
@@ -2468,7 +2468,7 @@ export interface PromoVideoPreviousValuesSubscription
   placeholder: () => Promise<AsyncIterator<String>>;
   familyId: () => Promise<AsyncIterator<String>>;
   banner: () => Promise<AsyncIterator<String>>;
-  bannerSmall: () => Promise<AsyncIterator<String>>;
+  bannerMobile: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {

@@ -44,7 +44,7 @@ type PromoVideo {
   placeholder: String
   familyId: String! @default(value: "")
   banner: String!
-  bannerSmall: String!
+  bannerMobile: String!
 }
 
 type Product {

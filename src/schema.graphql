@@ -1,9 +1,8 @@
 type Query {
   videos(id: ID, keywords: String): [Video]
   userIp: String
-  latestVideos(type: String, skipId: String, familyId: String, quantity: Int): [Video!]!
-  promoVideos(familyId: String): [PromoVideo!]!
   products(type: String): [Product]
+  videoPage(id: ID!): VideoPage
 }
 
 type Mutation {
@@ -46,13 +45,6 @@ type Video {
   familyId: String
 }
 
-type Post {
-  id: ID!
-  published: Boolean!
-  title: String!
-  content: String!
-}
-
 type AnonymousIp {
   ip: String!
 }
@@ -65,7 +57,7 @@ type PromoVideo {
   image: String!
   placeholder: String
   banner: String!
-  bannerSmall: String!
+  bannerMobile: String!
 }
 
 type Product {
@@ -76,6 +68,12 @@ type Product {
   image: String!
   placeholder: String!
   type: String!
+}
+
+type VideoPage {
+  video: Video,
+  latestVideos: [Video],
+  promoVideo: PromoVideo
 }
 
 enum Status {
