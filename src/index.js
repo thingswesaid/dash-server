@@ -1,7 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 
 const { prisma } = require('./generated/prisma-client')
-const { sort } = require('./utils');
+const { sort, shuffle } = require('./utils');
 
 const resolvers = {
   Query: {
@@ -24,13 +24,13 @@ const resolvers = {
         orderBy: 'createdAt_DESC', 
         first: 12
       });
-
+      const latestVideosFormat = shuffle(latestVideos);
       const promoVideos = await context.prisma.promoVideos({ where: optsFamily });
       const promoVideo = promoVideos[Math.floor(Math.random() * promoVideos.length)];
 
       return {
         video,
-        latestVideos,
+        latestVideos: latestVideosFormat,
         promoVideo,
       };
     },
