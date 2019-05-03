@@ -1,14 +1,14 @@
 const { GraphQLServer } = require('graphql-yoga')
+
 const { prisma } = require('./generated/prisma-client')
+const { sort } = require('./utils');
 
 const resolvers = {
   Query: {
-    videoPage: async (parent, { id }, context) => {
+    videoPage: async (parent, { id, showAll }, context) => {
+      const optsPublished = showAll ?  {} : { published: true }; 
       const videos = await context.prisma.videos({   
-        where: { 
-          id_contains: id,
-          published: true 
-        },
+        where: { ...optsPublished, ...{ id_contains: id } },
         first: 1,
       })
 
@@ -45,8 +45,11 @@ const resolvers = {
       // return context.userIp();
       return "HOME77-USER-IP";
     },
-    products(parent, args, context) {
-      return context.prisma.products();
+    async products(parent, args, context) {
+      const items = await context.prisma.products();
+      const types = items ? sort([...new Set(items.map(product => product.type))]) : [];
+      return { types, items };
+
     },
   },
   Video: {

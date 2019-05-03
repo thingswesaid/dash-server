@@ -1,8 +1,8 @@
 type Query {
   videos(id: ID, keywords: String): [Video]
   userIp: String
-  products(type: String): [Product]
-  videoPage(id: ID!): VideoPage
+  products(type: String): ProductPayload!
+  videoPage(id: ID!, showAll: Boolean): VideoPage
 }
 
 type Mutation {
@@ -68,6 +68,11 @@ type Product {
   image: String!
   placeholder: String!
   type: String!
+}
+
+type ProductPayload {
+  items: [Product!]!
+  types: [String!]!
 }
 
 type VideoPage {
