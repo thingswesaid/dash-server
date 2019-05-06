@@ -2,13 +2,12 @@ type Query {
   videos(id: ID, keywords: String): [Video]
   userIp: String
   products(type: String): ProductPayload!
-  videoPage(id: ID!, showAll: Boolean): VideoPage
+  videoPage(id: ID!, ip: String, email: String, showAll: Boolean): VideoPage
 }
 
 type Mutation {
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
-  createAnonymousIp(ip: String!): AnonymousIp
   addUserToVideo(
     email: String!, 
     ips: [String], 
@@ -25,7 +24,7 @@ type User {
   email: String!
   ips: [String!]
   subscribed: Boolean!
-  status: Status!
+  active: Boolean
   videos: [Video]!
 }
 
@@ -76,9 +75,10 @@ type ProductPayload {
 }
 
 type VideoPage {
-  video: Video,
-  latestVideos: [Video],
+  video: Video
+  latestVideos: [Video]
   promoVideo: PromoVideo
+  userActive: Boolean
 }
 
 enum Status {

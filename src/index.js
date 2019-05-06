@@ -5,7 +5,7 @@ const { sort, shuffle } = require('./utils');
 
 const resolvers = {
   Query: {
-    videoPage: async (parent, { id, showAll }, context) => {
+    videoPage: async (parent, { id, ip, email, showAll }, context) => {
       const optsPublished = showAll ?  {} : { published: true }; 
       const videos = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: id } },
@@ -28,10 +28,14 @@ const resolvers = {
       const promoVideos = await context.prisma.promoVideos({ where: optsFamily });
       const promoVideo = promoVideos[Math.floor(Math.random() * promoVideos.length)];
 
+      const user = await context.prisma.users({ where: { email } });
+      const { active } = user.length ? user[0] : {};
+
       return {
         video,
         latestVideos: latestVideosFormat,
         promoVideo,
+        userActive: user.length ? active : true,
       };
     },
     videos: (parent, { id='', keywords='' }, context) => {
@@ -43,7 +47,7 @@ const resolvers = {
     },
     userIp: (parent, args, context) => {
       // return context.userIp();
-      return "HOME77-USER-IP";
+      return "HOME81-USER-IP";
     },
     async products(parent, args, context) {
       const items = await context.prisma.products();
@@ -66,9 +70,6 @@ const resolvers = {
         where: { email }, data: { ips: { set: ips } },
       })
     },
-    createAnonymousIp(parent, { ip }, context) {
-      return context.prisma.createAnonymousIp({ ip });
-    },
     async addUserToVideo(parent, { 
       email, 
       ips, 
@@ -80,6 +81,7 @@ const resolvers = {
     }, context) {
       const user = await context.prisma.user({ email });
       const paymentIds = user ? [...user.paymentIds, paymentId] : [paymentId];
+      const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       return context.prisma.upsertUser({
         where: { email }, 
         create: {
@@ -87,13 +89,14 @@ const resolvers = {
           firstName,
           lastName,
           phone,
-          ips: {set: ips },
+          ips: {set: updatedIps },
           videos: { connect: { id: videoId } },
           paymentIds: { set: paymentIds }
         }, update: {
           phone,
           videos: { connect: { id: videoId } },
-          paymentIds: { set: paymentIds }
+          paymentIds: { set: paymentIds },
+          ips: {set: updatedIps },
         }
       }); 
     },

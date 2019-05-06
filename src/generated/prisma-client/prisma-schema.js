@@ -1,13 +1,5 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateAnonymousIp {
-  count: Int!
-}
-
-type AggregatePost {
-  count: Int!
-}
-
-type AggregateProduct {
+        typeDefs: /* GraphQL */ `type AggregateProduct {
   count: Int!
 }
 
@@ -23,117 +15,6 @@ type AggregateVideo {
   count: Int!
 }
 
-type AnonymousIp {
-  id: ID!
-  status: Status!
-  ip: String!
-}
-
-type AnonymousIpConnection {
-  pageInfo: PageInfo!
-  edges: [AnonymousIpEdge]!
-  aggregate: AggregateAnonymousIp!
-}
-
-input AnonymousIpCreateInput {
-  status: Status
-  ip: String!
-}
-
-type AnonymousIpEdge {
-  node: AnonymousIp!
-  cursor: String!
-}
-
-enum AnonymousIpOrderByInput {
-  id_ASC
-  id_DESC
-  status_ASC
-  status_DESC
-  ip_ASC
-  ip_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type AnonymousIpPreviousValues {
-  id: ID!
-  status: Status!
-  ip: String!
-}
-
-type AnonymousIpSubscriptionPayload {
-  mutation: MutationType!
-  node: AnonymousIp
-  updatedFields: [String!]
-  previousValues: AnonymousIpPreviousValues
-}
-
-input AnonymousIpSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: AnonymousIpWhereInput
-  AND: [AnonymousIpSubscriptionWhereInput!]
-  OR: [AnonymousIpSubscriptionWhereInput!]
-  NOT: [AnonymousIpSubscriptionWhereInput!]
-}
-
-input AnonymousIpUpdateInput {
-  status: Status
-  ip: String
-}
-
-input AnonymousIpUpdateManyMutationInput {
-  status: Status
-  ip: String
-}
-
-input AnonymousIpWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  status: Status
-  status_not: Status
-  status_in: [Status!]
-  status_not_in: [Status!]
-  ip: String
-  ip_not: String
-  ip_in: [String!]
-  ip_not_in: [String!]
-  ip_lt: String
-  ip_lte: String
-  ip_gt: String
-  ip_gte: String
-  ip_contains: String
-  ip_not_contains: String
-  ip_starts_with: String
-  ip_not_starts_with: String
-  ip_ends_with: String
-  ip_not_ends_with: String
-  AND: [AnonymousIpWhereInput!]
-  OR: [AnonymousIpWhereInput!]
-  NOT: [AnonymousIpWhereInput!]
-}
-
-input AnonymousIpWhereUniqueInput {
-  id: ID
-}
-
 type BatchPayload {
   count: Long!
 }
@@ -141,18 +22,6 @@ type BatchPayload {
 scalar Long
 
 type Mutation {
-  createAnonymousIp(data: AnonymousIpCreateInput!): AnonymousIp!
-  updateAnonymousIp(data: AnonymousIpUpdateInput!, where: AnonymousIpWhereUniqueInput!): AnonymousIp
-  updateManyAnonymousIps(data: AnonymousIpUpdateManyMutationInput!, where: AnonymousIpWhereInput): BatchPayload!
-  upsertAnonymousIp(where: AnonymousIpWhereUniqueInput!, create: AnonymousIpCreateInput!, update: AnonymousIpUpdateInput!): AnonymousIp!
-  deleteAnonymousIp(where: AnonymousIpWhereUniqueInput!): AnonymousIp
-  deleteManyAnonymousIps(where: AnonymousIpWhereInput): BatchPayload!
-  createPost(data: PostCreateInput!): Post!
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
-  deletePost(where: PostWhereUniqueInput!): Post
-  deleteManyPosts(where: PostWhereInput): BatchPayload!
   createProduct(data: ProductCreateInput!): Product!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
@@ -194,136 +63,6 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
-}
-
-type Post {
-  id: ID!
-  published: Boolean!
-  title: String!
-  content: String!
-}
-
-type PostConnection {
-  pageInfo: PageInfo!
-  edges: [PostEdge]!
-  aggregate: AggregatePost!
-}
-
-input PostCreateInput {
-  published: Boolean
-  title: String!
-  content: String!
-}
-
-type PostEdge {
-  node: Post!
-  cursor: String!
-}
-
-enum PostOrderByInput {
-  id_ASC
-  id_DESC
-  published_ASC
-  published_DESC
-  title_ASC
-  title_DESC
-  content_ASC
-  content_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PostPreviousValues {
-  id: ID!
-  published: Boolean!
-  title: String!
-  content: String!
-}
-
-type PostSubscriptionPayload {
-  mutation: MutationType!
-  node: Post
-  updatedFields: [String!]
-  previousValues: PostPreviousValues
-}
-
-input PostSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PostWhereInput
-  AND: [PostSubscriptionWhereInput!]
-  OR: [PostSubscriptionWhereInput!]
-  NOT: [PostSubscriptionWhereInput!]
-}
-
-input PostUpdateInput {
-  published: Boolean
-  title: String
-  content: String
-}
-
-input PostUpdateManyMutationInput {
-  published: Boolean
-  title: String
-  content: String
-}
-
-input PostWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  published: Boolean
-  published_not: Boolean
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
-  AND: [PostWhereInput!]
-  OR: [PostWhereInput!]
-  NOT: [PostWhereInput!]
-}
-
-input PostWhereUniqueInput {
-  id: ID
 }
 
 type Product {
@@ -779,12 +518,6 @@ input PromoVideoWhereUniqueInput {
 }
 
 type Query {
-  anonymousIp(where: AnonymousIpWhereUniqueInput!): AnonymousIp
-  anonymousIps(where: AnonymousIpWhereInput, orderBy: AnonymousIpOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AnonymousIp]!
-  anonymousIpsConnection(where: AnonymousIpWhereInput, orderBy: AnonymousIpOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AnonymousIpConnection!
-  post(where: PostWhereUniqueInput!): Post
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
-  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
@@ -800,14 +533,7 @@ type Query {
   node(id: ID!): Node
 }
 
-enum Status {
-  ACTIVE
-  BLOCKED
-}
-
 type Subscription {
-  anonymousIp(where: AnonymousIpSubscriptionWhereInput): AnonymousIpSubscriptionPayload
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -823,7 +549,7 @@ type User {
   ips: [String!]!
   subscribed: Boolean!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
-  status: Status!
+  active: Boolean!
   paymentIds: [String!]!
 }
 
@@ -841,7 +567,7 @@ input UserCreateInput {
   ips: UserCreateipsInput
   subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
-  status: Status
+  active: Boolean
   paymentIds: UserCreatepaymentIdsInput
 }
 
@@ -865,7 +591,7 @@ input UserCreateWithoutVideosInput {
   phone: String
   ips: UserCreateipsInput
   subscribed: Boolean
-  status: Status
+  active: Boolean
   paymentIds: UserCreatepaymentIdsInput
 }
 
@@ -887,8 +613,8 @@ enum UserOrderByInput {
   phone_DESC
   subscribed_ASC
   subscribed_DESC
-  status_ASC
-  status_DESC
+  active_ASC
+  active_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -903,7 +629,7 @@ type UserPreviousValues {
   phone: String
   ips: [String!]!
   subscribed: Boolean!
-  status: Status!
+  active: Boolean!
   paymentIds: [String!]!
 }
 
@@ -980,10 +706,8 @@ input UserScalarWhereInput {
   phone_not_ends_with: String
   subscribed: Boolean
   subscribed_not: Boolean
-  status: Status
-  status_not: Status
-  status_in: [Status!]
-  status_not_in: [Status!]
+  active: Boolean
+  active_not: Boolean
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1015,7 +739,7 @@ input UserUpdateInput {
   ips: UserUpdateipsInput
   subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
-  status: Status
+  active: Boolean
   paymentIds: UserUpdatepaymentIdsInput
 }
 
@@ -1030,7 +754,7 @@ input UserUpdateManyDataInput {
   phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
-  status: Status
+  active: Boolean
   paymentIds: UserUpdatepaymentIdsInput
 }
 
@@ -1041,7 +765,7 @@ input UserUpdateManyMutationInput {
   phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
-  status: Status
+  active: Boolean
   paymentIds: UserUpdatepaymentIdsInput
 }
 
@@ -1072,7 +796,7 @@ input UserUpdateWithoutVideosDataInput {
   phone: String
   ips: UserUpdateipsInput
   subscribed: Boolean
-  status: Status
+  active: Boolean
   paymentIds: UserUpdatepaymentIdsInput
 }
 
@@ -1163,10 +887,8 @@ input UserWhereInput {
   videos_every: VideoWhereInput
   videos_some: VideoWhereInput
   videos_none: VideoWhereInput
-  status: Status
-  status_not: Status
-  status_in: [Status!]
-  status_not_in: [Status!]
+  active: Boolean
+  active_not: Boolean
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

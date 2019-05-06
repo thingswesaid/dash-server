@@ -5,23 +5,11 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
-    name: "AnonymousIp",
-    embedded: false
-  },
-  {
-    name: "Post",
-    embedded: false
-  },
-  {
     name: "Product",
     embedded: false
   },
   {
     name: "PromoVideo",
-    embedded: false
-  },
-  {
-    name: "Status",
     embedded: false
   },
   {
@@ -46,23 +34,11 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
 exports.prisma = new exports.Prisma();
 var models = [
   {
-    name: "AnonymousIp",
-    embedded: false
-  },
-  {
-    name: "Post",
-    embedded: false
-  },
-  {
     name: "Product",
     embedded: false
   },
   {
     name: "PromoVideo",
-    embedded: false
-  },
-  {
-    name: "Status",
     embedded: false
   },
   {

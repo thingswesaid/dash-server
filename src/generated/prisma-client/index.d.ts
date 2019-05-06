@@ -10,8 +10,6 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  anonymousIp: (where?: AnonymousIpWhereInput) => Promise<boolean>;
-  post: (where?: PostWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -37,52 +35,6 @@ export interface Prisma {
    * Queries
    */
 
-  anonymousIp: (where: AnonymousIpWhereUniqueInput) => AnonymousIpPromise;
-  anonymousIps: (
-    args?: {
-      where?: AnonymousIpWhereInput;
-      orderBy?: AnonymousIpOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => FragmentableArray<AnonymousIp>;
-  anonymousIpsConnection: (
-    args?: {
-      where?: AnonymousIpWhereInput;
-      orderBy?: AnonymousIpOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => AnonymousIpConnectionPromise;
-  post: (where: PostWhereUniqueInput) => PostPromise;
-  posts: (
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => FragmentableArray<Post>;
-  postsConnection: (
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => PostConnectionPromise;
   product: (where: ProductWhereUniqueInput) => ProductPromise;
   products: (
     args?: {
@@ -181,43 +133,6 @@ export interface Prisma {
    * Mutations
    */
 
-  createAnonymousIp: (data: AnonymousIpCreateInput) => AnonymousIpPromise;
-  updateAnonymousIp: (
-    args: { data: AnonymousIpUpdateInput; where: AnonymousIpWhereUniqueInput }
-  ) => AnonymousIpPromise;
-  updateManyAnonymousIps: (
-    args: {
-      data: AnonymousIpUpdateManyMutationInput;
-      where?: AnonymousIpWhereInput;
-    }
-  ) => BatchPayloadPromise;
-  upsertAnonymousIp: (
-    args: {
-      where: AnonymousIpWhereUniqueInput;
-      create: AnonymousIpCreateInput;
-      update: AnonymousIpUpdateInput;
-    }
-  ) => AnonymousIpPromise;
-  deleteAnonymousIp: (where: AnonymousIpWhereUniqueInput) => AnonymousIpPromise;
-  deleteManyAnonymousIps: (
-    where?: AnonymousIpWhereInput
-  ) => BatchPayloadPromise;
-  createPost: (data: PostCreateInput) => PostPromise;
-  updatePost: (
-    args: { data: PostUpdateInput; where: PostWhereUniqueInput }
-  ) => PostPromise;
-  updateManyPosts: (
-    args: { data: PostUpdateManyMutationInput; where?: PostWhereInput }
-  ) => BatchPayloadPromise;
-  upsertPost: (
-    args: {
-      where: PostWhereUniqueInput;
-      create: PostCreateInput;
-      update: PostUpdateInput;
-    }
-  ) => PostPromise;
-  deletePost: (where: PostWhereUniqueInput) => PostPromise;
-  deleteManyPosts: (where?: PostWhereInput) => BatchPayloadPromise;
   createProduct: (data: ProductCreateInput) => ProductPromise;
   updateProduct: (
     args: { data: ProductUpdateInput; where: ProductWhereUniqueInput }
@@ -294,12 +209,6 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  anonymousIp: (
-    where?: AnonymousIpSubscriptionWhereInput
-  ) => AnonymousIpSubscriptionPayloadSubscription;
-  post: (
-    where?: PostSubscriptionWhereInput
-  ) => PostSubscriptionPayloadSubscription;
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
@@ -321,34 +230,6 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
-
-export type Status = "ACTIVE" | "BLOCKED";
-
-export type AnonymousIpOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "status_ASC"
-  | "status_DESC"
-  | "ip_ASC"
-  | "ip_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type PostOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "published_ASC"
-  | "published_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "content_ASC"
-  | "content_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
 
 export type ProductOrderByInput =
   | "id_ASC"
@@ -439,110 +320,14 @@ export type UserOrderByInput =
   | "phone_DESC"
   | "subscribed_ASC"
   | "subscribed_DESC"
-  | "status_ASC"
-  | "status_DESC"
+  | "active_ASC"
+  | "active_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
-export type AnonymousIpWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface AnonymousIpWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  status?: Status;
-  status_not?: Status;
-  status_in?: Status[] | Status;
-  status_not_in?: Status[] | Status;
-  ip?: String;
-  ip_not?: String;
-  ip_in?: String[] | String;
-  ip_not_in?: String[] | String;
-  ip_lt?: String;
-  ip_lte?: String;
-  ip_gt?: String;
-  ip_gte?: String;
-  ip_contains?: String;
-  ip_not_contains?: String;
-  ip_starts_with?: String;
-  ip_not_starts_with?: String;
-  ip_ends_with?: String;
-  ip_not_ends_with?: String;
-  AND?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
-  OR?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
-  NOT?: AnonymousIpWhereInput[] | AnonymousIpWhereInput;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PostWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  published?: Boolean;
-  published_not?: Boolean;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  AND?: PostWhereInput[] | PostWhereInput;
-  OR?: PostWhereInput[] | PostWhereInput;
-  NOT?: PostWhereInput[] | PostWhereInput;
-}
 
 export type ProductWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -1012,10 +797,8 @@ export interface UserWhereInput {
   videos_every?: VideoWhereInput;
   videos_some?: VideoWhereInput;
   videos_none?: VideoWhereInput;
-  status?: Status;
-  status_not?: Status;
-  status_in?: Status[] | Status;
-  status_not_in?: Status[] | Status;
+  active?: Boolean;
+  active_not?: Boolean;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
@@ -1024,39 +807,6 @@ export interface UserWhereInput {
 export type VideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
-
-export interface AnonymousIpCreateInput {
-  status?: Status;
-  ip: String;
-}
-
-export interface AnonymousIpUpdateInput {
-  status?: Status;
-  ip?: String;
-}
-
-export interface AnonymousIpUpdateManyMutationInput {
-  status?: Status;
-  ip?: String;
-}
-
-export interface PostCreateInput {
-  published?: Boolean;
-  title: String;
-  content: String;
-}
-
-export interface PostUpdateInput {
-  published?: Boolean;
-  title?: String;
-  content?: String;
-}
-
-export interface PostUpdateManyMutationInput {
-  published?: Boolean;
-  title?: String;
-  content?: String;
-}
 
 export interface ProductCreateInput {
   link: String;
@@ -1126,7 +876,7 @@ export interface UserCreateInput {
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
   videos?: VideoCreateManyWithoutUsersInput;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserCreatepaymentIdsInput;
 }
 
@@ -1170,7 +920,7 @@ export interface UserUpdateInput {
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   videos?: VideoUpdateManyWithoutUsersInput;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserUpdatepaymentIdsInput;
 }
 
@@ -1396,7 +1146,7 @@ export interface UserUpdateManyMutationInput {
   phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserUpdatepaymentIdsInput;
 }
 
@@ -1428,7 +1178,7 @@ export interface UserCreateWithoutVideosInput {
   phone?: String;
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserCreatepaymentIdsInput;
 }
 
@@ -1477,7 +1227,7 @@ export interface UserUpdateWithoutVideosDataInput {
   phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserUpdatepaymentIdsInput;
 }
 
@@ -1560,10 +1310,8 @@ export interface UserScalarWhereInput {
   phone_not_ends_with?: String;
   subscribed?: Boolean;
   subscribed_not?: Boolean;
-  status?: Status;
-  status_not?: Status;
-  status_in?: Status[] | Status;
-  status_not_in?: Status[] | Status;
+  active?: Boolean;
+  active_not?: Boolean;
   AND?: UserScalarWhereInput[] | UserScalarWhereInput;
   OR?: UserScalarWhereInput[] | UserScalarWhereInput;
   NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
@@ -1581,7 +1329,7 @@ export interface UserUpdateManyDataInput {
   phone?: String;
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
-  status?: Status;
+  active?: Boolean;
   paymentIds?: UserUpdatepaymentIdsInput;
 }
 
@@ -1598,28 +1346,6 @@ export interface VideoUpdateManyMutationInput {
   orderIds?: VideoUpdateorderIdsInput;
   type?: VideoType;
   familyId?: String;
-}
-
-export interface AnonymousIpSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: AnonymousIpWhereInput;
-  AND?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
-  OR?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
-  NOT?: AnonymousIpSubscriptionWhereInput[] | AnonymousIpSubscriptionWhereInput;
-}
-
-export interface PostSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
 }
 
 export interface ProductSubscriptionWhereInput {
@@ -1670,174 +1396,6 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface AnonymousIp {
-  id: ID_Output;
-  status: Status;
-  ip: String;
-}
-
-export interface AnonymousIpPromise extends Promise<AnonymousIp>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  status: () => Promise<Status>;
-  ip: () => Promise<String>;
-}
-
-export interface AnonymousIpSubscription
-  extends Promise<AsyncIterator<AnonymousIp>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  status: () => Promise<AsyncIterator<Status>>;
-  ip: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AnonymousIpConnection {}
-
-export interface AnonymousIpConnectionPromise
-  extends Promise<AnonymousIpConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<AnonymousIpEdge>>() => T;
-  aggregate: <T = AggregateAnonymousIpPromise>() => T;
-}
-
-export interface AnonymousIpConnectionSubscription
-  extends Promise<AsyncIterator<AnonymousIpConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<AnonymousIpEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateAnonymousIpSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AnonymousIpEdge {
-  cursor: String;
-}
-
-export interface AnonymousIpEdgePromise
-  extends Promise<AnonymousIpEdge>,
-    Fragmentable {
-  node: <T = AnonymousIpPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface AnonymousIpEdgeSubscription
-  extends Promise<AsyncIterator<AnonymousIpEdge>>,
-    Fragmentable {
-  node: <T = AnonymousIpSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateAnonymousIp {
-  count: Int;
-}
-
-export interface AggregateAnonymousIpPromise
-  extends Promise<AggregateAnonymousIp>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateAnonymousIpSubscription
-  extends Promise<AsyncIterator<AggregateAnonymousIp>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Post {
-  id: ID_Output;
-  published: Boolean;
-  title: String;
-  content: String;
-}
-
-export interface PostPromise extends Promise<Post>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  published: () => Promise<Boolean>;
-  title: () => Promise<String>;
-  content: () => Promise<String>;
-}
-
-export interface PostSubscription
-  extends Promise<AsyncIterator<Post>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  title: () => Promise<AsyncIterator<String>>;
-  content: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostConnection {}
-
-export interface PostConnectionPromise
-  extends Promise<PostConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PostEdge>>() => T;
-  aggregate: <T = AggregatePostPromise>() => T;
-}
-
-export interface PostConnectionSubscription
-  extends Promise<AsyncIterator<PostConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePostSubscription>() => T;
-}
-
-export interface PostEdge {
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
-    Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregatePost {
-  count: Int;
-}
-
-export interface AggregatePostPromise
-  extends Promise<AggregatePost>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface Product {
   id: ID_Output;
   link: String;
@@ -1886,6 +1444,29 @@ export interface ProductConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
   aggregate: <T = AggregateProductSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductEdge {
@@ -2018,7 +1599,7 @@ export interface User {
   phone?: String;
   ips: String[];
   subscribed: Boolean;
-  status: Status;
+  active: Boolean;
   paymentIds: String[];
 }
 
@@ -2041,7 +1622,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
       last?: Int;
     }
   ) => T;
-  status: () => Promise<Status>;
+  active: () => Promise<Boolean>;
   paymentIds: () => Promise<String[]>;
 }
 
@@ -2066,7 +1647,7 @@ export interface UserSubscription
       last?: Int;
     }
   ) => T;
-  status: () => Promise<AsyncIterator<Status>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
   paymentIds: () => Promise<AsyncIterator<String[]>>;
 }
 
@@ -2258,99 +1839,6 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface AnonymousIpSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface AnonymousIpSubscriptionPayloadPromise
-  extends Promise<AnonymousIpSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = AnonymousIpPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = AnonymousIpPreviousValuesPromise>() => T;
-}
-
-export interface AnonymousIpSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<AnonymousIpSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = AnonymousIpSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = AnonymousIpPreviousValuesSubscription>() => T;
-}
-
-export interface AnonymousIpPreviousValues {
-  id: ID_Output;
-  status: Status;
-  ip: String;
-}
-
-export interface AnonymousIpPreviousValuesPromise
-  extends Promise<AnonymousIpPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  status: () => Promise<Status>;
-  ip: () => Promise<String>;
-}
-
-export interface AnonymousIpPreviousValuesSubscription
-  extends Promise<AsyncIterator<AnonymousIpPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  status: () => Promise<AsyncIterator<Status>>;
-  ip: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
-}
-
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
-}
-
-export interface PostPreviousValues {
-  id: ID_Output;
-  published: Boolean;
-  title: String;
-  content: String;
-}
-
-export interface PostPreviousValuesPromise
-  extends Promise<PostPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  published: () => Promise<Boolean>;
-  title: () => Promise<String>;
-  content: () => Promise<String>;
-}
-
-export interface PostPreviousValuesSubscription
-  extends Promise<AsyncIterator<PostPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  title: () => Promise<AsyncIterator<String>>;
-  content: () => Promise<AsyncIterator<String>>;
-}
-
 export interface ProductSubscriptionPayload {
   mutation: MutationType;
   updatedFields?: String[];
@@ -2502,7 +1990,7 @@ export interface UserPreviousValues {
   phone?: String;
   ips: String[];
   subscribed: Boolean;
-  status: Status;
+  active: Boolean;
   paymentIds: String[];
 }
 
@@ -2516,7 +2004,7 @@ export interface UserPreviousValuesPromise
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
-  status: () => Promise<Status>;
+  active: () => Promise<Boolean>;
   paymentIds: () => Promise<String[]>;
 }
 
@@ -2530,7 +2018,7 @@ export interface UserPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
-  status: () => Promise<AsyncIterator<Status>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
   paymentIds: () => Promise<AsyncIterator<String[]>>;
 }
 
@@ -2643,23 +2131,11 @@ export type Long = string;
 
 export const models = [
   {
-    name: "AnonymousIp",
-    embedded: false
-  },
-  {
-    name: "Post",
-    embedded: false
-  },
-  {
     name: "Product",
     embedded: false
   },
   {
     name: "PromoVideo",
-    embedded: false
-  },
-  {
-    name: "Status",
     embedded: false
   },
   {
