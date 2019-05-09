@@ -43,11 +43,10 @@ const resolvers = {
         id_contains: id, 
         name_contains: keywords, 
         published: true 
-      }})
+      }, first: 20})
     },
     userIp: (parent, args, context) => {
-      // return context.userIp();
-      return "HOME81-USER-IP";
+      return context.userIp();
     },
     async products(parent, args, context) {
       const items = await context.prisma.products();
