@@ -18,12 +18,12 @@ const resolvers = {
       
       const video = videos[0];
       const { id: videoId, familyId } = video;
-      const optsFamily = familyId ? { familyId } : {};
       const latestVideos = await context.prisma.videos({
-        where: {...optsFamily, ...{ id_not: videoId, published: true }}, 
+        where: { id_not: videoId, published: true }, 
         orderBy: 'createdAt_DESC', 
         first: 12
       });
+      const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
       const promoVideos = await context.prisma.promoVideos({ where: optsFamily });
       const promoVideo = promoVideos[Math.floor(Math.random() * promoVideos.length)];
