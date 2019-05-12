@@ -79,7 +79,6 @@ const resolvers = {
       paymentId 
     }, context) {
       const user = await context.prisma.user({ email });
-      const paymentIds = user ? [...user.paymentIds, paymentId] : [paymentId];
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       return context.prisma.upsertUser({
         where: { email }, 
@@ -90,11 +89,11 @@ const resolvers = {
           phone,
           ips: {set: updatedIps },
           videos: { connect: { id: videoId } },
-          paymentIds: { set: paymentIds }
+          payments: { create: { payId: paymentId } },
         }, update: {
           phone,
           videos: { connect: { id: videoId } },
-          paymentIds: { set: paymentIds },
+          payments: { create: { payId: paymentId } },
           ips: {set: updatedIps },
         }
       }); 

@@ -1,5 +1,9 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateProduct {
+        typeDefs: /* GraphQL */ `type AggregatePayment {
+  count: Int!
+}
+
+type AggregateProduct {
   count: Int!
 }
 
@@ -19,9 +23,17 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
+  createPayment(data: PaymentCreateInput!): Payment!
+  updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
+  updateManyPayments(data: PaymentUpdateManyMutationInput!, where: PaymentWhereInput): BatchPayload!
+  upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
+  deletePayment(where: PaymentWhereUniqueInput!): Payment
+  deleteManyPayments(where: PaymentWhereInput): BatchPayload!
   createProduct(data: ProductCreateInput!): Product!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
@@ -63,6 +75,217 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type Payment {
+  id: ID!
+  payId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PaymentConnection {
+  pageInfo: PageInfo!
+  edges: [PaymentEdge]!
+  aggregate: AggregatePayment!
+}
+
+input PaymentCreateInput {
+  payId: String!
+}
+
+input PaymentCreateManyInput {
+  create: [PaymentCreateInput!]
+  connect: [PaymentWhereUniqueInput!]
+}
+
+type PaymentEdge {
+  node: Payment!
+  cursor: String!
+}
+
+enum PaymentOrderByInput {
+  id_ASC
+  id_DESC
+  payId_ASC
+  payId_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PaymentPreviousValues {
+  id: ID!
+  payId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input PaymentScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  payId: String
+  payId_not: String
+  payId_in: [String!]
+  payId_not_in: [String!]
+  payId_lt: String
+  payId_lte: String
+  payId_gt: String
+  payId_gte: String
+  payId_contains: String
+  payId_not_contains: String
+  payId_starts_with: String
+  payId_not_starts_with: String
+  payId_ends_with: String
+  payId_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [PaymentScalarWhereInput!]
+  OR: [PaymentScalarWhereInput!]
+  NOT: [PaymentScalarWhereInput!]
+}
+
+type PaymentSubscriptionPayload {
+  mutation: MutationType!
+  node: Payment
+  updatedFields: [String!]
+  previousValues: PaymentPreviousValues
+}
+
+input PaymentSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PaymentWhereInput
+  AND: [PaymentSubscriptionWhereInput!]
+  OR: [PaymentSubscriptionWhereInput!]
+  NOT: [PaymentSubscriptionWhereInput!]
+}
+
+input PaymentUpdateDataInput {
+  payId: String
+}
+
+input PaymentUpdateInput {
+  payId: String
+}
+
+input PaymentUpdateManyDataInput {
+  payId: String
+}
+
+input PaymentUpdateManyInput {
+  create: [PaymentCreateInput!]
+  update: [PaymentUpdateWithWhereUniqueNestedInput!]
+  upsert: [PaymentUpsertWithWhereUniqueNestedInput!]
+  delete: [PaymentWhereUniqueInput!]
+  connect: [PaymentWhereUniqueInput!]
+  disconnect: [PaymentWhereUniqueInput!]
+  deleteMany: [PaymentScalarWhereInput!]
+  updateMany: [PaymentUpdateManyWithWhereNestedInput!]
+}
+
+input PaymentUpdateManyMutationInput {
+  payId: String
+}
+
+input PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput!
+  data: PaymentUpdateManyDataInput!
+}
+
+input PaymentUpdateWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput!
+  data: PaymentUpdateDataInput!
+}
+
+input PaymentUpsertWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput!
+  update: PaymentUpdateDataInput!
+  create: PaymentCreateInput!
+}
+
+input PaymentWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  payId: String
+  payId_not: String
+  payId_in: [String!]
+  payId_not_in: [String!]
+  payId_lt: String
+  payId_lte: String
+  payId_gt: String
+  payId_gte: String
+  payId_contains: String
+  payId_not_contains: String
+  payId_starts_with: String
+  payId_not_starts_with: String
+  payId_ends_with: String
+  payId_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [PaymentWhereInput!]
+  OR: [PaymentWhereInput!]
+  NOT: [PaymentWhereInput!]
+}
+
+input PaymentWhereUniqueInput {
+  id: ID
+  payId: String
 }
 
 type Product {
@@ -518,6 +741,9 @@ input PromoVideoWhereUniqueInput {
 }
 
 type Query {
+  payment(where: PaymentWhereUniqueInput!): Payment
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment]!
+  paymentsConnection(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PaymentConnection!
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
@@ -534,6 +760,7 @@ type Query {
 }
 
 type Subscription {
+  payment(where: PaymentSubscriptionWhereInput): PaymentSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -550,7 +777,7 @@ type User {
   subscribed: Boolean!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
   active: Boolean!
-  paymentIds: [String!]!
+  payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
 }
 
 type UserConnection {
@@ -568,7 +795,7 @@ input UserCreateInput {
   subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
   active: Boolean
-  paymentIds: UserCreatepaymentIdsInput
+  payments: PaymentCreateManyInput
 }
 
 input UserCreateipsInput {
@@ -580,10 +807,6 @@ input UserCreateManyWithoutVideosInput {
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreatepaymentIdsInput {
-  set: [String!]
-}
-
 input UserCreateWithoutVideosInput {
   firstName: String
   lastName: String
@@ -592,7 +815,7 @@ input UserCreateWithoutVideosInput {
   ips: UserCreateipsInput
   subscribed: Boolean
   active: Boolean
-  paymentIds: UserCreatepaymentIdsInput
+  payments: PaymentCreateManyInput
 }
 
 type UserEdge {
@@ -630,7 +853,6 @@ type UserPreviousValues {
   ips: [String!]!
   subscribed: Boolean!
   active: Boolean!
-  paymentIds: [String!]!
 }
 
 input UserScalarWhereInput {
@@ -740,7 +962,7 @@ input UserUpdateInput {
   subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
   active: Boolean
-  paymentIds: UserUpdatepaymentIdsInput
+  payments: PaymentUpdateManyInput
 }
 
 input UserUpdateipsInput {
@@ -755,7 +977,6 @@ input UserUpdateManyDataInput {
   ips: UserUpdateipsInput
   subscribed: Boolean
   active: Boolean
-  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateManyMutationInput {
@@ -766,7 +987,6 @@ input UserUpdateManyMutationInput {
   ips: UserUpdateipsInput
   subscribed: Boolean
   active: Boolean
-  paymentIds: UserUpdatepaymentIdsInput
 }
 
 input UserUpdateManyWithoutVideosInput {
@@ -785,10 +1005,6 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdatepaymentIdsInput {
-  set: [String!]
-}
-
 input UserUpdateWithoutVideosDataInput {
   firstName: String
   lastName: String
@@ -797,7 +1013,7 @@ input UserUpdateWithoutVideosDataInput {
   ips: UserUpdateipsInput
   subscribed: Boolean
   active: Boolean
-  paymentIds: UserUpdatepaymentIdsInput
+  payments: PaymentUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueWithoutVideosInput {
@@ -889,6 +1105,9 @@ input UserWhereInput {
   videos_none: VideoWhereInput
   active: Boolean
   active_not: Boolean
+  payments_every: PaymentWhereInput
+  payments_some: PaymentWhereInput
+  payments_none: PaymentWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -911,7 +1130,6 @@ type Video {
   published: Boolean!
   amount: Float
   start: Int!
-  orderIds: [String!]!
   type: VideoType!
   familyId: String
 }
@@ -933,7 +1151,6 @@ input VideoCreateInput {
   published: Boolean
   amount: Float
   start: Int!
-  orderIds: VideoCreateorderIdsInput
   type: VideoType!
   familyId: String
 }
@@ -941,10 +1158,6 @@ input VideoCreateInput {
 input VideoCreateManyWithoutUsersInput {
   create: [VideoCreateWithoutUsersInput!]
   connect: [VideoWhereUniqueInput!]
-}
-
-input VideoCreateorderIdsInput {
-  set: [String!]
 }
 
 input VideoCreateWithoutUsersInput {
@@ -957,7 +1170,6 @@ input VideoCreateWithoutUsersInput {
   published: Boolean
   amount: Float
   start: Int!
-  orderIds: VideoCreateorderIdsInput
   type: VideoType!
   familyId: String
 }
@@ -1009,7 +1221,6 @@ type VideoPreviousValues {
   published: Boolean!
   amount: Float
   start: Int!
-  orderIds: [String!]!
   type: VideoType!
   familyId: String
 }
@@ -1188,7 +1399,6 @@ input VideoUpdateInput {
   published: Boolean
   amount: Float
   start: Int
-  orderIds: VideoUpdateorderIdsInput
   type: VideoType
   familyId: String
 }
@@ -1203,7 +1413,6 @@ input VideoUpdateManyDataInput {
   published: Boolean
   amount: Float
   start: Int
-  orderIds: VideoUpdateorderIdsInput
   type: VideoType
   familyId: String
 }
@@ -1218,7 +1427,6 @@ input VideoUpdateManyMutationInput {
   published: Boolean
   amount: Float
   start: Int
-  orderIds: VideoUpdateorderIdsInput
   type: VideoType
   familyId: String
 }
@@ -1239,10 +1447,6 @@ input VideoUpdateManyWithWhereNestedInput {
   data: VideoUpdateManyDataInput!
 }
 
-input VideoUpdateorderIdsInput {
-  set: [String!]
-}
-
 input VideoUpdateWithoutUsersDataInput {
   name: String
   title: String
@@ -1253,7 +1457,6 @@ input VideoUpdateWithoutUsersDataInput {
   published: Boolean
   amount: Float
   start: Int
-  orderIds: VideoUpdateorderIdsInput
   type: VideoType
   familyId: String
 }

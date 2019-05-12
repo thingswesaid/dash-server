@@ -10,6 +10,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  payment: (where?: PaymentWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -35,6 +36,29 @@ export interface Prisma {
    * Queries
    */
 
+  payment: (where: PaymentWhereUniqueInput) => PaymentPromise;
+  payments: (
+    args?: {
+      where?: PaymentWhereInput;
+      orderBy?: PaymentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Payment>;
+  paymentsConnection: (
+    args?: {
+      where?: PaymentWhereInput;
+      orderBy?: PaymentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PaymentConnectionPromise;
   product: (where: ProductWhereUniqueInput) => ProductPromise;
   products: (
     args?: {
@@ -133,6 +157,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createPayment: (data: PaymentCreateInput) => PaymentPromise;
+  updatePayment: (
+    args: { data: PaymentUpdateInput; where: PaymentWhereUniqueInput }
+  ) => PaymentPromise;
+  updateManyPayments: (
+    args: { data: PaymentUpdateManyMutationInput; where?: PaymentWhereInput }
+  ) => BatchPayloadPromise;
+  upsertPayment: (
+    args: {
+      where: PaymentWhereUniqueInput;
+      create: PaymentCreateInput;
+      update: PaymentUpdateInput;
+    }
+  ) => PaymentPromise;
+  deletePayment: (where: PaymentWhereUniqueInput) => PaymentPromise;
+  deleteManyPayments: (where?: PaymentWhereInput) => BatchPayloadPromise;
   createProduct: (data: ProductCreateInput) => ProductPromise;
   updateProduct: (
     args: { data: ProductUpdateInput; where: ProductWhereUniqueInput }
@@ -209,6 +249,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  payment: (
+    where?: PaymentSubscriptionWhereInput
+  ) => PaymentSubscriptionPayloadSubscription;
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
@@ -230,6 +273,16 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type PaymentOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "payId_ASC"
+  | "payId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type ProductOrderByInput =
   | "id_ASC"
@@ -328,6 +381,61 @@ export type UserOrderByInput =
   | "updatedAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export type PaymentWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  payId?: String;
+}>;
+
+export interface PaymentWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  payId?: String;
+  payId_not?: String;
+  payId_in?: String[] | String;
+  payId_not_in?: String[] | String;
+  payId_lt?: String;
+  payId_lte?: String;
+  payId_gt?: String;
+  payId_gte?: String;
+  payId_contains?: String;
+  payId_not_contains?: String;
+  payId_starts_with?: String;
+  payId_not_starts_with?: String;
+  payId_ends_with?: String;
+  payId_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: PaymentWhereInput[] | PaymentWhereInput;
+  OR?: PaymentWhereInput[] | PaymentWhereInput;
+  NOT?: PaymentWhereInput[] | PaymentWhereInput;
+}
 
 export type ProductWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -799,6 +907,9 @@ export interface UserWhereInput {
   videos_none?: VideoWhereInput;
   active?: Boolean;
   active_not?: Boolean;
+  payments_every?: PaymentWhereInput;
+  payments_some?: PaymentWhereInput;
+  payments_none?: PaymentWhereInput;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
@@ -807,6 +918,18 @@ export interface UserWhereInput {
 export type VideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export interface PaymentCreateInput {
+  payId: String;
+}
+
+export interface PaymentUpdateInput {
+  payId?: String;
+}
+
+export interface PaymentUpdateManyMutationInput {
+  payId?: String;
+}
 
 export interface ProductCreateInput {
   link: String;
@@ -877,7 +1000,7 @@ export interface UserCreateInput {
   subscribed?: Boolean;
   videos?: VideoCreateManyWithoutUsersInput;
   active?: Boolean;
-  paymentIds?: UserCreatepaymentIdsInput;
+  payments?: PaymentCreateManyInput;
 }
 
 export interface UserCreateipsInput {
@@ -899,17 +1022,13 @@ export interface VideoCreateWithoutUsersInput {
   published?: Boolean;
   amount?: Float;
   start: Int;
-  orderIds?: VideoCreateorderIdsInput;
   type: VideoType;
   familyId?: String;
 }
 
-export interface VideoCreateorderIdsInput {
-  set?: String[] | String;
-}
-
-export interface UserCreatepaymentIdsInput {
-  set?: String[] | String;
+export interface PaymentCreateManyInput {
+  create?: PaymentCreateInput[] | PaymentCreateInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
 }
 
 export interface UserUpdateInput {
@@ -921,7 +1040,7 @@ export interface UserUpdateInput {
   subscribed?: Boolean;
   videos?: VideoUpdateManyWithoutUsersInput;
   active?: Boolean;
-  paymentIds?: UserUpdatepaymentIdsInput;
+  payments?: PaymentUpdateManyInput;
 }
 
 export interface UserUpdateipsInput {
@@ -960,13 +1079,8 @@ export interface VideoUpdateWithoutUsersDataInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
-  orderIds?: VideoUpdateorderIdsInput;
   type?: VideoType;
   familyId?: String;
-}
-
-export interface VideoUpdateorderIdsInput {
-  set?: String[] | String;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -1130,13 +1244,99 @@ export interface VideoUpdateManyDataInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
-  orderIds?: VideoUpdateorderIdsInput;
   type?: VideoType;
   familyId?: String;
 }
 
-export interface UserUpdatepaymentIdsInput {
-  set?: String[] | String;
+export interface PaymentUpdateManyInput {
+  create?: PaymentCreateInput[] | PaymentCreateInput;
+  update?:
+    | PaymentUpdateWithWhereUniqueNestedInput[]
+    | PaymentUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | PaymentUpsertWithWhereUniqueNestedInput[]
+    | PaymentUpsertWithWhereUniqueNestedInput;
+  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  updateMany?:
+    | PaymentUpdateManyWithWhereNestedInput[]
+    | PaymentUpdateManyWithWhereNestedInput;
+}
+
+export interface PaymentUpdateWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput;
+  data: PaymentUpdateDataInput;
+}
+
+export interface PaymentUpdateDataInput {
+  payId?: String;
+}
+
+export interface PaymentUpsertWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput;
+  update: PaymentUpdateDataInput;
+  create: PaymentCreateInput;
+}
+
+export interface PaymentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  payId?: String;
+  payId_not?: String;
+  payId_in?: String[] | String;
+  payId_not_in?: String[] | String;
+  payId_lt?: String;
+  payId_lte?: String;
+  payId_gt?: String;
+  payId_gte?: String;
+  payId_contains?: String;
+  payId_not_contains?: String;
+  payId_starts_with?: String;
+  payId_not_starts_with?: String;
+  payId_ends_with?: String;
+  payId_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+}
+
+export interface PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput;
+  data: PaymentUpdateManyDataInput;
+}
+
+export interface PaymentUpdateManyDataInput {
+  payId?: String;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1147,7 +1347,6 @@ export interface UserUpdateManyMutationInput {
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   active?: Boolean;
-  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface VideoCreateInput {
@@ -1161,7 +1360,6 @@ export interface VideoCreateInput {
   published?: Boolean;
   amount?: Float;
   start: Int;
-  orderIds?: VideoCreateorderIdsInput;
   type: VideoType;
   familyId?: String;
 }
@@ -1179,7 +1377,7 @@ export interface UserCreateWithoutVideosInput {
   ips?: UserCreateipsInput;
   subscribed?: Boolean;
   active?: Boolean;
-  paymentIds?: UserCreatepaymentIdsInput;
+  payments?: PaymentCreateManyInput;
 }
 
 export interface VideoUpdateInput {
@@ -1193,7 +1391,6 @@ export interface VideoUpdateInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
-  orderIds?: VideoUpdateorderIdsInput;
   type?: VideoType;
   familyId?: String;
 }
@@ -1228,7 +1425,7 @@ export interface UserUpdateWithoutVideosDataInput {
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   active?: Boolean;
-  paymentIds?: UserUpdatepaymentIdsInput;
+  payments?: PaymentUpdateManyInput;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutVideosInput {
@@ -1330,7 +1527,6 @@ export interface UserUpdateManyDataInput {
   ips?: UserUpdateipsInput;
   subscribed?: Boolean;
   active?: Boolean;
-  paymentIds?: UserUpdatepaymentIdsInput;
 }
 
 export interface VideoUpdateManyMutationInput {
@@ -1343,9 +1539,19 @@ export interface VideoUpdateManyMutationInput {
   published?: Boolean;
   amount?: Float;
   start?: Int;
-  orderIds?: VideoUpdateorderIdsInput;
   type?: VideoType;
   familyId?: String;
+}
+
+export interface PaymentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PaymentWhereInput;
+  AND?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+  OR?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+  NOT?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
 }
 
 export interface ProductSubscriptionWhereInput {
@@ -1396,6 +1602,102 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Payment {
+  id: ID_Output;
+  payId: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PaymentPromise extends Promise<Payment>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  payId: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PaymentSubscription
+  extends Promise<AsyncIterator<Payment>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  payId: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PaymentConnection {}
+
+export interface PaymentConnectionPromise
+  extends Promise<PaymentConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PaymentEdge>>() => T;
+  aggregate: <T = AggregatePaymentPromise>() => T;
+}
+
+export interface PaymentConnectionSubscription
+  extends Promise<AsyncIterator<PaymentConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PaymentEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePaymentSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PaymentEdge {
+  cursor: String;
+}
+
+export interface PaymentEdgePromise extends Promise<PaymentEdge>, Fragmentable {
+  node: <T = PaymentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PaymentEdgeSubscription
+  extends Promise<AsyncIterator<PaymentEdge>>,
+    Fragmentable {
+  node: <T = PaymentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePayment {
+  count: Int;
+}
+
+export interface AggregatePaymentPromise
+  extends Promise<AggregatePayment>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePaymentSubscription
+  extends Promise<AsyncIterator<AggregatePayment>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface Product {
   id: ID_Output;
   link: String;
@@ -1444,29 +1746,6 @@ export interface ProductConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
   aggregate: <T = AggregateProductSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductEdge {
@@ -1600,7 +1879,6 @@ export interface User {
   ips: String[];
   subscribed: Boolean;
   active: Boolean;
-  paymentIds: String[];
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -1623,7 +1901,17 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     }
   ) => T;
   active: () => Promise<Boolean>;
-  paymentIds: () => Promise<String[]>;
+  payments: <T = FragmentableArray<Payment>>(
+    args?: {
+      where?: PaymentWhereInput;
+      orderBy?: PaymentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface UserSubscription
@@ -1648,7 +1936,17 @@ export interface UserSubscription
     }
   ) => T;
   active: () => Promise<AsyncIterator<Boolean>>;
-  paymentIds: () => Promise<AsyncIterator<String[]>>;
+  payments: <T = Promise<AsyncIterator<PaymentSubscription>>>(
+    args?: {
+      where?: PaymentWhereInput;
+      orderBy?: PaymentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface Video {
@@ -1662,7 +1960,6 @@ export interface Video {
   published: Boolean;
   amount?: Float;
   start: Int;
-  orderIds: String[];
   type: VideoType;
   familyId?: String;
 }
@@ -1689,7 +1986,6 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   published: () => Promise<Boolean>;
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
-  orderIds: () => Promise<String[]>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
 }
@@ -1718,7 +2014,6 @@ export interface VideoSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
-  orderIds: () => Promise<AsyncIterator<String[]>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
 }
@@ -1837,6 +2132,54 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface PaymentSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface PaymentSubscriptionPayloadPromise
+  extends Promise<PaymentSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PaymentPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PaymentPreviousValuesPromise>() => T;
+}
+
+export interface PaymentSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PaymentSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PaymentSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PaymentPreviousValuesSubscription>() => T;
+}
+
+export interface PaymentPreviousValues {
+  id: ID_Output;
+  payId: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PaymentPreviousValuesPromise
+  extends Promise<PaymentPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  payId: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PaymentPreviousValuesSubscription
+  extends Promise<AsyncIterator<PaymentPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  payId: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface ProductSubscriptionPayload {
@@ -1991,7 +2334,6 @@ export interface UserPreviousValues {
   ips: String[];
   subscribed: Boolean;
   active: Boolean;
-  paymentIds: String[];
 }
 
 export interface UserPreviousValuesPromise
@@ -2005,7 +2347,6 @@ export interface UserPreviousValuesPromise
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
   active: () => Promise<Boolean>;
-  paymentIds: () => Promise<String[]>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -2019,7 +2360,6 @@ export interface UserPreviousValuesSubscription
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
   active: () => Promise<AsyncIterator<Boolean>>;
-  paymentIds: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface VideoSubscriptionPayload {
@@ -2056,7 +2396,6 @@ export interface VideoPreviousValues {
   published: Boolean;
   amount?: Float;
   start: Int;
-  orderIds: String[];
   type: VideoType;
   familyId?: String;
 }
@@ -2074,7 +2413,6 @@ export interface VideoPreviousValuesPromise
   published: () => Promise<Boolean>;
   amount: () => Promise<Float>;
   start: () => Promise<Int>;
-  orderIds: () => Promise<String[]>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
 }
@@ -2092,7 +2430,6 @@ export interface VideoPreviousValuesSubscription
   published: () => Promise<AsyncIterator<Boolean>>;
   amount: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
-  orderIds: () => Promise<AsyncIterator<String[]>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
 }
@@ -2107,6 +2444,16 @@ export type ID_Output = string;
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
+
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
@@ -2130,6 +2477,10 @@ export type Long = string;
  */
 
 export const models = [
+  {
+    name: "Payment",
+    embedded: false
+  },
   {
     name: "Product",
     embedded: false
