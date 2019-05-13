@@ -25,6 +25,7 @@ type Video {
   start: Int!
   type: VideoType!
   familyId: String @default(value: "")
+  promoVideo: PromoVideo
 }
 
 type PromoVideo {

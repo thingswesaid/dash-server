@@ -824,6 +824,7 @@ export interface VideoWhereInput {
   familyId_not_starts_with?: String;
   familyId_ends_with?: String;
   familyId_not_ends_with?: String;
+  promoVideo?: PromoVideoWhereInput;
   AND?: VideoWhereInput[] | VideoWhereInput;
   OR?: VideoWhereInput[] | VideoWhereInput;
   NOT?: VideoWhereInput[] | VideoWhereInput;
@@ -1024,6 +1025,12 @@ export interface VideoCreateWithoutUsersInput {
   start: Int;
   type: VideoType;
   familyId?: String;
+  promoVideo?: PromoVideoCreateOneInput;
+}
+
+export interface PromoVideoCreateOneInput {
+  create?: PromoVideoCreateInput;
+  connect?: PromoVideoWhereUniqueInput;
 }
 
 export interface PaymentCreateManyInput {
@@ -1081,6 +1088,32 @@ export interface VideoUpdateWithoutUsersDataInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
+  promoVideo?: PromoVideoUpdateOneInput;
+}
+
+export interface PromoVideoUpdateOneInput {
+  create?: PromoVideoCreateInput;
+  update?: PromoVideoUpdateDataInput;
+  upsert?: PromoVideoUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: PromoVideoWhereUniqueInput;
+}
+
+export interface PromoVideoUpdateDataInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  familyId?: String;
+  banner?: String;
+  bannerMobile?: String;
+}
+
+export interface PromoVideoUpsertNestedInput {
+  update: PromoVideoUpdateDataInput;
+  create: PromoVideoCreateInput;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -1362,6 +1395,7 @@ export interface VideoCreateInput {
   start: Int;
   type: VideoType;
   familyId?: String;
+  promoVideo?: PromoVideoCreateOneInput;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -1393,6 +1427,7 @@ export interface VideoUpdateInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
+  promoVideo?: PromoVideoUpdateOneInput;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -1988,6 +2023,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
+  promoVideo: <T = PromoVideoPromise>() => T;
 }
 
 export interface VideoSubscription
@@ -2016,6 +2052,7 @@ export interface VideoSubscription
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
+  promoVideo: <T = PromoVideoSubscription>() => T;
 }
 
 export interface UserConnection {}

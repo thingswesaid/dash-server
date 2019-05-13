@@ -17,7 +17,7 @@ const resolvers = {
       }
       
       const video = videos[0];
-      const { id: videoId, familyId } = video;
+      const { id: videoId, familyId, promoVideo } = video;
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true }, 
         orderBy: 'createdAt_DESC', 
@@ -25,8 +25,9 @@ const resolvers = {
       });
       const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
-      const promoVideos = await context.prisma.promoVideos({ where: optsFamily });
-      const promoVideo = promoVideos[Math.floor(Math.random() * promoVideos.length)];
+
+      const promoVideos = promoVideo ? [promoVideo] : await context.prisma.promoVideos({ where: optsFamily });
+      const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
 
       const user = await context.prisma.users({ where: { email } });
       const { active } = user.length ? user[0] : {};
@@ -34,7 +35,7 @@ const resolvers = {
       return {
         video,
         latestVideos: latestVideosFormat,
-        promoVideo,
+        promoVideo: promoVideoSelect,
         userActive: user.length ? active : true,
       };
     },

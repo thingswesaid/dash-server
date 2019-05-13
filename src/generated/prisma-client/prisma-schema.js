@@ -522,6 +522,11 @@ input PromoVideoCreateInput {
   bannerMobile: String!
 }
 
+input PromoVideoCreateOneInput {
+  create: PromoVideoCreateInput
+  connect: PromoVideoWhereUniqueInput
+}
+
 type PromoVideoEdge {
   node: PromoVideo!
   cursor: String!
@@ -582,6 +587,17 @@ input PromoVideoSubscriptionWhereInput {
   NOT: [PromoVideoSubscriptionWhereInput!]
 }
 
+input PromoVideoUpdateDataInput {
+  link: String
+  title: String
+  description: String
+  image: String
+  placeholder: String
+  familyId: String
+  banner: String
+  bannerMobile: String
+}
+
 input PromoVideoUpdateInput {
   link: String
   title: String
@@ -602,6 +618,20 @@ input PromoVideoUpdateManyMutationInput {
   familyId: String
   banner: String
   bannerMobile: String
+}
+
+input PromoVideoUpdateOneInput {
+  create: PromoVideoCreateInput
+  update: PromoVideoUpdateDataInput
+  upsert: PromoVideoUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PromoVideoWhereUniqueInput
+}
+
+input PromoVideoUpsertNestedInput {
+  update: PromoVideoUpdateDataInput!
+  create: PromoVideoCreateInput!
 }
 
 input PromoVideoWhereInput {
@@ -1132,6 +1162,7 @@ type Video {
   start: Int!
   type: VideoType!
   familyId: String
+  promoVideo: PromoVideo
 }
 
 type VideoConnection {
@@ -1153,6 +1184,7 @@ input VideoCreateInput {
   start: Int!
   type: VideoType!
   familyId: String
+  promoVideo: PromoVideoCreateOneInput
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -1172,6 +1204,7 @@ input VideoCreateWithoutUsersInput {
   start: Int!
   type: VideoType!
   familyId: String
+  promoVideo: PromoVideoCreateOneInput
 }
 
 type VideoEdge {
@@ -1401,6 +1434,7 @@ input VideoUpdateInput {
   start: Int
   type: VideoType
   familyId: String
+  promoVideo: PromoVideoUpdateOneInput
 }
 
 input VideoUpdateManyDataInput {
@@ -1459,6 +1493,7 @@ input VideoUpdateWithoutUsersDataInput {
   start: Int
   type: VideoType
   familyId: String
+  promoVideo: PromoVideoUpdateOneInput
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -1610,6 +1645,7 @@ input VideoWhereInput {
   familyId_not_starts_with: String
   familyId_ends_with: String
   familyId_not_ends_with: String
+  promoVideo: PromoVideoWhereInput
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]
