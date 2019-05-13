@@ -42,10 +42,7 @@ type Video {
   start: Int!
   type: String
   familyId: String
-}
-
-type AnonymousIp {
-  ip: String!
+  promoVideo: PromoVideo
 }
 
 type PromoVideo {
@@ -55,8 +52,15 @@ type PromoVideo {
   description: String!
   image: String!
   placeholder: String
+  familyId: String!
   banner: String!
   bannerMobile: String!
+  type: VideoType!
+  video: Video
+}
+
+type AnonymousIp {
+  ip: String!
 }
 
 type Product {
@@ -84,4 +88,9 @@ type VideoPage {
 enum Status {
   ACTIVE
   BLOCKED
+}
+
+enum VideoType {
+  ZODIAC
+  PICKACARD
 }

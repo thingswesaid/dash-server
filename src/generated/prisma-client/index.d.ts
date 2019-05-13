@@ -304,31 +304,27 @@ export type ProductOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type PromoVideoOrderByInput =
+export type VideoType = "ZODIAC" | "PICKACARD";
+
+export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "link_ASC"
-  | "link_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "image_ASC"
-  | "image_DESC"
-  | "placeholder_ASC"
-  | "placeholder_DESC"
-  | "familyId_ASC"
-  | "familyId_DESC"
-  | "banner_ASC"
-  | "banner_DESC"
-  | "bannerMobile_ASC"
-  | "bannerMobile_DESC"
+  | "firstName_ASC"
+  | "firstName_DESC"
+  | "lastName_ASC"
+  | "lastName_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
+  | "subscribed_ASC"
+  | "subscribed_DESC"
+  | "active_ASC"
+  | "active_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
-
-export type VideoType = "ZODIAC" | "PICKACARD";
 
 export type VideoOrderByInput =
   | "id_ASC"
@@ -360,21 +356,27 @@ export type VideoOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type UserOrderByInput =
+export type PromoVideoOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "firstName_ASC"
-  | "firstName_DESC"
-  | "lastName_ASC"
-  | "lastName_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "phone_ASC"
-  | "phone_DESC"
-  | "subscribed_ASC"
-  | "subscribed_DESC"
-  | "active_ASC"
-  | "active_DESC"
+  | "link_ASC"
+  | "link_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "placeholder_ASC"
+  | "placeholder_DESC"
+  | "familyId_ASC"
+  | "familyId_DESC"
+  | "banner_ASC"
+  | "banner_DESC"
+  | "bannerMobile_ASC"
+  | "bannerMobile_DESC"
+  | "type_ASC"
+  | "type_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -549,7 +551,7 @@ export type PromoVideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PromoVideoWhereInput {
+export interface UserWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -564,127 +566,76 @@ export interface PromoVideoWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  link?: String;
-  link_not?: String;
-  link_in?: String[] | String;
-  link_not_in?: String[] | String;
-  link_lt?: String;
-  link_lte?: String;
-  link_gt?: String;
-  link_gte?: String;
-  link_contains?: String;
-  link_not_contains?: String;
-  link_starts_with?: String;
-  link_not_starts_with?: String;
-  link_ends_with?: String;
-  link_not_ends_with?: String;
-  title?: String;
-  title_not?: String;
-  title_in?: String[] | String;
-  title_not_in?: String[] | String;
-  title_lt?: String;
-  title_lte?: String;
-  title_gt?: String;
-  title_gte?: String;
-  title_contains?: String;
-  title_not_contains?: String;
-  title_starts_with?: String;
-  title_not_starts_with?: String;
-  title_ends_with?: String;
-  title_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  image?: String;
-  image_not?: String;
-  image_in?: String[] | String;
-  image_not_in?: String[] | String;
-  image_lt?: String;
-  image_lte?: String;
-  image_gt?: String;
-  image_gte?: String;
-  image_contains?: String;
-  image_not_contains?: String;
-  image_starts_with?: String;
-  image_not_starts_with?: String;
-  image_ends_with?: String;
-  image_not_ends_with?: String;
-  placeholder?: String;
-  placeholder_not?: String;
-  placeholder_in?: String[] | String;
-  placeholder_not_in?: String[] | String;
-  placeholder_lt?: String;
-  placeholder_lte?: String;
-  placeholder_gt?: String;
-  placeholder_gte?: String;
-  placeholder_contains?: String;
-  placeholder_not_contains?: String;
-  placeholder_starts_with?: String;
-  placeholder_not_starts_with?: String;
-  placeholder_ends_with?: String;
-  placeholder_not_ends_with?: String;
-  familyId?: String;
-  familyId_not?: String;
-  familyId_in?: String[] | String;
-  familyId_not_in?: String[] | String;
-  familyId_lt?: String;
-  familyId_lte?: String;
-  familyId_gt?: String;
-  familyId_gte?: String;
-  familyId_contains?: String;
-  familyId_not_contains?: String;
-  familyId_starts_with?: String;
-  familyId_not_starts_with?: String;
-  familyId_ends_with?: String;
-  familyId_not_ends_with?: String;
-  banner?: String;
-  banner_not?: String;
-  banner_in?: String[] | String;
-  banner_not_in?: String[] | String;
-  banner_lt?: String;
-  banner_lte?: String;
-  banner_gt?: String;
-  banner_gte?: String;
-  banner_contains?: String;
-  banner_not_contains?: String;
-  banner_starts_with?: String;
-  banner_not_starts_with?: String;
-  banner_ends_with?: String;
-  banner_not_ends_with?: String;
-  bannerMobile?: String;
-  bannerMobile_not?: String;
-  bannerMobile_in?: String[] | String;
-  bannerMobile_not_in?: String[] | String;
-  bannerMobile_lt?: String;
-  bannerMobile_lte?: String;
-  bannerMobile_gt?: String;
-  bannerMobile_gte?: String;
-  bannerMobile_contains?: String;
-  bannerMobile_not_contains?: String;
-  bannerMobile_starts_with?: String;
-  bannerMobile_not_starts_with?: String;
-  bannerMobile_ends_with?: String;
-  bannerMobile_not_ends_with?: String;
-  AND?: PromoVideoWhereInput[] | PromoVideoWhereInput;
-  OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
-  NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
+  firstName?: String;
+  firstName_not?: String;
+  firstName_in?: String[] | String;
+  firstName_not_in?: String[] | String;
+  firstName_lt?: String;
+  firstName_lte?: String;
+  firstName_gt?: String;
+  firstName_gte?: String;
+  firstName_contains?: String;
+  firstName_not_contains?: String;
+  firstName_starts_with?: String;
+  firstName_not_starts_with?: String;
+  firstName_ends_with?: String;
+  firstName_not_ends_with?: String;
+  lastName?: String;
+  lastName_not?: String;
+  lastName_in?: String[] | String;
+  lastName_not_in?: String[] | String;
+  lastName_lt?: String;
+  lastName_lte?: String;
+  lastName_gt?: String;
+  lastName_gte?: String;
+  lastName_contains?: String;
+  lastName_not_contains?: String;
+  lastName_starts_with?: String;
+  lastName_not_starts_with?: String;
+  lastName_ends_with?: String;
+  lastName_not_ends_with?: String;
   email?: String;
-}>;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  phone?: String;
+  phone_not?: String;
+  phone_in?: String[] | String;
+  phone_not_in?: String[] | String;
+  phone_lt?: String;
+  phone_lte?: String;
+  phone_gt?: String;
+  phone_gte?: String;
+  phone_contains?: String;
+  phone_not_contains?: String;
+  phone_starts_with?: String;
+  phone_not_starts_with?: String;
+  phone_ends_with?: String;
+  phone_not_ends_with?: String;
+  subscribed?: Boolean;
+  subscribed_not?: Boolean;
+  videos_every?: VideoWhereInput;
+  videos_some?: VideoWhereInput;
+  videos_none?: VideoWhereInput;
+  active?: Boolean;
+  active_not?: Boolean;
+  payments_every?: PaymentWhereInput;
+  payments_some?: PaymentWhereInput;
+  payments_none?: PaymentWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
 
 export interface VideoWhereInput {
   id?: ID_Input;
@@ -830,7 +781,421 @@ export interface VideoWhereInput {
   NOT?: VideoWhereInput[] | VideoWhereInput;
 }
 
-export interface UserWhereInput {
+export interface PromoVideoWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  link?: String;
+  link_not?: String;
+  link_in?: String[] | String;
+  link_not_in?: String[] | String;
+  link_lt?: String;
+  link_lte?: String;
+  link_gt?: String;
+  link_gte?: String;
+  link_contains?: String;
+  link_not_contains?: String;
+  link_starts_with?: String;
+  link_not_starts_with?: String;
+  link_ends_with?: String;
+  link_not_ends_with?: String;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  image?: String;
+  image_not?: String;
+  image_in?: String[] | String;
+  image_not_in?: String[] | String;
+  image_lt?: String;
+  image_lte?: String;
+  image_gt?: String;
+  image_gte?: String;
+  image_contains?: String;
+  image_not_contains?: String;
+  image_starts_with?: String;
+  image_not_starts_with?: String;
+  image_ends_with?: String;
+  image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
+  familyId?: String;
+  familyId_not?: String;
+  familyId_in?: String[] | String;
+  familyId_not_in?: String[] | String;
+  familyId_lt?: String;
+  familyId_lte?: String;
+  familyId_gt?: String;
+  familyId_gte?: String;
+  familyId_contains?: String;
+  familyId_not_contains?: String;
+  familyId_starts_with?: String;
+  familyId_not_starts_with?: String;
+  familyId_ends_with?: String;
+  familyId_not_ends_with?: String;
+  banner?: String;
+  banner_not?: String;
+  banner_in?: String[] | String;
+  banner_not_in?: String[] | String;
+  banner_lt?: String;
+  banner_lte?: String;
+  banner_gt?: String;
+  banner_gte?: String;
+  banner_contains?: String;
+  banner_not_contains?: String;
+  banner_starts_with?: String;
+  banner_not_starts_with?: String;
+  banner_ends_with?: String;
+  banner_not_ends_with?: String;
+  bannerMobile?: String;
+  bannerMobile_not?: String;
+  bannerMobile_in?: String[] | String;
+  bannerMobile_not_in?: String[] | String;
+  bannerMobile_lt?: String;
+  bannerMobile_lte?: String;
+  bannerMobile_gt?: String;
+  bannerMobile_gte?: String;
+  bannerMobile_contains?: String;
+  bannerMobile_not_contains?: String;
+  bannerMobile_starts_with?: String;
+  bannerMobile_not_starts_with?: String;
+  bannerMobile_ends_with?: String;
+  bannerMobile_not_ends_with?: String;
+  type?: VideoType;
+  type_not?: VideoType;
+  type_in?: VideoType[] | VideoType;
+  type_not_in?: VideoType[] | VideoType;
+  video?: VideoWhereInput;
+  AND?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+  OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+  NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export type VideoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface PaymentCreateInput {
+  payId: String;
+}
+
+export interface PaymentUpdateInput {
+  payId?: String;
+}
+
+export interface PaymentUpdateManyMutationInput {
+  payId?: String;
+}
+
+export interface ProductCreateInput {
+  link: String;
+  name: String;
+  description: String;
+  image: String;
+  placeholder: String;
+  type: String;
+}
+
+export interface ProductUpdateInput {
+  link?: String;
+  name?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  type?: String;
+}
+
+export interface ProductUpdateManyMutationInput {
+  link?: String;
+  name?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  type?: String;
+}
+
+export interface PromoVideoCreateInput {
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  placeholder?: String;
+  familyId?: String;
+  banner: String;
+  bannerMobile: String;
+  type: VideoType;
+  video?: VideoCreateOneWithoutPromoVideoInput;
+}
+
+export interface VideoCreateOneWithoutPromoVideoInput {
+  create?: VideoCreateWithoutPromoVideoInput;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoCreateWithoutPromoVideoInput {
+  name: String;
+  title?: String;
+  link: String;
+  preview: String;
+  image: String;
+  placeholder?: String;
+  users?: UserCreateManyWithoutVideosInput;
+  published?: Boolean;
+  amount?: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: String;
+}
+
+export interface UserCreateManyWithoutVideosInput {
+  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutVideosInput {
+  firstName?: String;
+  lastName?: String;
+  email: String;
+  phone?: String;
+  ips?: UserCreateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
+  payments?: PaymentCreateManyInput;
+}
+
+export interface UserCreateipsInput {
+  set?: String[] | String;
+}
+
+export interface PaymentCreateManyInput {
+  create?: PaymentCreateInput[] | PaymentCreateInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+}
+
+export interface PromoVideoUpdateInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  familyId?: String;
+  banner?: String;
+  bannerMobile?: String;
+  type?: VideoType;
+  video?: VideoUpdateOneWithoutPromoVideoInput;
+}
+
+export interface VideoUpdateOneWithoutPromoVideoInput {
+  create?: VideoCreateWithoutPromoVideoInput;
+  update?: VideoUpdateWithoutPromoVideoDataInput;
+  upsert?: VideoUpsertWithoutPromoVideoInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoUpdateWithoutPromoVideoDataInput {
+  name?: String;
+  title?: String;
+  link?: String;
+  preview?: String;
+  image?: String;
+  placeholder?: String;
+  users?: UserUpdateManyWithoutVideosInput;
+  published?: Boolean;
+  amount?: Float;
+  start?: Int;
+  type?: VideoType;
+  familyId?: String;
+}
+
+export interface UserUpdateManyWithoutVideosInput {
+  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  update?:
+    | UserUpdateWithWhereUniqueWithoutVideosInput[]
+    | UserUpdateWithWhereUniqueWithoutVideosInput;
+  upsert?:
+    | UserUpsertWithWhereUniqueWithoutVideosInput[]
+    | UserUpsertWithWhereUniqueWithoutVideosInput;
+  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
+  updateMany?:
+    | UserUpdateManyWithWhereNestedInput[]
+    | UserUpdateManyWithWhereNestedInput;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutVideosInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutVideosDataInput;
+}
+
+export interface UserUpdateWithoutVideosDataInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
+  payments?: PaymentUpdateManyInput;
+}
+
+export interface UserUpdateipsInput {
+  set?: String[] | String;
+}
+
+export interface PaymentUpdateManyInput {
+  create?: PaymentCreateInput[] | PaymentCreateInput;
+  update?:
+    | PaymentUpdateWithWhereUniqueNestedInput[]
+    | PaymentUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | PaymentUpsertWithWhereUniqueNestedInput[]
+    | PaymentUpsertWithWhereUniqueNestedInput;
+  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  updateMany?:
+    | PaymentUpdateManyWithWhereNestedInput[]
+    | PaymentUpdateManyWithWhereNestedInput;
+}
+
+export interface PaymentUpdateWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput;
+  data: PaymentUpdateDataInput;
+}
+
+export interface PaymentUpdateDataInput {
+  payId?: String;
+}
+
+export interface PaymentUpsertWithWhereUniqueNestedInput {
+  where: PaymentWhereUniqueInput;
+  update: PaymentUpdateDataInput;
+  create: PaymentCreateInput;
+}
+
+export interface PaymentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  payId?: String;
+  payId_not?: String;
+  payId_in?: String[] | String;
+  payId_not_in?: String[] | String;
+  payId_lt?: String;
+  payId_lte?: String;
+  payId_gt?: String;
+  payId_gte?: String;
+  payId_contains?: String;
+  payId_not_contains?: String;
+  payId_starts_with?: String;
+  payId_not_starts_with?: String;
+  payId_ends_with?: String;
+  payId_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
+}
+
+export interface PaymentUpdateManyWithWhereNestedInput {
+  where: PaymentScalarWhereInput;
+  data: PaymentUpdateManyDataInput;
+}
+
+export interface PaymentUpdateManyDataInput {
+  payId?: String;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutVideosInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutVideosDataInput;
+  create: UserCreateWithoutVideosInput;
+}
+
+export interface UserScalarWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -903,82 +1268,31 @@ export interface UserWhereInput {
   phone_not_ends_with?: String;
   subscribed?: Boolean;
   subscribed_not?: Boolean;
-  videos_every?: VideoWhereInput;
-  videos_some?: VideoWhereInput;
-  videos_none?: VideoWhereInput;
   active?: Boolean;
   active_not?: Boolean;
-  payments_every?: PaymentWhereInput;
-  payments_some?: PaymentWhereInput;
-  payments_none?: PaymentWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  AND?: UserScalarWhereInput[] | UserScalarWhereInput;
+  OR?: UserScalarWhereInput[] | UserScalarWhereInput;
+  NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
 }
 
-export type VideoWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface PaymentCreateInput {
-  payId: String;
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
 }
 
-export interface PaymentUpdateInput {
-  payId?: String;
+export interface UserUpdateManyDataInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
 }
 
-export interface PaymentUpdateManyMutationInput {
-  payId?: String;
-}
-
-export interface ProductCreateInput {
-  link: String;
-  name: String;
-  description: String;
-  image: String;
-  placeholder: String;
-  type: String;
-}
-
-export interface ProductUpdateInput {
-  link?: String;
-  name?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  type?: String;
-}
-
-export interface ProductUpdateManyMutationInput {
-  link?: String;
-  name?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  type?: String;
-}
-
-export interface PromoVideoCreateInput {
-  link: String;
-  title: String;
-  description: String;
-  image: String;
-  placeholder?: String;
-  familyId?: String;
-  banner: String;
-  bannerMobile: String;
-}
-
-export interface PromoVideoUpdateInput {
-  link?: String;
-  title?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  familyId?: String;
-  banner?: String;
-  bannerMobile?: String;
+export interface VideoUpsertWithoutPromoVideoInput {
+  update: VideoUpdateWithoutPromoVideoDataInput;
+  create: VideoCreateWithoutPromoVideoInput;
 }
 
 export interface PromoVideoUpdateManyMutationInput {
@@ -990,6 +1304,7 @@ export interface PromoVideoUpdateManyMutationInput {
   familyId?: String;
   banner?: String;
   bannerMobile?: String;
+  type?: VideoType;
 }
 
 export interface UserCreateInput {
@@ -1002,10 +1317,6 @@ export interface UserCreateInput {
   videos?: VideoCreateManyWithoutUsersInput;
   active?: Boolean;
   payments?: PaymentCreateManyInput;
-}
-
-export interface UserCreateipsInput {
-  set?: String[] | String;
 }
 
 export interface VideoCreateManyWithoutUsersInput {
@@ -1025,17 +1336,24 @@ export interface VideoCreateWithoutUsersInput {
   start: Int;
   type: VideoType;
   familyId?: String;
-  promoVideo?: PromoVideoCreateOneInput;
+  promoVideo?: PromoVideoCreateOneWithoutVideoInput;
 }
 
-export interface PromoVideoCreateOneInput {
-  create?: PromoVideoCreateInput;
+export interface PromoVideoCreateOneWithoutVideoInput {
+  create?: PromoVideoCreateWithoutVideoInput;
   connect?: PromoVideoWhereUniqueInput;
 }
 
-export interface PaymentCreateManyInput {
-  create?: PaymentCreateInput[] | PaymentCreateInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
+export interface PromoVideoCreateWithoutVideoInput {
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  placeholder?: String;
+  familyId?: String;
+  banner: String;
+  bannerMobile: String;
+  type: VideoType;
 }
 
 export interface UserUpdateInput {
@@ -1048,10 +1366,6 @@ export interface UserUpdateInput {
   videos?: VideoUpdateManyWithoutUsersInput;
   active?: Boolean;
   payments?: PaymentUpdateManyInput;
-}
-
-export interface UserUpdateipsInput {
-  set?: String[] | String;
 }
 
 export interface VideoUpdateManyWithoutUsersInput {
@@ -1088,19 +1402,19 @@ export interface VideoUpdateWithoutUsersDataInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
-  promoVideo?: PromoVideoUpdateOneInput;
+  promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
 }
 
-export interface PromoVideoUpdateOneInput {
-  create?: PromoVideoCreateInput;
-  update?: PromoVideoUpdateDataInput;
-  upsert?: PromoVideoUpsertNestedInput;
+export interface PromoVideoUpdateOneWithoutVideoInput {
+  create?: PromoVideoCreateWithoutVideoInput;
+  update?: PromoVideoUpdateWithoutVideoDataInput;
+  upsert?: PromoVideoUpsertWithoutVideoInput;
   delete?: Boolean;
   disconnect?: Boolean;
   connect?: PromoVideoWhereUniqueInput;
 }
 
-export interface PromoVideoUpdateDataInput {
+export interface PromoVideoUpdateWithoutVideoDataInput {
   link?: String;
   title?: String;
   description?: String;
@@ -1109,11 +1423,12 @@ export interface PromoVideoUpdateDataInput {
   familyId?: String;
   banner?: String;
   bannerMobile?: String;
+  type?: VideoType;
 }
 
-export interface PromoVideoUpsertNestedInput {
-  update: PromoVideoUpdateDataInput;
-  create: PromoVideoCreateInput;
+export interface PromoVideoUpsertWithoutVideoInput {
+  update: PromoVideoUpdateWithoutVideoDataInput;
+  create: PromoVideoCreateWithoutVideoInput;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -1281,97 +1596,6 @@ export interface VideoUpdateManyDataInput {
   familyId?: String;
 }
 
-export interface PaymentUpdateManyInput {
-  create?: PaymentCreateInput[] | PaymentCreateInput;
-  update?:
-    | PaymentUpdateWithWhereUniqueNestedInput[]
-    | PaymentUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | PaymentUpsertWithWhereUniqueNestedInput[]
-    | PaymentUpsertWithWhereUniqueNestedInput;
-  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  updateMany?:
-    | PaymentUpdateManyWithWhereNestedInput[]
-    | PaymentUpdateManyWithWhereNestedInput;
-}
-
-export interface PaymentUpdateWithWhereUniqueNestedInput {
-  where: PaymentWhereUniqueInput;
-  data: PaymentUpdateDataInput;
-}
-
-export interface PaymentUpdateDataInput {
-  payId?: String;
-}
-
-export interface PaymentUpsertWithWhereUniqueNestedInput {
-  where: PaymentWhereUniqueInput;
-  update: PaymentUpdateDataInput;
-  create: PaymentCreateInput;
-}
-
-export interface PaymentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  payId?: String;
-  payId_not?: String;
-  payId_in?: String[] | String;
-  payId_not_in?: String[] | String;
-  payId_lt?: String;
-  payId_lte?: String;
-  payId_gt?: String;
-  payId_gte?: String;
-  payId_contains?: String;
-  payId_not_contains?: String;
-  payId_starts_with?: String;
-  payId_not_starts_with?: String;
-  payId_ends_with?: String;
-  payId_not_ends_with?: String;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-}
-
-export interface PaymentUpdateManyWithWhereNestedInput {
-  where: PaymentScalarWhereInput;
-  data: PaymentUpdateManyDataInput;
-}
-
-export interface PaymentUpdateManyDataInput {
-  payId?: String;
-}
-
 export interface UserUpdateManyMutationInput {
   firstName?: String;
   lastName?: String;
@@ -1395,23 +1619,7 @@ export interface VideoCreateInput {
   start: Int;
   type: VideoType;
   familyId?: String;
-  promoVideo?: PromoVideoCreateOneInput;
-}
-
-export interface UserCreateManyWithoutVideosInput {
-  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-}
-
-export interface UserCreateWithoutVideosInput {
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  phone?: String;
-  ips?: UserCreateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
-  payments?: PaymentCreateManyInput;
+  promoVideo?: PromoVideoCreateOneWithoutVideoInput;
 }
 
 export interface VideoUpdateInput {
@@ -1427,141 +1635,7 @@ export interface VideoUpdateInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
-  promoVideo?: PromoVideoUpdateOneInput;
-}
-
-export interface UserUpdateManyWithoutVideosInput {
-  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  update?:
-    | UserUpdateWithWhereUniqueWithoutVideosInput[]
-    | UserUpdateWithWhereUniqueWithoutVideosInput;
-  upsert?:
-    | UserUpsertWithWhereUniqueWithoutVideosInput[]
-    | UserUpsertWithWhereUniqueWithoutVideosInput;
-  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
-  updateMany?:
-    | UserUpdateManyWithWhereNestedInput[]
-    | UserUpdateManyWithWhereNestedInput;
-}
-
-export interface UserUpdateWithWhereUniqueWithoutVideosInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutVideosDataInput;
-}
-
-export interface UserUpdateWithoutVideosDataInput {
-  firstName?: String;
-  lastName?: String;
-  email?: String;
-  phone?: String;
-  ips?: UserUpdateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
-  payments?: PaymentUpdateManyInput;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutVideosInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutVideosDataInput;
-  create: UserCreateWithoutVideosInput;
-}
-
-export interface UserScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  firstName?: String;
-  firstName_not?: String;
-  firstName_in?: String[] | String;
-  firstName_not_in?: String[] | String;
-  firstName_lt?: String;
-  firstName_lte?: String;
-  firstName_gt?: String;
-  firstName_gte?: String;
-  firstName_contains?: String;
-  firstName_not_contains?: String;
-  firstName_starts_with?: String;
-  firstName_not_starts_with?: String;
-  firstName_ends_with?: String;
-  firstName_not_ends_with?: String;
-  lastName?: String;
-  lastName_not?: String;
-  lastName_in?: String[] | String;
-  lastName_not_in?: String[] | String;
-  lastName_lt?: String;
-  lastName_lte?: String;
-  lastName_gt?: String;
-  lastName_gte?: String;
-  lastName_contains?: String;
-  lastName_not_contains?: String;
-  lastName_starts_with?: String;
-  lastName_not_starts_with?: String;
-  lastName_ends_with?: String;
-  lastName_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  phone?: String;
-  phone_not?: String;
-  phone_in?: String[] | String;
-  phone_not_in?: String[] | String;
-  phone_lt?: String;
-  phone_lte?: String;
-  phone_gt?: String;
-  phone_gte?: String;
-  phone_contains?: String;
-  phone_not_contains?: String;
-  phone_starts_with?: String;
-  phone_not_starts_with?: String;
-  phone_ends_with?: String;
-  phone_not_ends_with?: String;
-  subscribed?: Boolean;
-  subscribed_not?: Boolean;
-  active?: Boolean;
-  active_not?: Boolean;
-  AND?: UserScalarWhereInput[] | UserScalarWhereInput;
-  OR?: UserScalarWhereInput[] | UserScalarWhereInput;
-  NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface UserUpdateManyDataInput {
-  firstName?: String;
-  lastName?: String;
-  email?: String;
-  phone?: String;
-  ips?: UserUpdateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
+  promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
 }
 
 export interface VideoUpdateManyMutationInput {
@@ -1825,6 +1899,7 @@ export interface PromoVideo {
   familyId: String;
   banner: String;
   bannerMobile: String;
+  type: VideoType;
 }
 
 export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
@@ -1837,6 +1912,8 @@ export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
   familyId: () => Promise<String>;
   banner: () => Promise<String>;
   bannerMobile: () => Promise<String>;
+  type: () => Promise<VideoType>;
+  video: <T = VideoPromise>() => T;
 }
 
 export interface PromoVideoSubscription
@@ -1851,58 +1928,79 @@ export interface PromoVideoSubscription
   familyId: () => Promise<AsyncIterator<String>>;
   banner: () => Promise<AsyncIterator<String>>;
   bannerMobile: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  video: <T = VideoSubscription>() => T;
 }
 
-export interface PromoVideoConnection {}
+export interface Video {
+  id: ID_Output;
+  name: String;
+  title?: String;
+  link: String;
+  preview: String;
+  image: String;
+  placeholder?: String;
+  published: Boolean;
+  amount?: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: String;
+}
 
-export interface PromoVideoConnectionPromise
-  extends Promise<PromoVideoConnection>,
+export interface VideoPromise extends Promise<Video>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  title: () => Promise<String>;
+  link: () => Promise<String>;
+  preview: () => Promise<String>;
+  image: () => Promise<String>;
+  placeholder: () => Promise<String>;
+  users: <T = FragmentableArray<User>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  published: () => Promise<Boolean>;
+  amount: () => Promise<Float>;
+  start: () => Promise<Int>;
+  type: () => Promise<VideoType>;
+  familyId: () => Promise<String>;
+  promoVideo: <T = PromoVideoPromise>() => T;
+}
+
+export interface VideoSubscription
+  extends Promise<AsyncIterator<Video>>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PromoVideoEdge>>() => T;
-  aggregate: <T = AggregatePromoVideoPromise>() => T;
-}
-
-export interface PromoVideoConnectionSubscription
-  extends Promise<AsyncIterator<PromoVideoConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PromoVideoEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePromoVideoSubscription>() => T;
-}
-
-export interface PromoVideoEdge {
-  cursor: String;
-}
-
-export interface PromoVideoEdgePromise
-  extends Promise<PromoVideoEdge>,
-    Fragmentable {
-  node: <T = PromoVideoPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PromoVideoEdgeSubscription
-  extends Promise<AsyncIterator<PromoVideoEdge>>,
-    Fragmentable {
-  node: <T = PromoVideoSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregatePromoVideo {
-  count: Int;
-}
-
-export interface AggregatePromoVideoPromise
-  extends Promise<AggregatePromoVideo>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePromoVideoSubscription
-  extends Promise<AsyncIterator<AggregatePromoVideo>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  link: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  published: () => Promise<AsyncIterator<Boolean>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  start: () => Promise<AsyncIterator<Int>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  familyId: () => Promise<AsyncIterator<String>>;
+  promoVideo: <T = PromoVideoSubscription>() => T;
 }
 
 export interface User {
@@ -1984,75 +2082,56 @@ export interface UserSubscription
   ) => T;
 }
 
-export interface Video {
-  id: ID_Output;
-  name: String;
-  title?: String;
-  link: String;
-  preview: String;
-  image: String;
-  placeholder?: String;
-  published: Boolean;
-  amount?: Float;
-  start: Int;
-  type: VideoType;
-  familyId?: String;
-}
+export interface PromoVideoConnection {}
 
-export interface VideoPromise extends Promise<Video>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  title: () => Promise<String>;
-  link: () => Promise<String>;
-  preview: () => Promise<String>;
-  image: () => Promise<String>;
-  placeholder: () => Promise<String>;
-  users: <T = FragmentableArray<User>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  published: () => Promise<Boolean>;
-  amount: () => Promise<Float>;
-  start: () => Promise<Int>;
-  type: () => Promise<VideoType>;
-  familyId: () => Promise<String>;
-  promoVideo: <T = PromoVideoPromise>() => T;
-}
-
-export interface VideoSubscription
-  extends Promise<AsyncIterator<Video>>,
+export interface PromoVideoConnectionPromise
+  extends Promise<PromoVideoConnection>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  link: () => Promise<AsyncIterator<String>>;
-  preview: () => Promise<AsyncIterator<String>>;
-  image: () => Promise<AsyncIterator<String>>;
-  placeholder: () => Promise<AsyncIterator<String>>;
-  users: <T = Promise<AsyncIterator<UserSubscription>>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Float>>;
-  start: () => Promise<AsyncIterator<Int>>;
-  type: () => Promise<AsyncIterator<VideoType>>;
-  familyId: () => Promise<AsyncIterator<String>>;
-  promoVideo: <T = PromoVideoSubscription>() => T;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PromoVideoEdge>>() => T;
+  aggregate: <T = AggregatePromoVideoPromise>() => T;
+}
+
+export interface PromoVideoConnectionSubscription
+  extends Promise<AsyncIterator<PromoVideoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PromoVideoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePromoVideoSubscription>() => T;
+}
+
+export interface PromoVideoEdge {
+  cursor: String;
+}
+
+export interface PromoVideoEdgePromise
+  extends Promise<PromoVideoEdge>,
+    Fragmentable {
+  node: <T = PromoVideoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PromoVideoEdgeSubscription
+  extends Promise<AsyncIterator<PromoVideoEdge>>,
+    Fragmentable {
+  node: <T = PromoVideoSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePromoVideo {
+  count: Int;
+}
+
+export interface AggregatePromoVideoPromise
+  extends Promise<AggregatePromoVideo>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePromoVideoSubscription
+  extends Promise<AsyncIterator<AggregatePromoVideo>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserConnection {}
@@ -2309,6 +2388,7 @@ export interface PromoVideoPreviousValues {
   familyId: String;
   banner: String;
   bannerMobile: String;
+  type: VideoType;
 }
 
 export interface PromoVideoPreviousValuesPromise
@@ -2323,6 +2403,7 @@ export interface PromoVideoPreviousValuesPromise
   familyId: () => Promise<String>;
   banner: () => Promise<String>;
   bannerMobile: () => Promise<String>;
+  type: () => Promise<VideoType>;
 }
 
 export interface PromoVideoPreviousValuesSubscription
@@ -2337,6 +2418,7 @@ export interface PromoVideoPreviousValuesSubscription
   familyId: () => Promise<AsyncIterator<String>>;
   banner: () => Promise<AsyncIterator<String>>;
   bannerMobile: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
 }
 
 export interface UserSubscriptionPayload {

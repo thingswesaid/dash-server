@@ -503,6 +503,8 @@ type PromoVideo {
   familyId: String!
   banner: String!
   bannerMobile: String!
+  type: VideoType!
+  video: Video
 }
 
 type PromoVideoConnection {
@@ -520,11 +522,25 @@ input PromoVideoCreateInput {
   familyId: String
   banner: String!
   bannerMobile: String!
+  type: VideoType!
+  video: VideoCreateOneWithoutPromoVideoInput
 }
 
-input PromoVideoCreateOneInput {
-  create: PromoVideoCreateInput
+input PromoVideoCreateOneWithoutVideoInput {
+  create: PromoVideoCreateWithoutVideoInput
   connect: PromoVideoWhereUniqueInput
+}
+
+input PromoVideoCreateWithoutVideoInput {
+  link: String!
+  title: String!
+  description: String!
+  image: String!
+  placeholder: String
+  familyId: String
+  banner: String!
+  bannerMobile: String!
+  type: VideoType!
 }
 
 type PromoVideoEdge {
@@ -551,6 +567,8 @@ enum PromoVideoOrderByInput {
   banner_DESC
   bannerMobile_ASC
   bannerMobile_DESC
+  type_ASC
+  type_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -567,6 +585,7 @@ type PromoVideoPreviousValues {
   familyId: String!
   banner: String!
   bannerMobile: String!
+  type: VideoType!
 }
 
 type PromoVideoSubscriptionPayload {
@@ -587,17 +606,6 @@ input PromoVideoSubscriptionWhereInput {
   NOT: [PromoVideoSubscriptionWhereInput!]
 }
 
-input PromoVideoUpdateDataInput {
-  link: String
-  title: String
-  description: String
-  image: String
-  placeholder: String
-  familyId: String
-  banner: String
-  bannerMobile: String
-}
-
 input PromoVideoUpdateInput {
   link: String
   title: String
@@ -607,6 +615,8 @@ input PromoVideoUpdateInput {
   familyId: String
   banner: String
   bannerMobile: String
+  type: VideoType
+  video: VideoUpdateOneWithoutPromoVideoInput
 }
 
 input PromoVideoUpdateManyMutationInput {
@@ -618,20 +628,33 @@ input PromoVideoUpdateManyMutationInput {
   familyId: String
   banner: String
   bannerMobile: String
+  type: VideoType
 }
 
-input PromoVideoUpdateOneInput {
-  create: PromoVideoCreateInput
-  update: PromoVideoUpdateDataInput
-  upsert: PromoVideoUpsertNestedInput
+input PromoVideoUpdateOneWithoutVideoInput {
+  create: PromoVideoCreateWithoutVideoInput
+  update: PromoVideoUpdateWithoutVideoDataInput
+  upsert: PromoVideoUpsertWithoutVideoInput
   delete: Boolean
   disconnect: Boolean
   connect: PromoVideoWhereUniqueInput
 }
 
-input PromoVideoUpsertNestedInput {
-  update: PromoVideoUpdateDataInput!
-  create: PromoVideoCreateInput!
+input PromoVideoUpdateWithoutVideoDataInput {
+  link: String
+  title: String
+  description: String
+  image: String
+  placeholder: String
+  familyId: String
+  banner: String
+  bannerMobile: String
+  type: VideoType
+}
+
+input PromoVideoUpsertWithoutVideoInput {
+  update: PromoVideoUpdateWithoutVideoDataInput!
+  create: PromoVideoCreateWithoutVideoInput!
 }
 
 input PromoVideoWhereInput {
@@ -761,6 +784,11 @@ input PromoVideoWhereInput {
   bannerMobile_not_starts_with: String
   bannerMobile_ends_with: String
   bannerMobile_not_ends_with: String
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  video: VideoWhereInput
   AND: [PromoVideoWhereInput!]
   OR: [PromoVideoWhereInput!]
   NOT: [PromoVideoWhereInput!]
@@ -1184,12 +1212,32 @@ input VideoCreateInput {
   start: Int!
   type: VideoType!
   familyId: String
-  promoVideo: PromoVideoCreateOneInput
+  promoVideo: PromoVideoCreateOneWithoutVideoInput
 }
 
 input VideoCreateManyWithoutUsersInput {
   create: [VideoCreateWithoutUsersInput!]
   connect: [VideoWhereUniqueInput!]
+}
+
+input VideoCreateOneWithoutPromoVideoInput {
+  create: VideoCreateWithoutPromoVideoInput
+  connect: VideoWhereUniqueInput
+}
+
+input VideoCreateWithoutPromoVideoInput {
+  name: String!
+  title: String
+  link: String!
+  preview: String!
+  image: String!
+  placeholder: String
+  users: UserCreateManyWithoutVideosInput
+  published: Boolean
+  amount: Float
+  start: Int!
+  type: VideoType!
+  familyId: String
 }
 
 input VideoCreateWithoutUsersInput {
@@ -1204,7 +1252,7 @@ input VideoCreateWithoutUsersInput {
   start: Int!
   type: VideoType!
   familyId: String
-  promoVideo: PromoVideoCreateOneInput
+  promoVideo: PromoVideoCreateOneWithoutVideoInput
 }
 
 type VideoEdge {
@@ -1434,7 +1482,7 @@ input VideoUpdateInput {
   start: Int
   type: VideoType
   familyId: String
-  promoVideo: PromoVideoUpdateOneInput
+  promoVideo: PromoVideoUpdateOneWithoutVideoInput
 }
 
 input VideoUpdateManyDataInput {
@@ -1481,6 +1529,30 @@ input VideoUpdateManyWithWhereNestedInput {
   data: VideoUpdateManyDataInput!
 }
 
+input VideoUpdateOneWithoutPromoVideoInput {
+  create: VideoCreateWithoutPromoVideoInput
+  update: VideoUpdateWithoutPromoVideoDataInput
+  upsert: VideoUpsertWithoutPromoVideoInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: VideoWhereUniqueInput
+}
+
+input VideoUpdateWithoutPromoVideoDataInput {
+  name: String
+  title: String
+  link: String
+  preview: String
+  image: String
+  placeholder: String
+  users: UserUpdateManyWithoutVideosInput
+  published: Boolean
+  amount: Float
+  start: Int
+  type: VideoType
+  familyId: String
+}
+
 input VideoUpdateWithoutUsersDataInput {
   name: String
   title: String
@@ -1493,12 +1565,17 @@ input VideoUpdateWithoutUsersDataInput {
   start: Int
   type: VideoType
   familyId: String
-  promoVideo: PromoVideoUpdateOneInput
+  promoVideo: PromoVideoUpdateOneWithoutVideoInput
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
   where: VideoWhereUniqueInput!
   data: VideoUpdateWithoutUsersDataInput!
+}
+
+input VideoUpsertWithoutPromoVideoInput {
+  update: VideoUpdateWithoutPromoVideoDataInput!
+  create: VideoCreateWithoutPromoVideoInput!
 }
 
 input VideoUpsertWithWhereUniqueWithoutUsersInput {

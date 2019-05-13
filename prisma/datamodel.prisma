@@ -8,7 +8,7 @@ type User {
   subscribed: Boolean! @default(value: "true")
   videos: [Video]!
   active: Boolean! @default(value: "true")
-  payments  : [Payment]! @default(value: [])
+  payments: [Payment]! @default(value: [])
 }
 
 type Video {
@@ -38,6 +38,8 @@ type PromoVideo {
   familyId: String! @default(value: "")
   banner: String!
   bannerMobile: String!
+  type: VideoType!
+  video: Video
 }
 
 type Product {

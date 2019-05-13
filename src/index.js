@@ -5,19 +5,22 @@ const { sort, shuffle } = require('./utils');
 
 const resolvers = {
   Query: {
-    videoPage: async (parent, { id, ip, email, showAll }, context) => {
+    videoPage: async (parent, { id, email, showAll }, context) => {
       const optsPublished = showAll ?  {} : { published: true }; 
       const videos = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: id } },
         first: 1,
       })
 
-      if (!videos.length) {
-        return;
-      }
+      const { promoVideo } = await context.prisma.videos({   
+        where: { ...optsPublished, ...{ id_contains: id } },
+        first: 1,
+      }).promoVideo();
+
+      if (!videos.length) { return; }
       
       const video = videos[0];
-      const { id: videoId, familyId, promoVideo } = video;
+      const { id: videoId, familyId } = video;
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true }, 
         orderBy: 'createdAt_DESC', 
@@ -25,10 +28,10 @@ const resolvers = {
       });
       const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
-
-      const promoVideos = promoVideo ? [promoVideo] : await context.prisma.promoVideos({ where: optsFamily });
+      const promoVideos = promoVideo ? promoVideo : 
+      await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
+      
       const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
-
       const user = await context.prisma.users({ where: { email } });
       const { active } = user.length ? user[0] : {};
 
@@ -53,13 +56,12 @@ const resolvers = {
       const items = await context.prisma.products();
       const types = items ? sort([...new Set(items.map(product => product.type))]) : [];
       return { types, items };
-
     },
   },
   Video: {
     users(parent) {
       return prisma.video({ id: parent.id }).users()
-    }
+    },
   },
   Mutation: {
     createUser(parent, { email, ip }, context) {
