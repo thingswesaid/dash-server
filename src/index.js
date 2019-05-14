@@ -12,15 +12,18 @@ const resolvers = {
         first: 1,
       })
 
-      const { promoVideo } = await context.prisma.videos({   
-        where: { ...optsPublished, ...{ id_contains: id } },
-        first: 1,
-      }).promoVideo();
-
       if (!videos.length) { return; }
       
       const video = videos[0];
       const { id: videoId, familyId } = video;
+
+      const promoVideoQuery = await context.prisma.videos({   
+        where: { ...optsPublished, ...{ id_contains: videoId } },
+        first: 1,
+      }).promoVideo();
+
+      const { promoVideo } = promoVideoQuery[0];
+
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true }, 
         orderBy: 'createdAt_DESC', 
@@ -28,7 +31,7 @@ const resolvers = {
       });
       const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
-      const promoVideos = promoVideo ? promoVideo : 
+      const promoVideos = promoVideo ? [promoVideo] : 
       await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
       
       const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
