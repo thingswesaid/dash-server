@@ -105,7 +105,7 @@ const resolvers = {
         where: { email }, data: { ips: { set: ips } },
       })
     },
-    async addUserToVideo(parent, { 
+    async createOrder(parent, { 
       email, 
       ips, 
       videoId, 
@@ -132,51 +132,14 @@ const resolvers = {
         }
       }); 
 
-      console.log('>>>>>>>>> USER SERVER <<<<<<<<<', userId);
-
       return context.prisma.createOrder({
         paymentId,
         user: { connect: { id: userId } },
         video: { connect: { id: videoId } }
       });
-
-      // orders: { 
-      //   create: { 
-      //     paymentId: paymentId, video: { connect: { id: videoId } } 
-      //   } 
-      // },
     },
   },
 }
-
-
-
-
-// return context.prisma.upsertUser({
-//   where: { email }, 
-//   create: {
-//     email,
-//     firstName,
-//     lastName,
-//     phone,
-//     ips: {set: updatedIps },
-//     videos: { connect: { id: videoId } },
-//     orders: { 
-//       create: { 
-//         paymentId: paymentId, video: { connect: { id: videoId } } 
-//       } 
-//     },
-//   }, update: {
-//     phone,
-//     videos: { connect: { id: videoId } },
-//     orders: { 
-//       create: { 
-//         paymentId: paymentId, video: { connect: { id: videoId } } 
-//       } 
-//     },
-//     ips: {set: updatedIps },
-//   }
-// }); 
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',

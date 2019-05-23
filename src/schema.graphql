@@ -9,7 +9,7 @@ type Query {
 type Mutation {
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
-  addUserToVideo(
+  createOrder(
     email: String!, 
     ips: [String], 
     videoId: String!, 
