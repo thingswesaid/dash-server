@@ -10,7 +10,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  payment: (where?: PaymentWhereInput) => Promise<boolean>;
+  order: (where?: OrderWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -36,29 +36,29 @@ export interface Prisma {
    * Queries
    */
 
-  payment: (where: PaymentWhereUniqueInput) => PaymentPromise;
-  payments: (
+  order: (where: OrderWhereUniqueInput) => OrderPromise;
+  orders: (
     args?: {
-      where?: PaymentWhereInput;
-      orderBy?: PaymentOrderByInput;
+      where?: OrderWhereInput;
+      orderBy?: OrderOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => FragmentableArray<Payment>;
-  paymentsConnection: (
+  ) => FragmentableArray<Order>;
+  ordersConnection: (
     args?: {
-      where?: PaymentWhereInput;
-      orderBy?: PaymentOrderByInput;
+      where?: OrderWhereInput;
+      orderBy?: OrderOrderByInput;
       skip?: Int;
       after?: String;
       before?: String;
       first?: Int;
       last?: Int;
     }
-  ) => PaymentConnectionPromise;
+  ) => OrderConnectionPromise;
   product: (where: ProductWhereUniqueInput) => ProductPromise;
   products: (
     args?: {
@@ -157,22 +157,22 @@ export interface Prisma {
    * Mutations
    */
 
-  createPayment: (data: PaymentCreateInput) => PaymentPromise;
-  updatePayment: (
-    args: { data: PaymentUpdateInput; where: PaymentWhereUniqueInput }
-  ) => PaymentPromise;
-  updateManyPayments: (
-    args: { data: PaymentUpdateManyMutationInput; where?: PaymentWhereInput }
+  createOrder: (data: OrderCreateInput) => OrderPromise;
+  updateOrder: (
+    args: { data: OrderUpdateInput; where: OrderWhereUniqueInput }
+  ) => OrderPromise;
+  updateManyOrders: (
+    args: { data: OrderUpdateManyMutationInput; where?: OrderWhereInput }
   ) => BatchPayloadPromise;
-  upsertPayment: (
+  upsertOrder: (
     args: {
-      where: PaymentWhereUniqueInput;
-      create: PaymentCreateInput;
-      update: PaymentUpdateInput;
+      where: OrderWhereUniqueInput;
+      create: OrderCreateInput;
+      update: OrderUpdateInput;
     }
-  ) => PaymentPromise;
-  deletePayment: (where: PaymentWhereUniqueInput) => PaymentPromise;
-  deleteManyPayments: (where?: PaymentWhereInput) => BatchPayloadPromise;
+  ) => OrderPromise;
+  deleteOrder: (where: OrderWhereUniqueInput) => OrderPromise;
+  deleteManyOrders: (where?: OrderWhereInput) => BatchPayloadPromise;
   createProduct: (data: ProductCreateInput) => ProductPromise;
   updateProduct: (
     args: { data: ProductUpdateInput; where: ProductWhereUniqueInput }
@@ -249,9 +249,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  payment: (
-    where?: PaymentSubscriptionWhereInput
-  ) => PaymentSubscriptionPayloadSubscription;
+  order: (
+    where?: OrderSubscriptionWhereInput
+  ) => OrderSubscriptionPayloadSubscription;
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
@@ -274,57 +274,7 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type PaymentOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "payId_ASC"
-  | "payId_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
-export type ProductOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "link_ASC"
-  | "link_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "image_ASC"
-  | "image_DESC"
-  | "placeholder_ASC"
-  | "placeholder_DESC"
-  | "type_ASC"
-  | "type_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
 export type VideoType = "ZODIAC" | "PICKACARD";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "firstName_ASC"
-  | "firstName_DESC"
-  | "lastName_ASC"
-  | "lastName_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "phone_ASC"
-  | "phone_DESC"
-  | "subscribed_ASC"
-  | "subscribed_DESC"
-  | "active_ASC"
-  | "active_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
 
 export type VideoOrderByInput =
   | "id_ASC"
@@ -351,6 +301,56 @@ export type VideoOrderByInput =
   | "type_DESC"
   | "familyId_ASC"
   | "familyId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "firstName_ASC"
+  | "firstName_DESC"
+  | "lastName_ASC"
+  | "lastName_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
+  | "subscribed_ASC"
+  | "subscribed_DESC"
+  | "active_ASC"
+  | "active_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type OrderOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "paymentId_ASC"
+  | "paymentId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type ProductOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "link_ASC"
+  | "link_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "placeholder_ASC"
+  | "placeholder_DESC"
+  | "type_ASC"
+  | "type_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -384,258 +384,10 @@ export type PromoVideoOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type PaymentWhereUniqueInput = AtLeastOne<{
+export type OrderWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
-  payId?: String;
+  paymentId?: String;
 }>;
-
-export interface PaymentWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  payId?: String;
-  payId_not?: String;
-  payId_in?: String[] | String;
-  payId_not_in?: String[] | String;
-  payId_lt?: String;
-  payId_lte?: String;
-  payId_gt?: String;
-  payId_gte?: String;
-  payId_contains?: String;
-  payId_not_contains?: String;
-  payId_starts_with?: String;
-  payId_not_starts_with?: String;
-  payId_ends_with?: String;
-  payId_not_ends_with?: String;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: PaymentWhereInput[] | PaymentWhereInput;
-  OR?: PaymentWhereInput[] | PaymentWhereInput;
-  NOT?: PaymentWhereInput[] | PaymentWhereInput;
-}
-
-export type ProductWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface ProductWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  link?: String;
-  link_not?: String;
-  link_in?: String[] | String;
-  link_not_in?: String[] | String;
-  link_lt?: String;
-  link_lte?: String;
-  link_gt?: String;
-  link_gte?: String;
-  link_contains?: String;
-  link_not_contains?: String;
-  link_starts_with?: String;
-  link_not_starts_with?: String;
-  link_ends_with?: String;
-  link_not_ends_with?: String;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  image?: String;
-  image_not?: String;
-  image_in?: String[] | String;
-  image_not_in?: String[] | String;
-  image_lt?: String;
-  image_lte?: String;
-  image_gt?: String;
-  image_gte?: String;
-  image_contains?: String;
-  image_not_contains?: String;
-  image_starts_with?: String;
-  image_not_starts_with?: String;
-  image_ends_with?: String;
-  image_not_ends_with?: String;
-  placeholder?: String;
-  placeholder_not?: String;
-  placeholder_in?: String[] | String;
-  placeholder_not_in?: String[] | String;
-  placeholder_lt?: String;
-  placeholder_lte?: String;
-  placeholder_gt?: String;
-  placeholder_gte?: String;
-  placeholder_contains?: String;
-  placeholder_not_contains?: String;
-  placeholder_starts_with?: String;
-  placeholder_not_starts_with?: String;
-  placeholder_ends_with?: String;
-  placeholder_not_ends_with?: String;
-  type?: String;
-  type_not?: String;
-  type_in?: String[] | String;
-  type_not_in?: String[] | String;
-  type_lt?: String;
-  type_lte?: String;
-  type_gt?: String;
-  type_gte?: String;
-  type_contains?: String;
-  type_not_contains?: String;
-  type_starts_with?: String;
-  type_not_starts_with?: String;
-  type_ends_with?: String;
-  type_not_ends_with?: String;
-  AND?: ProductWhereInput[] | ProductWhereInput;
-  OR?: ProductWhereInput[] | ProductWhereInput;
-  NOT?: ProductWhereInput[] | ProductWhereInput;
-}
-
-export type PromoVideoWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  firstName?: String;
-  firstName_not?: String;
-  firstName_in?: String[] | String;
-  firstName_not_in?: String[] | String;
-  firstName_lt?: String;
-  firstName_lte?: String;
-  firstName_gt?: String;
-  firstName_gte?: String;
-  firstName_contains?: String;
-  firstName_not_contains?: String;
-  firstName_starts_with?: String;
-  firstName_not_starts_with?: String;
-  firstName_ends_with?: String;
-  firstName_not_ends_with?: String;
-  lastName?: String;
-  lastName_not?: String;
-  lastName_in?: String[] | String;
-  lastName_not_in?: String[] | String;
-  lastName_lt?: String;
-  lastName_lte?: String;
-  lastName_gt?: String;
-  lastName_gte?: String;
-  lastName_contains?: String;
-  lastName_not_contains?: String;
-  lastName_starts_with?: String;
-  lastName_not_starts_with?: String;
-  lastName_ends_with?: String;
-  lastName_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  phone?: String;
-  phone_not?: String;
-  phone_in?: String[] | String;
-  phone_not_in?: String[] | String;
-  phone_lt?: String;
-  phone_lte?: String;
-  phone_gt?: String;
-  phone_gte?: String;
-  phone_contains?: String;
-  phone_not_contains?: String;
-  phone_starts_with?: String;
-  phone_not_starts_with?: String;
-  phone_ends_with?: String;
-  phone_not_ends_with?: String;
-  subscribed?: Boolean;
-  subscribed_not?: Boolean;
-  videos_every?: VideoWhereInput;
-  videos_some?: VideoWhereInput;
-  videos_none?: VideoWhereInput;
-  active?: Boolean;
-  active_not?: Boolean;
-  payments_every?: PaymentWhereInput;
-  payments_some?: PaymentWhereInput;
-  payments_none?: PaymentWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
-}
 
 export interface VideoWhereInput {
   id?: ID_Input;
@@ -781,6 +533,160 @@ export interface VideoWhereInput {
   NOT?: VideoWhereInput[] | VideoWhereInput;
 }
 
+export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  firstName?: String;
+  firstName_not?: String;
+  firstName_in?: String[] | String;
+  firstName_not_in?: String[] | String;
+  firstName_lt?: String;
+  firstName_lte?: String;
+  firstName_gt?: String;
+  firstName_gte?: String;
+  firstName_contains?: String;
+  firstName_not_contains?: String;
+  firstName_starts_with?: String;
+  firstName_not_starts_with?: String;
+  firstName_ends_with?: String;
+  firstName_not_ends_with?: String;
+  lastName?: String;
+  lastName_not?: String;
+  lastName_in?: String[] | String;
+  lastName_not_in?: String[] | String;
+  lastName_lt?: String;
+  lastName_lte?: String;
+  lastName_gt?: String;
+  lastName_gte?: String;
+  lastName_contains?: String;
+  lastName_not_contains?: String;
+  lastName_starts_with?: String;
+  lastName_not_starts_with?: String;
+  lastName_ends_with?: String;
+  lastName_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  phone?: String;
+  phone_not?: String;
+  phone_in?: String[] | String;
+  phone_not_in?: String[] | String;
+  phone_lt?: String;
+  phone_lte?: String;
+  phone_gt?: String;
+  phone_gte?: String;
+  phone_contains?: String;
+  phone_not_contains?: String;
+  phone_starts_with?: String;
+  phone_not_starts_with?: String;
+  phone_ends_with?: String;
+  phone_not_ends_with?: String;
+  subscribed?: Boolean;
+  subscribed_not?: Boolean;
+  videos_every?: VideoWhereInput;
+  videos_some?: VideoWhereInput;
+  videos_none?: VideoWhereInput;
+  active?: Boolean;
+  active_not?: Boolean;
+  orders_every?: OrderWhereInput;
+  orders_some?: OrderWhereInput;
+  orders_none?: OrderWhereInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface OrderWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  paymentId?: String;
+  paymentId_not?: String;
+  paymentId_in?: String[] | String;
+  paymentId_not_in?: String[] | String;
+  paymentId_lt?: String;
+  paymentId_lte?: String;
+  paymentId_gt?: String;
+  paymentId_gte?: String;
+  paymentId_contains?: String;
+  paymentId_not_contains?: String;
+  paymentId_starts_with?: String;
+  paymentId_not_starts_with?: String;
+  paymentId_ends_with?: String;
+  paymentId_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  user?: UserWhereInput;
+  video?: VideoWhereInput;
+  AND?: OrderWhereInput[] | OrderWhereInput;
+  OR?: OrderWhereInput[] | OrderWhereInput;
+  NOT?: OrderWhereInput[] | OrderWhereInput;
+}
+
 export interface PromoVideoWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -918,6 +824,118 @@ export interface PromoVideoWhereInput {
   NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
 }
 
+export type ProductWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface ProductWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  link?: String;
+  link_not?: String;
+  link_in?: String[] | String;
+  link_not_in?: String[] | String;
+  link_lt?: String;
+  link_lte?: String;
+  link_gt?: String;
+  link_gte?: String;
+  link_contains?: String;
+  link_not_contains?: String;
+  link_starts_with?: String;
+  link_not_starts_with?: String;
+  link_ends_with?: String;
+  link_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  image?: String;
+  image_not?: String;
+  image_in?: String[] | String;
+  image_not_in?: String[] | String;
+  image_lt?: String;
+  image_lte?: String;
+  image_gt?: String;
+  image_gte?: String;
+  image_contains?: String;
+  image_not_contains?: String;
+  image_starts_with?: String;
+  image_not_starts_with?: String;
+  image_ends_with?: String;
+  image_not_ends_with?: String;
+  placeholder?: String;
+  placeholder_not?: String;
+  placeholder_in?: String[] | String;
+  placeholder_not_in?: String[] | String;
+  placeholder_lt?: String;
+  placeholder_lte?: String;
+  placeholder_gt?: String;
+  placeholder_gte?: String;
+  placeholder_contains?: String;
+  placeholder_not_contains?: String;
+  placeholder_starts_with?: String;
+  placeholder_not_starts_with?: String;
+  placeholder_ends_with?: String;
+  placeholder_not_ends_with?: String;
+  type?: String;
+  type_not?: String;
+  type_in?: String[] | String;
+  type_not_in?: String[] | String;
+  type_lt?: String;
+  type_lte?: String;
+  type_gt?: String;
+  type_gte?: String;
+  type_contains?: String;
+  type_not_contains?: String;
+  type_starts_with?: String;
+  type_not_starts_with?: String;
+  type_ends_with?: String;
+  type_not_ends_with?: String;
+  AND?: ProductWhereInput[] | ProductWhereInput;
+  OR?: ProductWhereInput[] | ProductWhereInput;
+  NOT?: ProductWhereInput[] | ProductWhereInput;
+}
+
+export type PromoVideoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
@@ -927,387 +945,18 @@ export type VideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PaymentCreateInput {
-  payId: String;
+export interface OrderCreateInput {
+  paymentId: String;
+  user?: UserCreateOneWithoutOrdersInput;
+  video?: VideoCreateOneInput;
 }
 
-export interface PaymentUpdateInput {
-  payId?: String;
+export interface UserCreateOneWithoutOrdersInput {
+  create?: UserCreateWithoutOrdersInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface PaymentUpdateManyMutationInput {
-  payId?: String;
-}
-
-export interface ProductCreateInput {
-  link: String;
-  name: String;
-  description: String;
-  image: String;
-  placeholder: String;
-  type: String;
-}
-
-export interface ProductUpdateInput {
-  link?: String;
-  name?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  type?: String;
-}
-
-export interface ProductUpdateManyMutationInput {
-  link?: String;
-  name?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  type?: String;
-}
-
-export interface PromoVideoCreateInput {
-  link: String;
-  title: String;
-  description: String;
-  image: String;
-  placeholder?: String;
-  familyId?: String;
-  banner: String;
-  bannerMobile: String;
-  type: VideoType;
-  video?: VideoCreateOneWithoutPromoVideoInput;
-}
-
-export interface VideoCreateOneWithoutPromoVideoInput {
-  create?: VideoCreateWithoutPromoVideoInput;
-  connect?: VideoWhereUniqueInput;
-}
-
-export interface VideoCreateWithoutPromoVideoInput {
-  name: String;
-  title?: String;
-  link: String;
-  preview: String;
-  image: String;
-  placeholder?: String;
-  users?: UserCreateManyWithoutVideosInput;
-  published?: Boolean;
-  amount?: Float;
-  start: Int;
-  type: VideoType;
-  familyId?: String;
-}
-
-export interface UserCreateManyWithoutVideosInput {
-  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-}
-
-export interface UserCreateWithoutVideosInput {
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  phone?: String;
-  ips?: UserCreateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
-  payments?: PaymentCreateManyInput;
-}
-
-export interface UserCreateipsInput {
-  set?: String[] | String;
-}
-
-export interface PaymentCreateManyInput {
-  create?: PaymentCreateInput[] | PaymentCreateInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-}
-
-export interface PromoVideoUpdateInput {
-  link?: String;
-  title?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  familyId?: String;
-  banner?: String;
-  bannerMobile?: String;
-  type?: VideoType;
-  video?: VideoUpdateOneWithoutPromoVideoInput;
-}
-
-export interface VideoUpdateOneWithoutPromoVideoInput {
-  create?: VideoCreateWithoutPromoVideoInput;
-  update?: VideoUpdateWithoutPromoVideoDataInput;
-  upsert?: VideoUpsertWithoutPromoVideoInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: VideoWhereUniqueInput;
-}
-
-export interface VideoUpdateWithoutPromoVideoDataInput {
-  name?: String;
-  title?: String;
-  link?: String;
-  preview?: String;
-  image?: String;
-  placeholder?: String;
-  users?: UserUpdateManyWithoutVideosInput;
-  published?: Boolean;
-  amount?: Float;
-  start?: Int;
-  type?: VideoType;
-  familyId?: String;
-}
-
-export interface UserUpdateManyWithoutVideosInput {
-  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  update?:
-    | UserUpdateWithWhereUniqueWithoutVideosInput[]
-    | UserUpdateWithWhereUniqueWithoutVideosInput;
-  upsert?:
-    | UserUpsertWithWhereUniqueWithoutVideosInput[]
-    | UserUpsertWithWhereUniqueWithoutVideosInput;
-  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
-  updateMany?:
-    | UserUpdateManyWithWhereNestedInput[]
-    | UserUpdateManyWithWhereNestedInput;
-}
-
-export interface UserUpdateWithWhereUniqueWithoutVideosInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutVideosDataInput;
-}
-
-export interface UserUpdateWithoutVideosDataInput {
-  firstName?: String;
-  lastName?: String;
-  email?: String;
-  phone?: String;
-  ips?: UserUpdateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
-  payments?: PaymentUpdateManyInput;
-}
-
-export interface UserUpdateipsInput {
-  set?: String[] | String;
-}
-
-export interface PaymentUpdateManyInput {
-  create?: PaymentCreateInput[] | PaymentCreateInput;
-  update?:
-    | PaymentUpdateWithWhereUniqueNestedInput[]
-    | PaymentUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | PaymentUpsertWithWhereUniqueNestedInput[]
-    | PaymentUpsertWithWhereUniqueNestedInput;
-  delete?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  connect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  disconnect?: PaymentWhereUniqueInput[] | PaymentWhereUniqueInput;
-  deleteMany?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  updateMany?:
-    | PaymentUpdateManyWithWhereNestedInput[]
-    | PaymentUpdateManyWithWhereNestedInput;
-}
-
-export interface PaymentUpdateWithWhereUniqueNestedInput {
-  where: PaymentWhereUniqueInput;
-  data: PaymentUpdateDataInput;
-}
-
-export interface PaymentUpdateDataInput {
-  payId?: String;
-}
-
-export interface PaymentUpsertWithWhereUniqueNestedInput {
-  where: PaymentWhereUniqueInput;
-  update: PaymentUpdateDataInput;
-  create: PaymentCreateInput;
-}
-
-export interface PaymentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  payId?: String;
-  payId_not?: String;
-  payId_in?: String[] | String;
-  payId_not_in?: String[] | String;
-  payId_lt?: String;
-  payId_lte?: String;
-  payId_gt?: String;
-  payId_gte?: String;
-  payId_contains?: String;
-  payId_not_contains?: String;
-  payId_starts_with?: String;
-  payId_not_starts_with?: String;
-  payId_ends_with?: String;
-  payId_not_ends_with?: String;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  OR?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-  NOT?: PaymentScalarWhereInput[] | PaymentScalarWhereInput;
-}
-
-export interface PaymentUpdateManyWithWhereNestedInput {
-  where: PaymentScalarWhereInput;
-  data: PaymentUpdateManyDataInput;
-}
-
-export interface PaymentUpdateManyDataInput {
-  payId?: String;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutVideosInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutVideosDataInput;
-  create: UserCreateWithoutVideosInput;
-}
-
-export interface UserScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  firstName?: String;
-  firstName_not?: String;
-  firstName_in?: String[] | String;
-  firstName_not_in?: String[] | String;
-  firstName_lt?: String;
-  firstName_lte?: String;
-  firstName_gt?: String;
-  firstName_gte?: String;
-  firstName_contains?: String;
-  firstName_not_contains?: String;
-  firstName_starts_with?: String;
-  firstName_not_starts_with?: String;
-  firstName_ends_with?: String;
-  firstName_not_ends_with?: String;
-  lastName?: String;
-  lastName_not?: String;
-  lastName_in?: String[] | String;
-  lastName_not_in?: String[] | String;
-  lastName_lt?: String;
-  lastName_lte?: String;
-  lastName_gt?: String;
-  lastName_gte?: String;
-  lastName_contains?: String;
-  lastName_not_contains?: String;
-  lastName_starts_with?: String;
-  lastName_not_starts_with?: String;
-  lastName_ends_with?: String;
-  lastName_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  phone?: String;
-  phone_not?: String;
-  phone_in?: String[] | String;
-  phone_not_in?: String[] | String;
-  phone_lt?: String;
-  phone_lte?: String;
-  phone_gt?: String;
-  phone_gte?: String;
-  phone_contains?: String;
-  phone_not_contains?: String;
-  phone_starts_with?: String;
-  phone_not_starts_with?: String;
-  phone_ends_with?: String;
-  phone_not_ends_with?: String;
-  subscribed?: Boolean;
-  subscribed_not?: Boolean;
-  active?: Boolean;
-  active_not?: Boolean;
-  AND?: UserScalarWhereInput[] | UserScalarWhereInput;
-  OR?: UserScalarWhereInput[] | UserScalarWhereInput;
-  NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface UserUpdateManyDataInput {
-  firstName?: String;
-  lastName?: String;
-  email?: String;
-  phone?: String;
-  ips?: UserUpdateipsInput;
-  subscribed?: Boolean;
-  active?: Boolean;
-}
-
-export interface VideoUpsertWithoutPromoVideoInput {
-  update: VideoUpdateWithoutPromoVideoDataInput;
-  create: VideoCreateWithoutPromoVideoInput;
-}
-
-export interface PromoVideoUpdateManyMutationInput {
-  link?: String;
-  title?: String;
-  description?: String;
-  image?: String;
-  placeholder?: String;
-  familyId?: String;
-  banner?: String;
-  bannerMobile?: String;
-  type?: VideoType;
-}
-
-export interface UserCreateInput {
+export interface UserCreateWithoutOrdersInput {
   firstName?: String;
   lastName?: String;
   email: String;
@@ -1316,7 +965,10 @@ export interface UserCreateInput {
   subscribed?: Boolean;
   videos?: VideoCreateManyWithoutUsersInput;
   active?: Boolean;
-  payments?: PaymentCreateManyInput;
+}
+
+export interface UserCreateipsInput {
+  set?: String[] | String;
 }
 
 export interface VideoCreateManyWithoutUsersInput {
@@ -1356,7 +1008,69 @@ export interface PromoVideoCreateWithoutVideoInput {
   type: VideoType;
 }
 
-export interface UserUpdateInput {
+export interface VideoCreateOneInput {
+  create?: VideoCreateInput;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoCreateInput {
+  name: String;
+  title?: String;
+  link: String;
+  preview: String;
+  image: String;
+  placeholder?: String;
+  users?: UserCreateManyWithoutVideosInput;
+  published?: Boolean;
+  amount?: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: String;
+  promoVideo?: PromoVideoCreateOneWithoutVideoInput;
+}
+
+export interface UserCreateManyWithoutVideosInput {
+  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutVideosInput {
+  firstName?: String;
+  lastName?: String;
+  email: String;
+  phone?: String;
+  ips?: UserCreateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
+  orders?: OrderCreateManyWithoutUserInput;
+}
+
+export interface OrderCreateManyWithoutUserInput {
+  create?: OrderCreateWithoutUserInput[] | OrderCreateWithoutUserInput;
+  connect?: OrderWhereUniqueInput[] | OrderWhereUniqueInput;
+}
+
+export interface OrderCreateWithoutUserInput {
+  paymentId: String;
+  video?: VideoCreateOneInput;
+}
+
+export interface OrderUpdateInput {
+  paymentId?: String;
+  user?: UserUpdateOneWithoutOrdersInput;
+  video?: VideoUpdateOneInput;
+}
+
+export interface UserUpdateOneWithoutOrdersInput {
+  create?: UserCreateWithoutOrdersInput;
+  update?: UserUpdateWithoutOrdersDataInput;
+  upsert?: UserUpsertWithoutOrdersInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutOrdersDataInput {
   firstName?: String;
   lastName?: String;
   email?: String;
@@ -1365,7 +1079,10 @@ export interface UserUpdateInput {
   subscribed?: Boolean;
   videos?: VideoUpdateManyWithoutUsersInput;
   active?: Boolean;
-  payments?: PaymentUpdateManyInput;
+}
+
+export interface UserUpdateipsInput {
+  set?: String[] | String;
 }
 
 export interface VideoUpdateManyWithoutUsersInput {
@@ -1596,7 +1313,269 @@ export interface VideoUpdateManyDataInput {
   familyId?: String;
 }
 
-export interface UserUpdateManyMutationInput {
+export interface UserUpsertWithoutOrdersInput {
+  update: UserUpdateWithoutOrdersDataInput;
+  create: UserCreateWithoutOrdersInput;
+}
+
+export interface VideoUpdateOneInput {
+  create?: VideoCreateInput;
+  update?: VideoUpdateDataInput;
+  upsert?: VideoUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoUpdateDataInput {
+  name?: String;
+  title?: String;
+  link?: String;
+  preview?: String;
+  image?: String;
+  placeholder?: String;
+  users?: UserUpdateManyWithoutVideosInput;
+  published?: Boolean;
+  amount?: Float;
+  start?: Int;
+  type?: VideoType;
+  familyId?: String;
+  promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
+}
+
+export interface UserUpdateManyWithoutVideosInput {
+  create?: UserCreateWithoutVideosInput[] | UserCreateWithoutVideosInput;
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  update?:
+    | UserUpdateWithWhereUniqueWithoutVideosInput[]
+    | UserUpdateWithWhereUniqueWithoutVideosInput;
+  upsert?:
+    | UserUpsertWithWhereUniqueWithoutVideosInput[]
+    | UserUpsertWithWhereUniqueWithoutVideosInput;
+  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
+  updateMany?:
+    | UserUpdateManyWithWhereNestedInput[]
+    | UserUpdateManyWithWhereNestedInput;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutVideosInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutVideosDataInput;
+}
+
+export interface UserUpdateWithoutVideosDataInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
+  orders?: OrderUpdateManyWithoutUserInput;
+}
+
+export interface OrderUpdateManyWithoutUserInput {
+  create?: OrderCreateWithoutUserInput[] | OrderCreateWithoutUserInput;
+  delete?: OrderWhereUniqueInput[] | OrderWhereUniqueInput;
+  connect?: OrderWhereUniqueInput[] | OrderWhereUniqueInput;
+  disconnect?: OrderWhereUniqueInput[] | OrderWhereUniqueInput;
+  update?:
+    | OrderUpdateWithWhereUniqueWithoutUserInput[]
+    | OrderUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | OrderUpsertWithWhereUniqueWithoutUserInput[]
+    | OrderUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: OrderScalarWhereInput[] | OrderScalarWhereInput;
+  updateMany?:
+    | OrderUpdateManyWithWhereNestedInput[]
+    | OrderUpdateManyWithWhereNestedInput;
+}
+
+export interface OrderUpdateWithWhereUniqueWithoutUserInput {
+  where: OrderWhereUniqueInput;
+  data: OrderUpdateWithoutUserDataInput;
+}
+
+export interface OrderUpdateWithoutUserDataInput {
+  paymentId?: String;
+  video?: VideoUpdateOneInput;
+}
+
+export interface OrderUpsertWithWhereUniqueWithoutUserInput {
+  where: OrderWhereUniqueInput;
+  update: OrderUpdateWithoutUserDataInput;
+  create: OrderCreateWithoutUserInput;
+}
+
+export interface OrderScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  paymentId?: String;
+  paymentId_not?: String;
+  paymentId_in?: String[] | String;
+  paymentId_not_in?: String[] | String;
+  paymentId_lt?: String;
+  paymentId_lte?: String;
+  paymentId_gt?: String;
+  paymentId_gte?: String;
+  paymentId_contains?: String;
+  paymentId_not_contains?: String;
+  paymentId_starts_with?: String;
+  paymentId_not_starts_with?: String;
+  paymentId_ends_with?: String;
+  paymentId_not_ends_with?: String;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: OrderScalarWhereInput[] | OrderScalarWhereInput;
+  OR?: OrderScalarWhereInput[] | OrderScalarWhereInput;
+  NOT?: OrderScalarWhereInput[] | OrderScalarWhereInput;
+}
+
+export interface OrderUpdateManyWithWhereNestedInput {
+  where: OrderScalarWhereInput;
+  data: OrderUpdateManyDataInput;
+}
+
+export interface OrderUpdateManyDataInput {
+  paymentId?: String;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutVideosInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutVideosDataInput;
+  create: UserCreateWithoutVideosInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  firstName?: String;
+  firstName_not?: String;
+  firstName_in?: String[] | String;
+  firstName_not_in?: String[] | String;
+  firstName_lt?: String;
+  firstName_lte?: String;
+  firstName_gt?: String;
+  firstName_gte?: String;
+  firstName_contains?: String;
+  firstName_not_contains?: String;
+  firstName_starts_with?: String;
+  firstName_not_starts_with?: String;
+  firstName_ends_with?: String;
+  firstName_not_ends_with?: String;
+  lastName?: String;
+  lastName_not?: String;
+  lastName_in?: String[] | String;
+  lastName_not_in?: String[] | String;
+  lastName_lt?: String;
+  lastName_lte?: String;
+  lastName_gt?: String;
+  lastName_gte?: String;
+  lastName_contains?: String;
+  lastName_not_contains?: String;
+  lastName_starts_with?: String;
+  lastName_not_starts_with?: String;
+  lastName_ends_with?: String;
+  lastName_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  phone?: String;
+  phone_not?: String;
+  phone_in?: String[] | String;
+  phone_not_in?: String[] | String;
+  phone_lt?: String;
+  phone_lte?: String;
+  phone_gt?: String;
+  phone_gte?: String;
+  phone_contains?: String;
+  phone_not_contains?: String;
+  phone_starts_with?: String;
+  phone_not_starts_with?: String;
+  phone_ends_with?: String;
+  phone_not_ends_with?: String;
+  subscribed?: Boolean;
+  subscribed_not?: Boolean;
+  active?: Boolean;
+  active_not?: Boolean;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  AND?: UserScalarWhereInput[] | UserScalarWhereInput;
+  OR?: UserScalarWhereInput[] | UserScalarWhereInput;
+  NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
   firstName?: String;
   lastName?: String;
   email?: String;
@@ -1606,7 +1585,61 @@ export interface UserUpdateManyMutationInput {
   active?: Boolean;
 }
 
-export interface VideoCreateInput {
+export interface VideoUpsertNestedInput {
+  update: VideoUpdateDataInput;
+  create: VideoCreateInput;
+}
+
+export interface OrderUpdateManyMutationInput {
+  paymentId?: String;
+}
+
+export interface ProductCreateInput {
+  link: String;
+  name: String;
+  description: String;
+  image: String;
+  placeholder: String;
+  type: String;
+}
+
+export interface ProductUpdateInput {
+  link?: String;
+  name?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  type?: String;
+}
+
+export interface ProductUpdateManyMutationInput {
+  link?: String;
+  name?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  type?: String;
+}
+
+export interface PromoVideoCreateInput {
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  placeholder?: String;
+  familyId?: String;
+  banner: String;
+  bannerMobile: String;
+  type: VideoType;
+  video?: VideoCreateOneWithoutPromoVideoInput;
+}
+
+export interface VideoCreateOneWithoutPromoVideoInput {
+  create?: VideoCreateWithoutPromoVideoInput;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoCreateWithoutPromoVideoInput {
   name: String;
   title?: String;
   link: String;
@@ -1619,7 +1652,94 @@ export interface VideoCreateInput {
   start: Int;
   type: VideoType;
   familyId?: String;
-  promoVideo?: PromoVideoCreateOneWithoutVideoInput;
+}
+
+export interface PromoVideoUpdateInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  familyId?: String;
+  banner?: String;
+  bannerMobile?: String;
+  type?: VideoType;
+  video?: VideoUpdateOneWithoutPromoVideoInput;
+}
+
+export interface VideoUpdateOneWithoutPromoVideoInput {
+  create?: VideoCreateWithoutPromoVideoInput;
+  update?: VideoUpdateWithoutPromoVideoDataInput;
+  upsert?: VideoUpsertWithoutPromoVideoInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: VideoWhereUniqueInput;
+}
+
+export interface VideoUpdateWithoutPromoVideoDataInput {
+  name?: String;
+  title?: String;
+  link?: String;
+  preview?: String;
+  image?: String;
+  placeholder?: String;
+  users?: UserUpdateManyWithoutVideosInput;
+  published?: Boolean;
+  amount?: Float;
+  start?: Int;
+  type?: VideoType;
+  familyId?: String;
+}
+
+export interface VideoUpsertWithoutPromoVideoInput {
+  update: VideoUpdateWithoutPromoVideoDataInput;
+  create: VideoCreateWithoutPromoVideoInput;
+}
+
+export interface PromoVideoUpdateManyMutationInput {
+  link?: String;
+  title?: String;
+  description?: String;
+  image?: String;
+  placeholder?: String;
+  familyId?: String;
+  banner?: String;
+  bannerMobile?: String;
+  type?: VideoType;
+}
+
+export interface UserCreateInput {
+  firstName?: String;
+  lastName?: String;
+  email: String;
+  phone?: String;
+  ips?: UserCreateipsInput;
+  subscribed?: Boolean;
+  videos?: VideoCreateManyWithoutUsersInput;
+  active?: Boolean;
+  orders?: OrderCreateManyWithoutUserInput;
+}
+
+export interface UserUpdateInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  videos?: VideoUpdateManyWithoutUsersInput;
+  active?: Boolean;
+  orders?: OrderUpdateManyWithoutUserInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  active?: Boolean;
 }
 
 export interface VideoUpdateInput {
@@ -1652,15 +1772,15 @@ export interface VideoUpdateManyMutationInput {
   familyId?: String;
 }
 
-export interface PaymentSubscriptionWhereInput {
+export interface OrderSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: PaymentWhereInput;
-  AND?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
-  OR?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
-  NOT?: PaymentSubscriptionWhereInput[] | PaymentSubscriptionWhereInput;
+  node?: OrderWhereInput;
+  AND?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
+  OR?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
+  NOT?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
 }
 
 export interface ProductSubscriptionWhereInput {
@@ -1711,45 +1831,248 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Payment {
+export interface Order {
   id: ID_Output;
-  payId: String;
+  paymentId: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
-export interface PaymentPromise extends Promise<Payment>, Fragmentable {
+export interface OrderPromise extends Promise<Order>, Fragmentable {
   id: () => Promise<ID_Output>;
-  payId: () => Promise<String>;
+  paymentId: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  video: <T = VideoPromise>() => T;
+}
+
+export interface OrderSubscription
+  extends Promise<AsyncIterator<Order>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  paymentId: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  user: <T = UserSubscription>() => T;
+  video: <T = VideoSubscription>() => T;
+}
+
+export interface User {
+  id: ID_Output;
+  firstName?: String;
+  lastName?: String;
+  email: String;
+  phone?: String;
+  ips: String[];
+  subscribed: Boolean;
+  active: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstName: () => Promise<String>;
+  lastName: () => Promise<String>;
+  email: () => Promise<String>;
+  phone: () => Promise<String>;
+  ips: () => Promise<String[]>;
+  subscribed: () => Promise<Boolean>;
+  videos: <T = FragmentableArray<Video>>(
+    args?: {
+      where?: VideoWhereInput;
+      orderBy?: VideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  active: () => Promise<Boolean>;
+  orders: <T = FragmentableArray<Order>>(
+    args?: {
+      where?: OrderWhereInput;
+      orderBy?: OrderOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface PaymentSubscription
-  extends Promise<AsyncIterator<Payment>>,
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  payId: () => Promise<AsyncIterator<String>>;
+  firstName: () => Promise<AsyncIterator<String>>;
+  lastName: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
+  ips: () => Promise<AsyncIterator<String[]>>;
+  subscribed: () => Promise<AsyncIterator<Boolean>>;
+  videos: <T = Promise<AsyncIterator<VideoSubscription>>>(
+    args?: {
+      where?: VideoWhereInput;
+      orderBy?: VideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  active: () => Promise<AsyncIterator<Boolean>>;
+  orders: <T = Promise<AsyncIterator<OrderSubscription>>>(
+    args?: {
+      where?: OrderWhereInput;
+      orderBy?: OrderOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface PaymentConnection {}
-
-export interface PaymentConnectionPromise
-  extends Promise<PaymentConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PaymentEdge>>() => T;
-  aggregate: <T = AggregatePaymentPromise>() => T;
+export interface Video {
+  id: ID_Output;
+  name: String;
+  title?: String;
+  link: String;
+  preview: String;
+  image: String;
+  placeholder?: String;
+  published: Boolean;
+  amount?: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: String;
 }
 
-export interface PaymentConnectionSubscription
-  extends Promise<AsyncIterator<PaymentConnection>>,
+export interface VideoPromise extends Promise<Video>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  title: () => Promise<String>;
+  link: () => Promise<String>;
+  preview: () => Promise<String>;
+  image: () => Promise<String>;
+  placeholder: () => Promise<String>;
+  users: <T = FragmentableArray<User>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  published: () => Promise<Boolean>;
+  amount: () => Promise<Float>;
+  start: () => Promise<Int>;
+  type: () => Promise<VideoType>;
+  familyId: () => Promise<String>;
+  promoVideo: <T = PromoVideoPromise>() => T;
+}
+
+export interface VideoSubscription
+  extends Promise<AsyncIterator<Video>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  link: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  published: () => Promise<AsyncIterator<Boolean>>;
+  amount: () => Promise<AsyncIterator<Float>>;
+  start: () => Promise<AsyncIterator<Int>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  familyId: () => Promise<AsyncIterator<String>>;
+  promoVideo: <T = PromoVideoSubscription>() => T;
+}
+
+export interface PromoVideo {
+  id: ID_Output;
+  link: String;
+  title: String;
+  description: String;
+  image: String;
+  placeholder?: String;
+  familyId: String;
+  banner: String;
+  bannerMobile: String;
+  type: VideoType;
+}
+
+export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  link: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  image: () => Promise<String>;
+  placeholder: () => Promise<String>;
+  familyId: () => Promise<String>;
+  banner: () => Promise<String>;
+  bannerMobile: () => Promise<String>;
+  type: () => Promise<VideoType>;
+  video: <T = VideoPromise>() => T;
+}
+
+export interface PromoVideoSubscription
+  extends Promise<AsyncIterator<PromoVideo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  link: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  placeholder: () => Promise<AsyncIterator<String>>;
+  familyId: () => Promise<AsyncIterator<String>>;
+  banner: () => Promise<AsyncIterator<String>>;
+  bannerMobile: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  video: <T = VideoSubscription>() => T;
+}
+
+export interface OrderConnection {}
+
+export interface OrderConnectionPromise
+  extends Promise<OrderConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<OrderEdge>>() => T;
+  aggregate: <T = AggregateOrderPromise>() => T;
+}
+
+export interface OrderConnectionSubscription
+  extends Promise<AsyncIterator<OrderConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PaymentEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePaymentSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<OrderEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateOrderSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -1775,34 +2098,34 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PaymentEdge {
+export interface OrderEdge {
   cursor: String;
 }
 
-export interface PaymentEdgePromise extends Promise<PaymentEdge>, Fragmentable {
-  node: <T = PaymentPromise>() => T;
+export interface OrderEdgePromise extends Promise<OrderEdge>, Fragmentable {
+  node: <T = OrderPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface PaymentEdgeSubscription
-  extends Promise<AsyncIterator<PaymentEdge>>,
+export interface OrderEdgeSubscription
+  extends Promise<AsyncIterator<OrderEdge>>,
     Fragmentable {
-  node: <T = PaymentSubscription>() => T;
+  node: <T = OrderSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregatePayment {
+export interface AggregateOrder {
   count: Int;
 }
 
-export interface AggregatePaymentPromise
-  extends Promise<AggregatePayment>,
+export interface AggregateOrderPromise
+  extends Promise<AggregateOrder>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregatePaymentSubscription
-  extends Promise<AsyncIterator<AggregatePayment>>,
+export interface AggregateOrderSubscription
+  extends Promise<AsyncIterator<AggregateOrder>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1887,199 +2210,6 @@ export interface AggregateProductSubscription
   extends Promise<AsyncIterator<AggregateProduct>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PromoVideo {
-  id: ID_Output;
-  link: String;
-  title: String;
-  description: String;
-  image: String;
-  placeholder?: String;
-  familyId: String;
-  banner: String;
-  bannerMobile: String;
-  type: VideoType;
-}
-
-export interface PromoVideoPromise extends Promise<PromoVideo>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  link: () => Promise<String>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  image: () => Promise<String>;
-  placeholder: () => Promise<String>;
-  familyId: () => Promise<String>;
-  banner: () => Promise<String>;
-  bannerMobile: () => Promise<String>;
-  type: () => Promise<VideoType>;
-  video: <T = VideoPromise>() => T;
-}
-
-export interface PromoVideoSubscription
-  extends Promise<AsyncIterator<PromoVideo>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  link: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  image: () => Promise<AsyncIterator<String>>;
-  placeholder: () => Promise<AsyncIterator<String>>;
-  familyId: () => Promise<AsyncIterator<String>>;
-  banner: () => Promise<AsyncIterator<String>>;
-  bannerMobile: () => Promise<AsyncIterator<String>>;
-  type: () => Promise<AsyncIterator<VideoType>>;
-  video: <T = VideoSubscription>() => T;
-}
-
-export interface Video {
-  id: ID_Output;
-  name: String;
-  title?: String;
-  link: String;
-  preview: String;
-  image: String;
-  placeholder?: String;
-  published: Boolean;
-  amount?: Float;
-  start: Int;
-  type: VideoType;
-  familyId?: String;
-}
-
-export interface VideoPromise extends Promise<Video>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  title: () => Promise<String>;
-  link: () => Promise<String>;
-  preview: () => Promise<String>;
-  image: () => Promise<String>;
-  placeholder: () => Promise<String>;
-  users: <T = FragmentableArray<User>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  published: () => Promise<Boolean>;
-  amount: () => Promise<Float>;
-  start: () => Promise<Int>;
-  type: () => Promise<VideoType>;
-  familyId: () => Promise<String>;
-  promoVideo: <T = PromoVideoPromise>() => T;
-}
-
-export interface VideoSubscription
-  extends Promise<AsyncIterator<Video>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  link: () => Promise<AsyncIterator<String>>;
-  preview: () => Promise<AsyncIterator<String>>;
-  image: () => Promise<AsyncIterator<String>>;
-  placeholder: () => Promise<AsyncIterator<String>>;
-  users: <T = Promise<AsyncIterator<UserSubscription>>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Float>>;
-  start: () => Promise<AsyncIterator<Int>>;
-  type: () => Promise<AsyncIterator<VideoType>>;
-  familyId: () => Promise<AsyncIterator<String>>;
-  promoVideo: <T = PromoVideoSubscription>() => T;
-}
-
-export interface User {
-  id: ID_Output;
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  phone?: String;
-  ips: String[];
-  subscribed: Boolean;
-  active: Boolean;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  firstName: () => Promise<String>;
-  lastName: () => Promise<String>;
-  email: () => Promise<String>;
-  phone: () => Promise<String>;
-  ips: () => Promise<String[]>;
-  subscribed: () => Promise<Boolean>;
-  videos: <T = FragmentableArray<Video>>(
-    args?: {
-      where?: VideoWhereInput;
-      orderBy?: VideoOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  active: () => Promise<Boolean>;
-  payments: <T = FragmentableArray<Payment>>(
-    args?: {
-      where?: PaymentWhereInput;
-      orderBy?: PaymentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  firstName: () => Promise<AsyncIterator<String>>;
-  lastName: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-  phone: () => Promise<AsyncIterator<String>>;
-  ips: () => Promise<AsyncIterator<String[]>>;
-  subscribed: () => Promise<AsyncIterator<Boolean>>;
-  videos: <T = Promise<AsyncIterator<VideoSubscription>>>(
-    args?: {
-      where?: VideoWhereInput;
-      orderBy?: VideoOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  active: () => Promise<AsyncIterator<Boolean>>;
-  payments: <T = Promise<AsyncIterator<PaymentSubscription>>>(
-    args?: {
-      where?: PaymentWhereInput;
-      orderBy?: PaymentOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
 }
 
 export interface PromoVideoConnection {}
@@ -2250,50 +2380,50 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface PaymentSubscriptionPayload {
+export interface OrderSubscriptionPayload {
   mutation: MutationType;
   updatedFields?: String[];
 }
 
-export interface PaymentSubscriptionPayloadPromise
-  extends Promise<PaymentSubscriptionPayload>,
+export interface OrderSubscriptionPayloadPromise
+  extends Promise<OrderSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = PaymentPromise>() => T;
+  node: <T = OrderPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = PaymentPreviousValuesPromise>() => T;
+  previousValues: <T = OrderPreviousValuesPromise>() => T;
 }
 
-export interface PaymentSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PaymentSubscriptionPayload>>,
+export interface OrderSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<OrderSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PaymentSubscription>() => T;
+  node: <T = OrderSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PaymentPreviousValuesSubscription>() => T;
+  previousValues: <T = OrderPreviousValuesSubscription>() => T;
 }
 
-export interface PaymentPreviousValues {
+export interface OrderPreviousValues {
   id: ID_Output;
-  payId: String;
+  paymentId: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
-export interface PaymentPreviousValuesPromise
-  extends Promise<PaymentPreviousValues>,
+export interface OrderPreviousValuesPromise
+  extends Promise<OrderPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  payId: () => Promise<String>;
+  paymentId: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface PaymentPreviousValuesSubscription
-  extends Promise<AsyncIterator<PaymentPreviousValues>>,
+export interface OrderPreviousValuesSubscription
+  extends Promise<AsyncIterator<OrderPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  payId: () => Promise<AsyncIterator<String>>;
+  paymentId: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -2453,6 +2583,8 @@ export interface UserPreviousValues {
   ips: String[];
   subscribed: Boolean;
   active: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -2466,6 +2598,8 @@ export interface UserPreviousValuesPromise
   ips: () => Promise<String[]>;
   subscribed: () => Promise<Boolean>;
   active: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -2479,6 +2613,8 @@ export interface UserPreviousValuesSubscription
   ips: () => Promise<AsyncIterator<String[]>>;
   subscribed: () => Promise<AsyncIterator<Boolean>>;
   active: () => Promise<AsyncIterator<Boolean>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface VideoSubscriptionPayload {
@@ -2575,11 +2711,6 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
-/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
@@ -2589,6 +2720,11 @@ The `Float` scalar type represents signed double-precision fractional values as 
 */
 export type Float = number;
 
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
 export type Long = string;
 
 /**
@@ -2597,7 +2733,7 @@ export type Long = string;
 
 export const models = [
   {
-    name: "Payment",
+    name: "Order",
     embedded: false
   },
   {

@@ -3,6 +3,7 @@ type Query {
   userIp: String
   products(type: String): ProductPayload!
   videoPage(id: ID!, ip: String, email: String, showAll: Boolean): VideoPage
+  dashboard(from: String!, to: String!, cloudflare: Boolean): Dashboard!
 }
 
 type Mutation {
@@ -43,6 +44,27 @@ type Video {
   type: String
   familyId: String
   promoVideo: PromoVideo
+}
+
+type Dashboard {
+  orders: Orders
+  users: Users
+}
+
+type Orders {
+  list: [Payment]
+  count: Int!
+}
+
+type Users {
+  list: [User]
+  count: Int!
+}
+
+type Payment {
+  id: ID!
+  paymentId: String!
+  createdAt: String!
 }
 
 type PromoVideo {

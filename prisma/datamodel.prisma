@@ -8,7 +8,9 @@ type User {
   subscribed: Boolean! @default(value: "true")
   videos: [Video]!
   active: Boolean! @default(value: "true")
-  payments: [Payment]! @default(value: [])
+  orders: [Order]! @default(value: [])
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Video {
@@ -52,11 +54,13 @@ type Product {
   type: String!
 }
 
-type Payment {
+type Order {
   id: ID! @unique
-  payId: String! @unique
+  paymentId: String! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
+  user: User
+  video: Video
 }
 
 enum VideoType {

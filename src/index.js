@@ -60,6 +60,36 @@ const resolvers = {
       const types = items ? sort([...new Set(items.map(product => product.type))]) : [];
       return { types, items };
     },
+    async dashboard(parent, { from, to, cloudflare }, context) {
+      // calculate average purchases per user in between dates (users with purchases/orders) 
+        // will help with buy 1 get 1 free or buy 2 get 1 free
+      // calculate website conversion unique visitors / purchases -> google analytics
+      // calculate average subscribed to emails
+      // most purchased videos (show all videos)
+      // build subscriptions
+      // ---
+      // build PromoCode logic
+      // build Promo Modal with scheduled dates
+      // refer a friend
+      // implement GPAY
+
+      const optsDate = cloudflare
+        ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
+        : { createdAt_gte: `${from}T00:00:00.000Z`, createdAt_lte: `${to}T23:59:59.999Z` };
+
+      const listUsers = await context.prisma.users({ where: { ...optsDate } });
+      const listOrders = await context.prisma.orders({ where: { ...optsDate } });
+      return {
+        orders: {
+          list: listOrders,
+          count: listOrders.length
+        },
+        users: {
+          list: listUsers,
+          count: listUsers.length
+        }
+      }
+    }
   },
   Video: {
     users(parent) {
@@ -86,7 +116,7 @@ const resolvers = {
     }, context) {
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
-      return context.prisma.upsertUser({
+      const { id: userId } = await context.prisma.upsertUser({
         where: { email }, 
         create: {
           email,
@@ -95,17 +125,58 @@ const resolvers = {
           phone,
           ips: {set: updatedIps },
           videos: { connect: { id: videoId } },
-          payments: { create: { payId: paymentId } },
         }, update: {
           phone,
           videos: { connect: { id: videoId } },
-          payments: { create: { payId: paymentId } },
           ips: {set: updatedIps },
         }
       }); 
+
+      console.log('>>>>>>>>> USER SERVER <<<<<<<<<', userId);
+
+      return context.prisma.createOrder({
+        paymentId,
+        user: { connect: { id: userId } },
+        video: { connect: { id: videoId } }
+      });
+
+      // orders: { 
+      //   create: { 
+      //     paymentId: paymentId, video: { connect: { id: videoId } } 
+      //   } 
+      // },
     },
   },
 }
+
+
+
+
+// return context.prisma.upsertUser({
+//   where: { email }, 
+//   create: {
+//     email,
+//     firstName,
+//     lastName,
+//     phone,
+//     ips: {set: updatedIps },
+//     videos: { connect: { id: videoId } },
+//     orders: { 
+//       create: { 
+//         paymentId: paymentId, video: { connect: { id: videoId } } 
+//       } 
+//     },
+//   }, update: {
+//     phone,
+//     videos: { connect: { id: videoId } },
+//     orders: { 
+//       create: { 
+//         paymentId: paymentId, video: { connect: { id: videoId } } 
+//       } 
+//     },
+//     ips: {set: updatedIps },
+//   }
+// }); 
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
