@@ -28,6 +28,7 @@ type Video {
   type: VideoType!
   familyId: String @default(value: "")
   promoVideo: PromoVideo
+  suggest: Boolean! @default(value: "true")
 }
 
 type PromoVideo {
@@ -44,6 +45,21 @@ type PromoVideo {
   video: Video
 }
 
+type PromoCode {
+  id: ID! @unique
+  code: String! @unique
+  valid: Boolean! @default(value: "true")
+  user: User!
+  video: Video
+}
+
+type SitePromo {
+  id: ID! @unique
+  name: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
 type Product {
   id: ID! @unique
   link: String!
@@ -56,9 +72,9 @@ type Product {
 
 type Order {
   id: ID! @unique
-  paymentId: String! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
+  paymentId: String! @unique
   user: User
   video: Video
 }

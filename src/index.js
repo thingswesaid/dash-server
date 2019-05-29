@@ -25,7 +25,7 @@ const resolvers = {
       const { promoVideo } = promoVideoQuery[0];
 
       const latestVideos = await context.prisma.videos({
-        where: { id_not: videoId, published: true }, 
+        where: { id_not: videoId, published: true, suggest: true }, 
         orderBy: 'createdAt_DESC', 
         first: 12
       });
@@ -60,18 +60,19 @@ const resolvers = {
       const types = items ? sort([...new Set(items.map(product => product.type))]) : [];
       return { types, items };
     },
-    async dashboard(parent, { from, to, cloudflare }, context) {
-      // calculate average purchases per user in between dates (users with purchases/orders) 
-        // will help with buy 1 get 1 free or buy 2 get 1 free
-      // calculate website conversion unique visitors / purchases -> google analytics
-      // calculate average subscribed to emails
-      // most purchased videos (show all videos)
-      // build subscriptions
-      // ---
-      // build PromoCode logic
-      // build Promo Modal with scheduled dates
-      // refer a friend
+    async promoCode(parent, { code }, context) {
+      if (!code) return;
+      promoCodes = await context.prisma.promoCodes({ where: { code } });
+      return promoCodes[0];
+    },
+    async dashboard(parent, { from, to, cloudflare }, context) { 
+      // build Promo Modal with scheduled dates (buy 1 get 1 free)
+      // implement Email system also to send promo codes | bulk email (don't miss out! 4.99 for all videos at the end of the month)
+      // || later || refer a friend
       // implement GPAY
+      // track affiliate link when using INFLUENCERS (bitly.com)
+      // ADD ANIMATION WHILE WAITING FOR IMAGES TO LOAD 
+      // >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
 
       const optsDate = cloudflare
         ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
@@ -96,6 +97,11 @@ const resolvers = {
       return prisma.video({ id: parent.id }).users()
     },
   },
+  PromoCode: {
+    user(parent) {
+      return prisma.promoCode({ id: parent.id }).user()
+    },
+  },
   Mutation: {
     createUser(parent, { email, ip }, context) {
       return context.prisma.createUser({ email, ips: { set: ip } })
@@ -104,6 +110,21 @@ const resolvers = {
       return context.prisma.updateUser({
         where: { email }, data: { ips: { set: ips } },
       })
+    },
+    async usePromoCode(parent, { code, videoId, email }, context) {
+      const promoCodes = await context.prisma.promoCodes({ where: { code } });
+      const promoCode = promoCodes[0];
+      if (promoCode) {
+        await context.prisma.updateUser({
+          where: { email },
+          data: { videos: { connect: { id: videoId } } },
+        });
+        return context.prisma.updatePromoCode({ 
+          where: { code }, 
+          data: { valid: false, video: { connect: { id: videoId } } } 
+        });
+      }
+      return null;
     },
     async createOrder(parent, { 
       email, 
@@ -114,6 +135,8 @@ const resolvers = {
       lastName, 
       paymentId 
     }, context) {
+      // check if there are site promo active (buy 1 get 1 / buy 2 get 1)
+      // send email CONGRATULATIONS! 
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       const { id: userId } = await context.prisma.upsertUser({
@@ -123,7 +146,7 @@ const resolvers = {
           firstName,
           lastName,
           phone,
-          ips: {set: updatedIps },
+          ips: { set: updatedIps },
           videos: { connect: { id: videoId } },
         }, update: {
           phone,

@@ -3,12 +3,14 @@ type Query {
   userIp: String
   products(type: String): ProductPayload!
   videoPage(id: ID!, ip: String, email: String, showAll: Boolean): VideoPage
+  promoCode(code: String): PromoCode
   dashboard(from: String!, to: String!, cloudflare: Boolean): Dashboard!
 }
 
 type Mutation {
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
+  usePromoCode(code: String!, videoId: String!, email: String!): PromoCode
   createOrder(
     email: String!, 
     ips: [String], 
@@ -79,6 +81,13 @@ type PromoVideo {
   bannerMobile: String!
   type: VideoType!
   video: Video
+}
+
+type PromoCode {
+  id: ID!
+  code: String!
+  valid: Boolean!
+  user: User!
 }
 
 type AnonymousIp {

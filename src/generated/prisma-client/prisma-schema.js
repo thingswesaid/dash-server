@@ -7,7 +7,15 @@ type AggregateProduct {
   count: Int!
 }
 
+type AggregatePromoCode {
+  count: Int!
+}
+
 type AggregatePromoVideo {
+  count: Int!
+}
+
+type AggregateSitePromo {
   count: Int!
 }
 
@@ -40,12 +48,24 @@ type Mutation {
   upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  createPromoCode(data: PromoCodeCreateInput!): PromoCode!
+  updatePromoCode(data: PromoCodeUpdateInput!, where: PromoCodeWhereUniqueInput!): PromoCode
+  updateManyPromoCodes(data: PromoCodeUpdateManyMutationInput!, where: PromoCodeWhereInput): BatchPayload!
+  upsertPromoCode(where: PromoCodeWhereUniqueInput!, create: PromoCodeCreateInput!, update: PromoCodeUpdateInput!): PromoCode!
+  deletePromoCode(where: PromoCodeWhereUniqueInput!): PromoCode
+  deleteManyPromoCodes(where: PromoCodeWhereInput): BatchPayload!
   createPromoVideo(data: PromoVideoCreateInput!): PromoVideo!
   updatePromoVideo(data: PromoVideoUpdateInput!, where: PromoVideoWhereUniqueInput!): PromoVideo
   updateManyPromoVideos(data: PromoVideoUpdateManyMutationInput!, where: PromoVideoWhereInput): BatchPayload!
   upsertPromoVideo(where: PromoVideoWhereUniqueInput!, create: PromoVideoCreateInput!, update: PromoVideoUpdateInput!): PromoVideo!
   deletePromoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
   deleteManyPromoVideos(where: PromoVideoWhereInput): BatchPayload!
+  createSitePromo(data: SitePromoCreateInput!): SitePromo!
+  updateSitePromo(data: SitePromoUpdateInput!, where: SitePromoWhereUniqueInput!): SitePromo
+  updateManySitePromoes(data: SitePromoUpdateManyMutationInput!, where: SitePromoWhereInput): BatchPayload!
+  upsertSitePromo(where: SitePromoWhereUniqueInput!, create: SitePromoCreateInput!, update: SitePromoUpdateInput!): SitePromo!
+  deleteSitePromo(where: SitePromoWhereUniqueInput!): SitePromo
+  deleteManySitePromoes(where: SitePromoWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -72,9 +92,9 @@ interface Node {
 
 type Order {
   id: ID!
-  paymentId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  paymentId: String!
   user: User
   video: Video
 }
@@ -109,19 +129,19 @@ type OrderEdge {
 enum OrderOrderByInput {
   id_ASC
   id_DESC
-  paymentId_ASC
-  paymentId_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  paymentId_ASC
+  paymentId_DESC
 }
 
 type OrderPreviousValues {
   id: ID!
-  paymentId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  paymentId: String!
 }
 
 input OrderScalarWhereInput {
@@ -139,20 +159,6 @@ input OrderScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  paymentId: String
-  paymentId_not: String
-  paymentId_in: [String!]
-  paymentId_not_in: [String!]
-  paymentId_lt: String
-  paymentId_lte: String
-  paymentId_gt: String
-  paymentId_gte: String
-  paymentId_contains: String
-  paymentId_not_contains: String
-  paymentId_starts_with: String
-  paymentId_not_starts_with: String
-  paymentId_ends_with: String
-  paymentId_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -169,6 +175,20 @@ input OrderScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  paymentId: String
+  paymentId_not: String
+  paymentId_in: [String!]
+  paymentId_not_in: [String!]
+  paymentId_lt: String
+  paymentId_lte: String
+  paymentId_gt: String
+  paymentId_gte: String
+  paymentId_contains: String
+  paymentId_not_contains: String
+  paymentId_starts_with: String
+  paymentId_not_starts_with: String
+  paymentId_ends_with: String
+  paymentId_not_ends_with: String
   AND: [OrderScalarWhereInput!]
   OR: [OrderScalarWhereInput!]
   NOT: [OrderScalarWhereInput!]
@@ -253,20 +273,6 @@ input OrderWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  paymentId: String
-  paymentId_not: String
-  paymentId_in: [String!]
-  paymentId_not_in: [String!]
-  paymentId_lt: String
-  paymentId_lte: String
-  paymentId_gt: String
-  paymentId_gte: String
-  paymentId_contains: String
-  paymentId_not_contains: String
-  paymentId_starts_with: String
-  paymentId_not_starts_with: String
-  paymentId_ends_with: String
-  paymentId_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -283,6 +289,20 @@ input OrderWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  paymentId: String
+  paymentId_not: String
+  paymentId_in: [String!]
+  paymentId_not_in: [String!]
+  paymentId_lt: String
+  paymentId_lte: String
+  paymentId_gt: String
+  paymentId_gte: String
+  paymentId_contains: String
+  paymentId_not_contains: String
+  paymentId_starts_with: String
+  paymentId_not_starts_with: String
+  paymentId_ends_with: String
+  paymentId_not_ends_with: String
   user: UserWhereInput
   video: VideoWhereInput
   AND: [OrderWhereInput!]
@@ -505,6 +525,124 @@ input ProductWhereInput {
 
 input ProductWhereUniqueInput {
   id: ID
+}
+
+type PromoCode {
+  id: ID!
+  code: String!
+  valid: Boolean!
+  user: User!
+  video: Video
+}
+
+type PromoCodeConnection {
+  pageInfo: PageInfo!
+  edges: [PromoCodeEdge]!
+  aggregate: AggregatePromoCode!
+}
+
+input PromoCodeCreateInput {
+  code: String!
+  valid: Boolean
+  user: UserCreateOneInput!
+  video: VideoCreateOneInput
+}
+
+type PromoCodeEdge {
+  node: PromoCode!
+  cursor: String!
+}
+
+enum PromoCodeOrderByInput {
+  id_ASC
+  id_DESC
+  code_ASC
+  code_DESC
+  valid_ASC
+  valid_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PromoCodePreviousValues {
+  id: ID!
+  code: String!
+  valid: Boolean!
+}
+
+type PromoCodeSubscriptionPayload {
+  mutation: MutationType!
+  node: PromoCode
+  updatedFields: [String!]
+  previousValues: PromoCodePreviousValues
+}
+
+input PromoCodeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PromoCodeWhereInput
+  AND: [PromoCodeSubscriptionWhereInput!]
+  OR: [PromoCodeSubscriptionWhereInput!]
+  NOT: [PromoCodeSubscriptionWhereInput!]
+}
+
+input PromoCodeUpdateInput {
+  code: String
+  valid: Boolean
+  user: UserUpdateOneRequiredInput
+  video: VideoUpdateOneInput
+}
+
+input PromoCodeUpdateManyMutationInput {
+  code: String
+  valid: Boolean
+}
+
+input PromoCodeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  valid: Boolean
+  valid_not: Boolean
+  user: UserWhereInput
+  video: VideoWhereInput
+  AND: [PromoCodeWhereInput!]
+  OR: [PromoCodeWhereInput!]
+  NOT: [PromoCodeWhereInput!]
+}
+
+input PromoCodeWhereUniqueInput {
+  id: ID
+  code: String
 }
 
 type PromoVideo {
@@ -819,9 +957,15 @@ type Query {
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  promoCode(where: PromoCodeWhereUniqueInput!): PromoCode
+  promoCodes(where: PromoCodeWhereInput, orderBy: PromoCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoCode]!
+  promoCodesConnection(where: PromoCodeWhereInput, orderBy: PromoCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromoCodeConnection!
   promoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
   promoVideos(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoVideo]!
   promoVideosConnection(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromoVideoConnection!
+  sitePromo(where: SitePromoWhereUniqueInput!): SitePromo
+  sitePromoes(where: SitePromoWhereInput, orderBy: SitePromoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitePromo]!
+  sitePromoesConnection(where: SitePromoWhereInput, orderBy: SitePromoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitePromoConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -831,10 +975,142 @@ type Query {
   node(id: ID!): Node
 }
 
+type SitePromo {
+  id: ID!
+  name: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+type SitePromoConnection {
+  pageInfo: PageInfo!
+  edges: [SitePromoEdge]!
+  aggregate: AggregateSitePromo!
+}
+
+input SitePromoCreateInput {
+  name: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+type SitePromoEdge {
+  node: SitePromo!
+  cursor: String!
+}
+
+enum SitePromoOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SitePromoPreviousValues {
+  id: ID!
+  name: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+type SitePromoSubscriptionPayload {
+  mutation: MutationType!
+  node: SitePromo
+  updatedFields: [String!]
+  previousValues: SitePromoPreviousValues
+}
+
+input SitePromoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SitePromoWhereInput
+  AND: [SitePromoSubscriptionWhereInput!]
+  OR: [SitePromoSubscriptionWhereInput!]
+  NOT: [SitePromoSubscriptionWhereInput!]
+}
+
+input SitePromoUpdateInput {
+  name: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input SitePromoUpdateManyMutationInput {
+  name: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input SitePromoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
+  AND: [SitePromoWhereInput!]
+  OR: [SitePromoWhereInput!]
+  NOT: [SitePromoWhereInput!]
+}
+
+input SitePromoWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  promoCode(where: PromoCodeSubscriptionWhereInput): PromoCodeSubscriptionPayload
   promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
+  sitePromo(where: SitePromoSubscriptionWhereInput): SitePromoSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
 }
@@ -879,6 +1155,11 @@ input UserCreateipsInput {
 input UserCreateManyWithoutVideosInput {
   create: [UserCreateWithoutVideosInput!]
   connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutOrdersInput {
@@ -1061,6 +1342,18 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  ips: UserUpdateipsInput
+  subscribed: Boolean
+  videos: VideoUpdateManyWithoutUsersInput
+  active: Boolean
+  orders: OrderUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   firstName: String
   lastName: String
@@ -1113,6 +1406,13 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneWithoutOrdersInput {
   create: UserCreateWithoutOrdersInput
   update: UserUpdateWithoutOrdersDataInput
@@ -1147,6 +1447,11 @@ input UserUpdateWithoutVideosDataInput {
 input UserUpdateWithWhereUniqueWithoutVideosInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutVideosDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutOrdersInput {
@@ -1282,6 +1587,7 @@ type Video {
   type: VideoType!
   familyId: String
   promoVideo: PromoVideo
+  suggest: Boolean!
 }
 
 type VideoConnection {
@@ -1304,6 +1610,7 @@ input VideoCreateInput {
   type: VideoType!
   familyId: String
   promoVideo: PromoVideoCreateOneWithoutVideoInput
+  suggest: Boolean
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -1334,6 +1641,7 @@ input VideoCreateWithoutPromoVideoInput {
   start: Int!
   type: VideoType!
   familyId: String
+  suggest: Boolean
 }
 
 input VideoCreateWithoutUsersInput {
@@ -1349,6 +1657,7 @@ input VideoCreateWithoutUsersInput {
   type: VideoType!
   familyId: String
   promoVideo: PromoVideoCreateOneWithoutVideoInput
+  suggest: Boolean
 }
 
 type VideoEdge {
@@ -1381,6 +1690,8 @@ enum VideoOrderByInput {
   type_DESC
   familyId_ASC
   familyId_DESC
+  suggest_ASC
+  suggest_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1400,6 +1711,7 @@ type VideoPreviousValues {
   start: Int!
   type: VideoType!
   familyId: String
+  suggest: Boolean!
 }
 
 input VideoScalarWhereInput {
@@ -1537,6 +1849,8 @@ input VideoScalarWhereInput {
   familyId_not_starts_with: String
   familyId_ends_with: String
   familyId_not_ends_with: String
+  suggest: Boolean
+  suggest_not: Boolean
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -1579,6 +1893,7 @@ input VideoUpdateDataInput {
   type: VideoType
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
+  suggest: Boolean
 }
 
 input VideoUpdateInput {
@@ -1595,6 +1910,7 @@ input VideoUpdateInput {
   type: VideoType
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
+  suggest: Boolean
 }
 
 input VideoUpdateManyDataInput {
@@ -1609,6 +1925,7 @@ input VideoUpdateManyDataInput {
   start: Int
   type: VideoType
   familyId: String
+  suggest: Boolean
 }
 
 input VideoUpdateManyMutationInput {
@@ -1623,6 +1940,7 @@ input VideoUpdateManyMutationInput {
   start: Int
   type: VideoType
   familyId: String
+  suggest: Boolean
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -1672,6 +1990,7 @@ input VideoUpdateWithoutPromoVideoDataInput {
   start: Int
   type: VideoType
   familyId: String
+  suggest: Boolean
 }
 
 input VideoUpdateWithoutUsersDataInput {
@@ -1687,6 +2006,7 @@ input VideoUpdateWithoutUsersDataInput {
   type: VideoType
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
+  suggest: Boolean
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -1849,6 +2169,8 @@ input VideoWhereInput {
   familyId_ends_with: String
   familyId_not_ends_with: String
   promoVideo: PromoVideoWhereInput
+  suggest: Boolean
+  suggest_not: Boolean
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

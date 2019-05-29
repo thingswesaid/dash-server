@@ -12,7 +12,9 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export interface Exists {
   order: (where?: OrderWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
+  promoCode: (where?: PromoCodeWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
+  sitePromo: (where?: SitePromoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
   video: (where?: VideoWhereInput) => Promise<boolean>;
 }
@@ -82,6 +84,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => ProductConnectionPromise;
+  promoCode: (where: PromoCodeWhereUniqueInput) => PromoCodePromise;
+  promoCodes: (
+    args?: {
+      where?: PromoCodeWhereInput;
+      orderBy?: PromoCodeOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<PromoCode>;
+  promoCodesConnection: (
+    args?: {
+      where?: PromoCodeWhereInput;
+      orderBy?: PromoCodeOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PromoCodeConnectionPromise;
   promoVideo: (where: PromoVideoWhereUniqueInput) => PromoVideoPromise;
   promoVideos: (
     args?: {
@@ -105,6 +130,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => PromoVideoConnectionPromise;
+  sitePromo: (where: SitePromoWhereUniqueInput) => SitePromoPromise;
+  sitePromoes: (
+    args?: {
+      where?: SitePromoWhereInput;
+      orderBy?: SitePromoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<SitePromo>;
+  sitePromoesConnection: (
+    args?: {
+      where?: SitePromoWhereInput;
+      orderBy?: SitePromoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => SitePromoConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (
     args?: {
@@ -189,6 +237,25 @@ export interface Prisma {
   ) => ProductPromise;
   deleteProduct: (where: ProductWhereUniqueInput) => ProductPromise;
   deleteManyProducts: (where?: ProductWhereInput) => BatchPayloadPromise;
+  createPromoCode: (data: PromoCodeCreateInput) => PromoCodePromise;
+  updatePromoCode: (
+    args: { data: PromoCodeUpdateInput; where: PromoCodeWhereUniqueInput }
+  ) => PromoCodePromise;
+  updateManyPromoCodes: (
+    args: {
+      data: PromoCodeUpdateManyMutationInput;
+      where?: PromoCodeWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertPromoCode: (
+    args: {
+      where: PromoCodeWhereUniqueInput;
+      create: PromoCodeCreateInput;
+      update: PromoCodeUpdateInput;
+    }
+  ) => PromoCodePromise;
+  deletePromoCode: (where: PromoCodeWhereUniqueInput) => PromoCodePromise;
+  deleteManyPromoCodes: (where?: PromoCodeWhereInput) => BatchPayloadPromise;
   createPromoVideo: (data: PromoVideoCreateInput) => PromoVideoPromise;
   updatePromoVideo: (
     args: { data: PromoVideoUpdateInput; where: PromoVideoWhereUniqueInput }
@@ -208,6 +275,25 @@ export interface Prisma {
   ) => PromoVideoPromise;
   deletePromoVideo: (where: PromoVideoWhereUniqueInput) => PromoVideoPromise;
   deleteManyPromoVideos: (where?: PromoVideoWhereInput) => BatchPayloadPromise;
+  createSitePromo: (data: SitePromoCreateInput) => SitePromoPromise;
+  updateSitePromo: (
+    args: { data: SitePromoUpdateInput; where: SitePromoWhereUniqueInput }
+  ) => SitePromoPromise;
+  updateManySitePromoes: (
+    args: {
+      data: SitePromoUpdateManyMutationInput;
+      where?: SitePromoWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertSitePromo: (
+    args: {
+      where: SitePromoWhereUniqueInput;
+      create: SitePromoCreateInput;
+      update: SitePromoUpdateInput;
+    }
+  ) => SitePromoPromise;
+  deleteSitePromo: (where: SitePromoWhereUniqueInput) => SitePromoPromise;
+  deleteManySitePromoes: (where?: SitePromoWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (
     args: { data: UserUpdateInput; where: UserWhereUniqueInput }
@@ -255,9 +341,15 @@ export interface Subscription {
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
+  promoCode: (
+    where?: PromoCodeSubscriptionWhereInput
+  ) => PromoCodeSubscriptionPayloadSubscription;
   promoVideo: (
     where?: PromoVideoSubscriptionWhereInput
   ) => PromoVideoSubscriptionPayloadSubscription;
+  sitePromo: (
+    where?: SitePromoSubscriptionWhereInput
+  ) => SitePromoSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -301,6 +393,8 @@ export type VideoOrderByInput =
   | "type_DESC"
   | "familyId_ASC"
   | "familyId_DESC"
+  | "suggest_ASC"
+  | "suggest_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -329,12 +423,12 @@ export type UserOrderByInput =
 export type OrderOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "paymentId_ASC"
-  | "paymentId_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "paymentId_ASC"
+  | "paymentId_DESC";
 
 export type ProductOrderByInput =
   | "id_ASC"
@@ -351,6 +445,18 @@ export type ProductOrderByInput =
   | "placeholder_DESC"
   | "type_ASC"
   | "type_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type PromoCodeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "code_ASC"
+  | "code_DESC"
+  | "valid_ASC"
+  | "valid_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -377,6 +483,20 @@ export type PromoVideoOrderByInput =
   | "bannerMobile_DESC"
   | "type_ASC"
   | "type_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type SitePromoOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -528,6 +648,8 @@ export interface VideoWhereInput {
   familyId_ends_with?: String;
   familyId_not_ends_with?: String;
   promoVideo?: PromoVideoWhereInput;
+  suggest?: Boolean;
+  suggest_not?: Boolean;
   AND?: VideoWhereInput[] | VideoWhereInput;
   OR?: VideoWhereInput[] | VideoWhereInput;
   NOT?: VideoWhereInput[] | VideoWhereInput;
@@ -650,20 +772,6 @@ export interface OrderWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  paymentId?: String;
-  paymentId_not?: String;
-  paymentId_in?: String[] | String;
-  paymentId_not_in?: String[] | String;
-  paymentId_lt?: String;
-  paymentId_lte?: String;
-  paymentId_gt?: String;
-  paymentId_gte?: String;
-  paymentId_contains?: String;
-  paymentId_not_contains?: String;
-  paymentId_starts_with?: String;
-  paymentId_not_starts_with?: String;
-  paymentId_ends_with?: String;
-  paymentId_not_ends_with?: String;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -680,6 +788,20 @@ export interface OrderWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
+  paymentId?: String;
+  paymentId_not?: String;
+  paymentId_in?: String[] | String;
+  paymentId_not_in?: String[] | String;
+  paymentId_lt?: String;
+  paymentId_lte?: String;
+  paymentId_gt?: String;
+  paymentId_gte?: String;
+  paymentId_contains?: String;
+  paymentId_not_contains?: String;
+  paymentId_starts_with?: String;
+  paymentId_not_starts_with?: String;
+  paymentId_ends_with?: String;
+  paymentId_not_ends_with?: String;
   user?: UserWhereInput;
   video?: VideoWhereInput;
   AND?: OrderWhereInput[] | OrderWhereInput;
@@ -932,9 +1054,106 @@ export interface ProductWhereInput {
   NOT?: ProductWhereInput[] | ProductWhereInput;
 }
 
+export type PromoCodeWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  code?: String;
+}>;
+
+export interface PromoCodeWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  code?: String;
+  code_not?: String;
+  code_in?: String[] | String;
+  code_not_in?: String[] | String;
+  code_lt?: String;
+  code_lte?: String;
+  code_gt?: String;
+  code_gte?: String;
+  code_contains?: String;
+  code_not_contains?: String;
+  code_starts_with?: String;
+  code_not_starts_with?: String;
+  code_ends_with?: String;
+  code_not_ends_with?: String;
+  valid?: Boolean;
+  valid_not?: Boolean;
+  user?: UserWhereInput;
+  video?: VideoWhereInput;
+  AND?: PromoCodeWhereInput[] | PromoCodeWhereInput;
+  OR?: PromoCodeWhereInput[] | PromoCodeWhereInput;
+  NOT?: PromoCodeWhereInput[] | PromoCodeWhereInput;
+}
+
 export type PromoVideoWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export type SitePromoWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface SitePromoWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  startDate?: DateTimeInput;
+  startDate_not?: DateTimeInput;
+  startDate_in?: DateTimeInput[] | DateTimeInput;
+  startDate_not_in?: DateTimeInput[] | DateTimeInput;
+  startDate_lt?: DateTimeInput;
+  startDate_lte?: DateTimeInput;
+  startDate_gt?: DateTimeInput;
+  startDate_gte?: DateTimeInput;
+  endDate?: DateTimeInput;
+  endDate_not?: DateTimeInput;
+  endDate_in?: DateTimeInput[] | DateTimeInput;
+  endDate_not_in?: DateTimeInput[] | DateTimeInput;
+  endDate_lt?: DateTimeInput;
+  endDate_lte?: DateTimeInput;
+  endDate_gt?: DateTimeInput;
+  endDate_gte?: DateTimeInput;
+  AND?: SitePromoWhereInput[] | SitePromoWhereInput;
+  OR?: SitePromoWhereInput[] | SitePromoWhereInput;
+  NOT?: SitePromoWhereInput[] | SitePromoWhereInput;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -989,6 +1208,7 @@ export interface VideoCreateWithoutUsersInput {
   type: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoCreateOneWithoutVideoInput;
+  suggest?: Boolean;
 }
 
 export interface PromoVideoCreateOneWithoutVideoInput {
@@ -1027,6 +1247,7 @@ export interface VideoCreateInput {
   type: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoCreateOneWithoutVideoInput;
+  suggest?: Boolean;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -1120,6 +1341,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   type?: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
+  suggest?: Boolean;
 }
 
 export interface PromoVideoUpdateOneWithoutVideoInput {
@@ -1289,6 +1511,8 @@ export interface VideoScalarWhereInput {
   familyId_not_starts_with?: String;
   familyId_ends_with?: String;
   familyId_not_ends_with?: String;
+  suggest?: Boolean;
+  suggest_not?: Boolean;
   AND?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   OR?: VideoScalarWhereInput[] | VideoScalarWhereInput;
   NOT?: VideoScalarWhereInput[] | VideoScalarWhereInput;
@@ -1311,6 +1535,7 @@ export interface VideoUpdateManyDataInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
+  suggest?: Boolean;
 }
 
 export interface UserUpsertWithoutOrdersInput {
@@ -1341,6 +1566,7 @@ export interface VideoUpdateDataInput {
   type?: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
+  suggest?: Boolean;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -1424,20 +1650,6 @@ export interface OrderScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  paymentId?: String;
-  paymentId_not?: String;
-  paymentId_in?: String[] | String;
-  paymentId_not_in?: String[] | String;
-  paymentId_lt?: String;
-  paymentId_lte?: String;
-  paymentId_gt?: String;
-  paymentId_gte?: String;
-  paymentId_contains?: String;
-  paymentId_not_contains?: String;
-  paymentId_starts_with?: String;
-  paymentId_not_starts_with?: String;
-  paymentId_ends_with?: String;
-  paymentId_not_ends_with?: String;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -1454,6 +1666,20 @@ export interface OrderScalarWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
+  paymentId?: String;
+  paymentId_not?: String;
+  paymentId_in?: String[] | String;
+  paymentId_not_in?: String[] | String;
+  paymentId_lt?: String;
+  paymentId_lte?: String;
+  paymentId_gt?: String;
+  paymentId_gte?: String;
+  paymentId_contains?: String;
+  paymentId_not_contains?: String;
+  paymentId_starts_with?: String;
+  paymentId_not_starts_with?: String;
+  paymentId_ends_with?: String;
+  paymentId_not_ends_with?: String;
   AND?: OrderScalarWhereInput[] | OrderScalarWhereInput;
   OR?: OrderScalarWhereInput[] | OrderScalarWhereInput;
   NOT?: OrderScalarWhereInput[] | OrderScalarWhereInput;
@@ -1621,6 +1847,66 @@ export interface ProductUpdateManyMutationInput {
   type?: String;
 }
 
+export interface PromoCodeCreateInput {
+  code: String;
+  valid?: Boolean;
+  user: UserCreateOneInput;
+  video?: VideoCreateOneInput;
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateInput {
+  firstName?: String;
+  lastName?: String;
+  email: String;
+  phone?: String;
+  ips?: UserCreateipsInput;
+  subscribed?: Boolean;
+  videos?: VideoCreateManyWithoutUsersInput;
+  active?: Boolean;
+  orders?: OrderCreateManyWithoutUserInput;
+}
+
+export interface PromoCodeUpdateInput {
+  code?: String;
+  valid?: Boolean;
+  user?: UserUpdateOneRequiredInput;
+  video?: VideoUpdateOneInput;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
+  firstName?: String;
+  lastName?: String;
+  email?: String;
+  phone?: String;
+  ips?: UserUpdateipsInput;
+  subscribed?: Boolean;
+  videos?: VideoUpdateManyWithoutUsersInput;
+  active?: Boolean;
+  orders?: OrderUpdateManyWithoutUserInput;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface PromoCodeUpdateManyMutationInput {
+  code?: String;
+  valid?: Boolean;
+}
+
 export interface PromoVideoCreateInput {
   link: String;
   title: String;
@@ -1652,6 +1938,7 @@ export interface VideoCreateWithoutPromoVideoInput {
   start: Int;
   type: VideoType;
   familyId?: String;
+  suggest?: Boolean;
 }
 
 export interface PromoVideoUpdateInput {
@@ -1689,6 +1976,7 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
+  suggest?: Boolean;
 }
 
 export interface VideoUpsertWithoutPromoVideoInput {
@@ -1708,16 +1996,22 @@ export interface PromoVideoUpdateManyMutationInput {
   type?: VideoType;
 }
 
-export interface UserCreateInput {
-  firstName?: String;
-  lastName?: String;
-  email: String;
-  phone?: String;
-  ips?: UserCreateipsInput;
-  subscribed?: Boolean;
-  videos?: VideoCreateManyWithoutUsersInput;
-  active?: Boolean;
-  orders?: OrderCreateManyWithoutUserInput;
+export interface SitePromoCreateInput {
+  name: String;
+  startDate: DateTimeInput;
+  endDate: DateTimeInput;
+}
+
+export interface SitePromoUpdateInput {
+  name?: String;
+  startDate?: DateTimeInput;
+  endDate?: DateTimeInput;
+}
+
+export interface SitePromoUpdateManyMutationInput {
+  name?: String;
+  startDate?: DateTimeInput;
+  endDate?: DateTimeInput;
 }
 
 export interface UserUpdateInput {
@@ -1756,6 +2050,7 @@ export interface VideoUpdateInput {
   type?: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
+  suggest?: Boolean;
 }
 
 export interface VideoUpdateManyMutationInput {
@@ -1770,6 +2065,7 @@ export interface VideoUpdateManyMutationInput {
   start?: Int;
   type?: VideoType;
   familyId?: String;
+  suggest?: Boolean;
 }
 
 export interface OrderSubscriptionWhereInput {
@@ -1794,6 +2090,17 @@ export interface ProductSubscriptionWhereInput {
   NOT?: ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput;
 }
 
+export interface PromoCodeSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PromoCodeWhereInput;
+  AND?: PromoCodeSubscriptionWhereInput[] | PromoCodeSubscriptionWhereInput;
+  OR?: PromoCodeSubscriptionWhereInput[] | PromoCodeSubscriptionWhereInput;
+  NOT?: PromoCodeSubscriptionWhereInput[] | PromoCodeSubscriptionWhereInput;
+}
+
 export interface PromoVideoSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -1803,6 +2110,17 @@ export interface PromoVideoSubscriptionWhereInput {
   AND?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
   OR?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
   NOT?: PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput;
+}
+
+export interface SitePromoSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: SitePromoWhereInput;
+  AND?: SitePromoSubscriptionWhereInput[] | SitePromoSubscriptionWhereInput;
+  OR?: SitePromoSubscriptionWhereInput[] | SitePromoSubscriptionWhereInput;
+  NOT?: SitePromoSubscriptionWhereInput[] | SitePromoSubscriptionWhereInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -1833,16 +2151,16 @@ export interface NodeNode {
 
 export interface Order {
   id: ID_Output;
-  paymentId: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  paymentId: String;
 }
 
 export interface OrderPromise extends Promise<Order>, Fragmentable {
   id: () => Promise<ID_Output>;
-  paymentId: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  paymentId: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
 }
@@ -1851,9 +2169,9 @@ export interface OrderSubscription
   extends Promise<AsyncIterator<Order>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  paymentId: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  paymentId: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   video: <T = VideoSubscription>() => T;
 }
@@ -1956,6 +2274,7 @@ export interface Video {
   start: Int;
   type: VideoType;
   familyId?: String;
+  suggest: Boolean;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
@@ -1983,6 +2302,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
   promoVideo: <T = PromoVideoPromise>() => T;
+  suggest: () => Promise<Boolean>;
 }
 
 export interface VideoSubscription
@@ -2012,6 +2332,7 @@ export interface VideoSubscription
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
   promoVideo: <T = PromoVideoSubscription>() => T;
+  suggest: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface PromoVideo {
@@ -2212,6 +2533,82 @@ export interface AggregateProductSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface PromoCode {
+  id: ID_Output;
+  code: String;
+  valid: Boolean;
+}
+
+export interface PromoCodePromise extends Promise<PromoCode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  code: () => Promise<String>;
+  valid: () => Promise<Boolean>;
+  user: <T = UserPromise>() => T;
+  video: <T = VideoPromise>() => T;
+}
+
+export interface PromoCodeSubscription
+  extends Promise<AsyncIterator<PromoCode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  code: () => Promise<AsyncIterator<String>>;
+  valid: () => Promise<AsyncIterator<Boolean>>;
+  user: <T = UserSubscription>() => T;
+  video: <T = VideoSubscription>() => T;
+}
+
+export interface PromoCodeConnection {}
+
+export interface PromoCodeConnectionPromise
+  extends Promise<PromoCodeConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PromoCodeEdge>>() => T;
+  aggregate: <T = AggregatePromoCodePromise>() => T;
+}
+
+export interface PromoCodeConnectionSubscription
+  extends Promise<AsyncIterator<PromoCodeConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PromoCodeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePromoCodeSubscription>() => T;
+}
+
+export interface PromoCodeEdge {
+  cursor: String;
+}
+
+export interface PromoCodeEdgePromise
+  extends Promise<PromoCodeEdge>,
+    Fragmentable {
+  node: <T = PromoCodePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PromoCodeEdgeSubscription
+  extends Promise<AsyncIterator<PromoCodeEdge>>,
+    Fragmentable {
+  node: <T = PromoCodeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePromoCode {
+  count: Int;
+}
+
+export interface AggregatePromoCodePromise
+  extends Promise<AggregatePromoCode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePromoCodeSubscription
+  extends Promise<AsyncIterator<AggregatePromoCode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface PromoVideoConnection {}
 
 export interface PromoVideoConnectionPromise
@@ -2260,6 +2657,81 @@ export interface AggregatePromoVideoPromise
 
 export interface AggregatePromoVideoSubscription
   extends Promise<AsyncIterator<AggregatePromoVideo>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SitePromo {
+  id: ID_Output;
+  name: String;
+  startDate: DateTimeOutput;
+  endDate: DateTimeOutput;
+}
+
+export interface SitePromoPromise extends Promise<SitePromo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
+  endDate: () => Promise<DateTimeOutput>;
+}
+
+export interface SitePromoSubscription
+  extends Promise<AsyncIterator<SitePromo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface SitePromoConnection {}
+
+export interface SitePromoConnectionPromise
+  extends Promise<SitePromoConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SitePromoEdge>>() => T;
+  aggregate: <T = AggregateSitePromoPromise>() => T;
+}
+
+export interface SitePromoConnectionSubscription
+  extends Promise<AsyncIterator<SitePromoConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SitePromoEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSitePromoSubscription>() => T;
+}
+
+export interface SitePromoEdge {
+  cursor: String;
+}
+
+export interface SitePromoEdgePromise
+  extends Promise<SitePromoEdge>,
+    Fragmentable {
+  node: <T = SitePromoPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SitePromoEdgeSubscription
+  extends Promise<AsyncIterator<SitePromoEdge>>,
+    Fragmentable {
+  node: <T = SitePromoSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSitePromo {
+  count: Int;
+}
+
+export interface AggregateSitePromoPromise
+  extends Promise<AggregateSitePromo>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSitePromoSubscription
+  extends Promise<AsyncIterator<AggregateSitePromo>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2405,27 +2877,27 @@ export interface OrderSubscriptionPayloadSubscription
 
 export interface OrderPreviousValues {
   id: ID_Output;
-  paymentId: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  paymentId: String;
 }
 
 export interface OrderPreviousValuesPromise
   extends Promise<OrderPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  paymentId: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  paymentId: () => Promise<String>;
 }
 
 export interface OrderPreviousValuesSubscription
   extends Promise<AsyncIterator<OrderPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  paymentId: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  paymentId: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductSubscriptionPayload {
@@ -2483,6 +2955,51 @@ export interface ProductPreviousValuesSubscription
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PromoCodeSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface PromoCodeSubscriptionPayloadPromise
+  extends Promise<PromoCodeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PromoCodePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PromoCodePreviousValuesPromise>() => T;
+}
+
+export interface PromoCodeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PromoCodeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PromoCodeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PromoCodePreviousValuesSubscription>() => T;
+}
+
+export interface PromoCodePreviousValues {
+  id: ID_Output;
+  code: String;
+  valid: Boolean;
+}
+
+export interface PromoCodePreviousValuesPromise
+  extends Promise<PromoCodePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  code: () => Promise<String>;
+  valid: () => Promise<Boolean>;
+}
+
+export interface PromoCodePreviousValuesSubscription
+  extends Promise<AsyncIterator<PromoCodePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  code: () => Promise<AsyncIterator<String>>;
+  valid: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -2549,6 +3066,54 @@ export interface PromoVideoPreviousValuesSubscription
   banner: () => Promise<AsyncIterator<String>>;
   bannerMobile: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<VideoType>>;
+}
+
+export interface SitePromoSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface SitePromoSubscriptionPayloadPromise
+  extends Promise<SitePromoSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SitePromoPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SitePromoPreviousValuesPromise>() => T;
+}
+
+export interface SitePromoSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SitePromoSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SitePromoSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SitePromoPreviousValuesSubscription>() => T;
+}
+
+export interface SitePromoPreviousValues {
+  id: ID_Output;
+  name: String;
+  startDate: DateTimeOutput;
+  endDate: DateTimeOutput;
+}
+
+export interface SitePromoPreviousValuesPromise
+  extends Promise<SitePromoPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
+  endDate: () => Promise<DateTimeOutput>;
+}
+
+export interface SitePromoPreviousValuesSubscription
+  extends Promise<AsyncIterator<SitePromoPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -2653,6 +3218,7 @@ export interface VideoPreviousValues {
   start: Int;
   type: VideoType;
   familyId?: String;
+  suggest: Boolean;
 }
 
 export interface VideoPreviousValuesPromise
@@ -2670,6 +3236,7 @@ export interface VideoPreviousValuesPromise
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
+  suggest: () => Promise<Boolean>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -2687,6 +3254,7 @@ export interface VideoPreviousValuesSubscription
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
+  suggest: () => Promise<AsyncIterator<Boolean>>;
 }
 
 /*
@@ -2741,7 +3309,15 @@ export const models = [
     embedded: false
   },
   {
+    name: "PromoCode",
+    embedded: false
+  },
+  {
     name: "PromoVideo",
+    embedded: false
+  },
+  {
+    name: "SitePromo",
     embedded: false
   },
   {

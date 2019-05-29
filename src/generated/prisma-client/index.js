@@ -13,7 +13,15 @@ var models = [
     embedded: false
   },
   {
+    name: "PromoCode",
+    embedded: false
+  },
+  {
     name: "PromoVideo",
+    embedded: false
+  },
+  {
+    name: "SitePromo",
     embedded: false
   },
   {
@@ -46,7 +54,15 @@ var models = [
     embedded: false
   },
   {
+    name: "PromoCode",
+    embedded: false
+  },
+  {
     name: "PromoVideo",
+    embedded: false
+  },
+  {
+    name: "SitePromo",
     embedded: false
   },
   {
