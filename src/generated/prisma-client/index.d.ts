@@ -488,11 +488,15 @@ export type PromoVideoOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type PromoOffer = "BUY1GET1" | "BUY2GET1";
+
 export type SitePromoOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "promoOffer_ASC"
+  | "promoOffer_DESC"
   | "startDate_ASC"
   | "startDate_DESC"
   | "endDate_ASC"
@@ -1120,20 +1124,14 @@ export interface SitePromoWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
+  type?: VideoType;
+  type_not?: VideoType;
+  type_in?: VideoType[] | VideoType;
+  type_not_in?: VideoType[] | VideoType;
+  promoOffer?: PromoOffer;
+  promoOffer_not?: PromoOffer;
+  promoOffer_in?: PromoOffer[] | PromoOffer;
+  promoOffer_not_in?: PromoOffer[] | PromoOffer;
   startDate?: DateTimeInput;
   startDate_not?: DateTimeInput;
   startDate_in?: DateTimeInput[] | DateTimeInput;
@@ -1997,19 +1995,22 @@ export interface PromoVideoUpdateManyMutationInput {
 }
 
 export interface SitePromoCreateInput {
-  name: String;
+  type: VideoType;
+  promoOffer: PromoOffer;
   startDate: DateTimeInput;
   endDate: DateTimeInput;
 }
 
 export interface SitePromoUpdateInput {
-  name?: String;
+  type?: VideoType;
+  promoOffer?: PromoOffer;
   startDate?: DateTimeInput;
   endDate?: DateTimeInput;
 }
 
 export interface SitePromoUpdateManyMutationInput {
-  name?: String;
+  type?: VideoType;
+  promoOffer?: PromoOffer;
   startDate?: DateTimeInput;
   endDate?: DateTimeInput;
 }
@@ -2663,14 +2664,16 @@ export interface AggregatePromoVideoSubscription
 
 export interface SitePromo {
   id: ID_Output;
-  name: String;
+  type: VideoType;
+  promoOffer: PromoOffer;
   startDate: DateTimeOutput;
   endDate: DateTimeOutput;
 }
 
 export interface SitePromoPromise extends Promise<SitePromo>, Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  type: () => Promise<VideoType>;
+  promoOffer: () => Promise<PromoOffer>;
   startDate: () => Promise<DateTimeOutput>;
   endDate: () => Promise<DateTimeOutput>;
 }
@@ -2679,7 +2682,8 @@ export interface SitePromoSubscription
   extends Promise<AsyncIterator<SitePromo>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -3093,7 +3097,8 @@ export interface SitePromoSubscriptionPayloadSubscription
 
 export interface SitePromoPreviousValues {
   id: ID_Output;
-  name: String;
+  type: VideoType;
+  promoOffer: PromoOffer;
   startDate: DateTimeOutput;
   endDate: DateTimeOutput;
 }
@@ -3102,7 +3107,8 @@ export interface SitePromoPreviousValuesPromise
   extends Promise<SitePromoPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  type: () => Promise<VideoType>;
+  promoOffer: () => Promise<PromoOffer>;
   startDate: () => Promise<DateTimeOutput>;
   endDate: () => Promise<DateTimeOutput>;
 }
@@ -3111,7 +3117,8 @@ export interface SitePromoPreviousValuesSubscription
   extends Promise<AsyncIterator<SitePromoPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
   startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -3310,6 +3317,10 @@ export const models = [
   },
   {
     name: "PromoCode",
+    embedded: false
+  },
+  {
+    name: "PromoOffer",
     embedded: false
   },
   {

@@ -1,7 +1,47 @@
 const { GraphQLServer } = require('graphql-yoga')
+const promoCodes = require('voucher-code-generator');
+const sgMail = require('@sendgrid/mail');
 
 const { prisma } = require('./generated/prisma-client')
 const { sort, shuffle } = require('./utils');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const handlePromo = async (context, type, email, name) => {
+  const sitePromos = await context.prisma.sitePromoes({ where: { type } });
+  const activePromo = sitePromos.filter(({ promoOffer, startDate, endDate }) => {
+    const date = new Date();
+    const offset = date.getTimezoneOffset() / 60;
+    const hours = date.getHours();
+    date.setHours(hours - offset);
+    const now = date.toISOString();
+    return startDate < now && now < endDate;
+  });
+
+  if (activePromo.length) {
+    const { promoOffer } = activePromo[0];
+    if (promoOffer === 'BUY1GET1') {
+      const generatedCodes = promoCodes.generate({ 
+        length: 5, 
+        charset: promoCodes.charset("alphabetic") 
+      })
+      const promoCode = generatedCodes[0].toLowerCase();
+      // create promo code and attach user to it (>>LOWER CASE!!) (user email)
+      // send email with promo code (SEND TO UPPERCASE)
+      // return 'IDPROMO!!'
+        // const msg = {
+        //   to: email,
+        //   from: 'info@dashinbetween.com',
+        //   templateId: 'd-f43daeeaef504760851f727007e0b5d0', // from constant
+        //   dynamic_template_data: {
+        //     name,
+        //     promoCode: promoCode.toUpperCase(),
+        //   },
+        // };
+        // sgMail.send(msg);
+    }
+  }
+}
 
 const resolvers = {
   Query: {
@@ -15,7 +55,7 @@ const resolvers = {
       if (!videos.length) { return; }
       
       const video = videos[0];
-      const { id: videoId, familyId } = video;
+      const { id: videoId, familyId, type } = video;
 
       const promoVideoQuery = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: videoId } },
@@ -37,6 +77,10 @@ const resolvers = {
       const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
       const user = await context.prisma.users({ where: { email } });
       const { active } = user.length ? user[0] : {};
+
+      // STAR PROMOS
+      const promoId = await handlePromo(context, type, email, 'Manuel Di Cristo');
+      console.log('>>>>>>>>> ID PROMO <<<<<<<<<', promoId, !!promoId);
 
       return {
         video,
@@ -62,16 +106,15 @@ const resolvers = {
     },
     async promoCode(parent, { code }, context) {
       if (!code) return;
-      promoCodes = await context.prisma.promoCodes({ where: { code } });
+      const promoCodes = await context.prisma.promoCodes({ where: { code } });
       return promoCodes[0];
     },
     async dashboard(parent, { from, to, cloudflare }, context) { 
-      // build Promo Modal with scheduled dates (buy 1 get 1 free)
       // implement Email system also to send promo codes | bulk email (don't miss out! 4.99 for all videos at the end of the month)
+      // implement DYNAMIC PRICING (1.00 off for 24 hours)
       // || later || refer a friend
       // implement GPAY
       // track affiliate link when using INFLUENCERS (bitly.com)
-      // ADD ANIMATION WHILE WAITING FOR IMAGES TO LOAD 
       // >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
 
       const optsDate = cloudflare
@@ -133,10 +176,15 @@ const resolvers = {
       phone, 
       firstName, 
       lastName, 
-      paymentId 
+      paymentId, 
+      type
     }, context) {
-      // check if there are site promo active (buy 1 get 1 / buy 2 get 1)
-      // send email CONGRATULATIONS! 
+      const promoId = await handlePromo(
+        context, 
+        type, 
+        email, 
+        `${firstName} ${lastName}`
+      );
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       const { id: userId } = await context.prisma.upsertUser({
@@ -154,7 +202,9 @@ const resolvers = {
           ips: {set: updatedIps },
         }
       }); 
-
+      
+      // check if there are site promo active (buy 1 get 1 / buy 2 get 1)
+      // send email CONGRATULATIONS! 
       return context.prisma.createOrder({
         paymentId,
         user: { connect: { id: userId } },

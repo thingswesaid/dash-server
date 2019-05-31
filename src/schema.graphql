@@ -18,7 +18,8 @@ type Mutation {
     phone: String,
     firstName: String,
     lastName: String,
-    paymentId: String
+    paymentId: String,
+    type: String,
   ): User
 }
 

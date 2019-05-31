@@ -645,6 +645,11 @@ input PromoCodeWhereUniqueInput {
   code: String
 }
 
+enum PromoOffer {
+  BUY1GET1
+  BUY2GET1
+}
+
 type PromoVideo {
   id: ID!
   link: String!
@@ -977,7 +982,8 @@ type Query {
 
 type SitePromo {
   id: ID!
-  name: String!
+  type: VideoType!
+  promoOffer: PromoOffer!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -989,7 +995,8 @@ type SitePromoConnection {
 }
 
 input SitePromoCreateInput {
-  name: String!
+  type: VideoType!
+  promoOffer: PromoOffer!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -1002,8 +1009,10 @@ type SitePromoEdge {
 enum SitePromoOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  type_ASC
+  type_DESC
+  promoOffer_ASC
+  promoOffer_DESC
   startDate_ASC
   startDate_DESC
   endDate_ASC
@@ -1016,7 +1025,8 @@ enum SitePromoOrderByInput {
 
 type SitePromoPreviousValues {
   id: ID!
-  name: String!
+  type: VideoType!
+  promoOffer: PromoOffer!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -1040,13 +1050,15 @@ input SitePromoSubscriptionWhereInput {
 }
 
 input SitePromoUpdateInput {
-  name: String
+  type: VideoType
+  promoOffer: PromoOffer
   startDate: DateTime
   endDate: DateTime
 }
 
 input SitePromoUpdateManyMutationInput {
-  name: String
+  type: VideoType
+  promoOffer: PromoOffer
   startDate: DateTime
   endDate: DateTime
 }
@@ -1066,20 +1078,14 @@ input SitePromoWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  promoOffer: PromoOffer
+  promoOffer_not: PromoOffer
+  promoOffer_in: [PromoOffer!]
+  promoOffer_not_in: [PromoOffer!]
   startDate: DateTime
   startDate_not: DateTime
   startDate_in: [DateTime!]

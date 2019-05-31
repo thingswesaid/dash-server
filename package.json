@@ -5,8 +5,10 @@
     "prisma": "prisma"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "graphql-yoga": "1.17.4",
-    "prisma-client-lib": "1.30.0"
+    "prisma-client-lib": "1.30.0",
+    "voucher-code-generator": "^1.1.1"
   },
   "devDependencies": {
     "prisma": "1.22.1"

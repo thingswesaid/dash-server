@@ -17,6 +17,10 @@ var models = [
     embedded: false
   },
   {
+    name: "PromoOffer",
+    embedded: false
+  },
+  {
     name: "PromoVideo",
     embedded: false
   },
@@ -55,6 +59,10 @@ var models = [
   },
   {
     name: "PromoCode",
+    embedded: false
+  },
+  {
+    name: "PromoOffer",
     embedded: false
   },
   {

@@ -55,7 +55,8 @@ type PromoCode {
 
 type SitePromo {
   id: ID! @unique
-  name: String!
+  type: VideoType!
+  promoOffer: PromoOffer!
   startDate: DateTime!
   endDate: DateTime!
 }
@@ -82,4 +83,9 @@ type Order {
 enum VideoType {
   ZODIAC
   PICKACARD
+}
+
+enum PromoOffer {
+  BUY1GET1
+  BUY2GET1
 }
