@@ -25,22 +25,30 @@ const handlePromo = async (context, type, email, name) => {
         length: 5, 
         charset: promoCodes.charset("alphabetic") 
       })
-      const promoCode = generatedCodes[0].toLowerCase();
+      const code = generatedCodes[0].toLowerCase();
+      const promoCode = await context.prisma.createPromoCode({
+        code, user: { connect: { email } }
+      });
+      // build retry when code already exists
       // create promo code and attach user to it (>>LOWER CASE!!) (user email)
       // send email with promo code (SEND TO UPPERCASE)
       // return 'IDPROMO!!'
-        // const msg = {
-        //   to: email,
-        //   from: 'info@dashinbetween.com',
-        //   templateId: 'd-f43daeeaef504760851f727007e0b5d0', // from constant
-        //   dynamic_template_data: {
-        //     name,
-        //     promoCode: promoCode.toUpperCase(),
-        //   },
-        // };
-        // sgMail.send(msg);
+      if (process.env.NODE_ENV === 'production') {
+        const msg = {
+          to: email,
+          from: 'info@dashinbetween.com', // from constant
+          templateId: 'd-0fb9f8101a4a4a838af556db2bbafef0', // from constant - promo template
+          dynamic_template_data: {
+            name,
+            promocode: code.toUpperCase(),
+          },
+        };
+        sgMail.send(msg); 
+      }
+      return promoCode;
     }
   }
+  return null;
 }
 
 const resolvers = {
@@ -78,9 +86,7 @@ const resolvers = {
       const user = await context.prisma.users({ where: { email } });
       const { active } = user.length ? user[0] : {};
 
-      // STAR PROMOS
-      const promoId = await handlePromo(context, type, email, 'Manuel Di Cristo');
-      console.log('>>>>>>>>> ID PROMO <<<<<<<<<', promoId, !!promoId);
+      // const promoId = await handlePromo(context, type, "manuel.dicristo@icloud.com", 'Manuel Di Cristo');
 
       return {
         video,
@@ -179,12 +185,12 @@ const resolvers = {
       paymentId, 
       type
     }, context) {
-      const promoId = await handlePromo(
-        context, 
-        type, 
-        email, 
-        `${firstName} ${lastName}`
-      );
+      // const promoId = await handlePromo(
+      //   context, 
+      //   type, 
+      //   email, 
+      //   `${firstName} ${lastName}`
+      // );
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       const { id: userId } = await context.prisma.upsertUser({
