@@ -15,9 +15,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const handlePromo = async (context, type, email, name) => {
   const sitePromos = await context.prisma.sitePromoes({ where: { type } });
   const activePromo = hasActivePromo(sitePromos);
-
-  if (activePromo.length) {
-    const { promoOffer } = activePromo[0];
+  
+  if (activePromo) {
+    const { promoOffer } = activePromo;
     if (promoOffer === PROMO_BUY1GET1) {
       const generatedCodes = promoCodes.generate({ 
         length: 5, 
@@ -181,7 +181,6 @@ const resolvers = {
       paymentId, 
       type
     }, context) {
-      handlePromo(context, type, email, firstName);
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       const { id: userId } = await context.prisma.upsertUser({
@@ -199,12 +198,14 @@ const resolvers = {
           ips: {set: updatedIps },
         }
       }); 
-      
-      return context.prisma.createOrder({
+
+      await context.prisma.createOrder({
         paymentId,
         user: { connect: { id: userId } },
         video: { connect: { id: videoId } }
       });
+
+      return handlePromo(context, type, email, firstName);
     },
   },
 }
