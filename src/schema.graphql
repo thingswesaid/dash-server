@@ -115,6 +115,15 @@ type VideoPage {
   latestVideos: [Video]
   promoVideo: PromoVideo
   userActive: Boolean
+  sitePromo: SitePromo
+}
+
+type SitePromo {
+  id: ID!
+  type: VideoType!
+  promoOffer: PromoOffer!
+  startDate: String!
+  endDate: String!
 }
 
 enum Status {
@@ -125,4 +134,9 @@ enum Status {
 enum VideoType {
   ZODIAC
   PICKACARD
+}
+
+enum PromoOffer {
+  BUY1GET1
+  BUY2GET1
 }

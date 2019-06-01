@@ -3,24 +3,22 @@ const promoCodes = require('voucher-code-generator');
 const sgMail = require('@sendgrid/mail');
 
 const { prisma } = require('./generated/prisma-client')
-const { sort, shuffle } = require('./utils');
+const { sort, shuffle, hasActivePromo } = require('./utils');
+const { 
+  EMAIL_SENDER, 
+  EMAIL_PROMO_TEMPLATE,
+  PROMO_BUY1GET1,
+} = require('./constants');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const handlePromo = async (context, type, email, name) => {
   const sitePromos = await context.prisma.sitePromoes({ where: { type } });
-  const activePromo = sitePromos.filter(({ promoOffer, startDate, endDate }) => {
-    const date = new Date();
-    const offset = date.getTimezoneOffset() / 60;
-    const hours = date.getHours();
-    date.setHours(hours - offset);
-    const now = date.toISOString();
-    return startDate < now && now < endDate;
-  });
+  const activePromo = hasActivePromo(sitePromos);
 
   if (activePromo.length) {
     const { promoOffer } = activePromo[0];
-    if (promoOffer === 'BUY1GET1') {
+    if (promoOffer === PROMO_BUY1GET1) {
       const generatedCodes = promoCodes.generate({ 
         length: 5, 
         charset: promoCodes.charset("alphabetic") 
@@ -29,18 +27,14 @@ const handlePromo = async (context, type, email, name) => {
       const promoCode = await context.prisma.createPromoCode({
         code, user: { connect: { email } }
       });
-      // build retry when code already exists
-      // create promo code and attach user to it (>>LOWER CASE!!) (user email)
-      // send email with promo code (SEND TO UPPERCASE)
-      // return 'IDPROMO!!'
       if (process.env.NODE_ENV === 'production') {
         const msg = {
           to: email,
-          from: 'info@dashinbetween.com', // from constant
-          templateId: 'd-0fb9f8101a4a4a838af556db2bbafef0', // from constant - promo template
+          from: EMAIL_SENDER,
+          templateId: EMAIL_PROMO_TEMPLATE,
           dynamic_template_data: {
             name,
-            promocode: code.toUpperCase(),
+            code: code.toUpperCase(),
           },
         };
         sgMail.send(msg); 
@@ -86,13 +80,15 @@ const resolvers = {
       const user = await context.prisma.users({ where: { email } });
       const { active } = user.length ? user[0] : {};
 
-      // const promoId = await handlePromo(context, type, "manuel.dicristo@icloud.com", 'Manuel Di Cristo');
+      const sitePromos = await context.prisma.sitePromoes({ where: { type } });
+      const sitePromo = hasActivePromo(sitePromos);
 
       return {
         video,
         latestVideos: latestVideosFormat,
         promoVideo: promoVideoSelect,
         userActive: user.length ? active : true,
+        sitePromo,
       };
     },
     videos: (parent, { id='', keywords='' }, context) => {
@@ -116,12 +112,12 @@ const resolvers = {
       return promoCodes[0];
     },
     async dashboard(parent, { from, to, cloudflare }, context) { 
-      // implement Email system also to send promo codes | bulk email (don't miss out! 4.99 for all videos at the end of the month)
-      // implement DYNAMIC PRICING (1.00 off for 24 hours)
-      // || later || refer a friend
-      // implement GPAY
-      // track affiliate link when using INFLUENCERS (bitly.com)
-      // >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
+      // TODO implement Email system also to send promo codes | bulk email (don't miss out! 4.99 for all videos at the end of the month)
+      // TODO implement DYNAMIC PRICING (1.00 off for 24 hours)
+      // TODO || later || refer a friend
+      // TODO implement GPAY
+      // TODO track affiliate link when using INFLUENCERS (bitly.com)
+      // TODO >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
 
       const optsDate = cloudflare
         ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
@@ -185,12 +181,7 @@ const resolvers = {
       paymentId, 
       type
     }, context) {
-      // const promoId = await handlePromo(
-      //   context, 
-      //   type, 
-      //   email, 
-      //   `${firstName} ${lastName}`
-      // );
+      handlePromo(context, type, email, firstName);
       const user = await context.prisma.user({ email });
       const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
       const { id: userId } = await context.prisma.upsertUser({
@@ -209,8 +200,6 @@ const resolvers = {
         }
       }); 
       
-      // check if there are site promo active (buy 1 get 1 / buy 2 get 1)
-      // send email CONGRATULATIONS! 
       return context.prisma.createOrder({
         paymentId,
         user: { connect: { id: userId } },
