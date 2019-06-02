@@ -58,19 +58,18 @@ const resolvers = {
       
       const video = videos[0];
       const { id: videoId, familyId, type } = video;
-
       const promoVideoQuery = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: videoId } },
         first: 1,
       }).promoVideo();
 
       const { promoVideo } = promoVideoQuery[0];
-
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true, suggest: true }, 
         orderBy: 'createdAt_DESC', 
         first: 12
       });
+      
       const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
       const promoVideos = promoVideo ? [promoVideo] : 
@@ -112,12 +111,15 @@ const resolvers = {
       return promoCodes[0];
     },
     async dashboard(parent, { from, to, cloudflare }, context) { 
-      // TODO implement Email system also to send promo codes | bulk email (don't miss out! 4.99 for all videos at the end of the month)
-      // TODO implement DYNAMIC PRICING (1.00 off for 24 hours)
-      // TODO || later || refer a friend
-      // TODO implement GPAY
+      // TODO SHOW PROMO CODE IN NOTIFICATION (don't close in automatic)
+      // TODO refactor Promo modal show up dates (use String in SitePromo and use same logic used for modal)
+      // TODO create marketing campaigns bulk email (don't miss out! 4.99 for all videos at the end of the month)
+      // TODO implement DYNAMIC PRICING (2.99 off for 12 hours)
+      // TODO || later - refer a friend
+      // TODO implement GPAY | reimplement PAYPAL on Prisma Client (too many SDK errors)
       // TODO track affiliate link when using INFLUENCERS (bitly.com)
       // TODO >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
+      // think of monthly payment 29.99 (add promos on navbar)
 
       const optsDate = cloudflare
         ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
