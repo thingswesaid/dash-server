@@ -69,7 +69,7 @@ const resolvers = {
         orderBy: 'createdAt_DESC', 
         first: 12
       });
-      
+
       const optsFamily = familyId ? { familyId_not: familyId } : {};
       const latestVideosFormat = shuffle(latestVideos);
       const promoVideos = promoVideo ? [promoVideo] : 
@@ -111,7 +111,12 @@ const resolvers = {
       return promoCodes[0];
     },
     async dashboard(parent, { from, to, cloudflare }, context) { 
+      // TODO REMOVE WATCH AGAIN MODAL AND GIF
       // TODO SHOW PROMO CODE IN NOTIFICATION (don't close in automatic)
+      // TODO create layout for pick a card reading (without preview label and with groups choice)
+      // TODO promo could should expire (use in one month)
+      // TODO Create item PICKACARD in navbar (copy style from Raise.com)
+      // TODO use Search/Dropdown pre-made component
       // TODO refactor Promo modal show up dates (use String in SitePromo and use same logic used for modal)
       // TODO create marketing campaigns bulk email (don't miss out! 4.99 for all videos at the end of the month)
       // TODO implement DYNAMIC PRICING (2.99 off for 12 hours)
@@ -207,7 +212,8 @@ const resolvers = {
         video: { connect: { id: videoId } }
       });
 
-      return handlePromo(context, type, email, firstName);
+      const promo = await handlePromo(context, type, email, firstName);
+      return promo;
     },
   },
 }
