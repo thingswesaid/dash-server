@@ -20,12 +20,10 @@ const shuffle = function shuffle(startArray) {
 
 const hasActivePromo = function(sitePromos) {
   const promos = sitePromos.filter(({ startDate, endDate }) => {
-    const date = new Date();
-    const offset = date.getTimezoneOffset() / 60;
-    const hours = date.getHours();
-    date.setHours(hours - offset);
-    const now = date.toISOString();
-    return startDate < now && now < endDate;
+    const now = new Date();
+    const from = new Date(startDate);
+    const to = new Date(endDate);
+    return from < now && now < to;
   });
   return promos[0];
 }

@@ -457,6 +457,10 @@ export type PromoCodeOrderByInput =
   | "code_DESC"
   | "valid_ASC"
   | "valid_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -1094,6 +1098,24 @@ export interface PromoCodeWhereInput {
   code_not_ends_with?: String;
   valid?: Boolean;
   valid_not?: Boolean;
+  type?: VideoType;
+  type_not?: VideoType;
+  type_in?: VideoType[] | VideoType;
+  type_not_in?: VideoType[] | VideoType;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
   user?: UserWhereInput;
   video?: VideoWhereInput;
   AND?: PromoCodeWhereInput[] | PromoCodeWhereInput;
@@ -1132,22 +1154,34 @@ export interface SitePromoWhereInput {
   promoOffer_not?: PromoOffer;
   promoOffer_in?: PromoOffer[] | PromoOffer;
   promoOffer_not_in?: PromoOffer[] | PromoOffer;
-  startDate?: DateTimeInput;
-  startDate_not?: DateTimeInput;
-  startDate_in?: DateTimeInput[] | DateTimeInput;
-  startDate_not_in?: DateTimeInput[] | DateTimeInput;
-  startDate_lt?: DateTimeInput;
-  startDate_lte?: DateTimeInput;
-  startDate_gt?: DateTimeInput;
-  startDate_gte?: DateTimeInput;
-  endDate?: DateTimeInput;
-  endDate_not?: DateTimeInput;
-  endDate_in?: DateTimeInput[] | DateTimeInput;
-  endDate_not_in?: DateTimeInput[] | DateTimeInput;
-  endDate_lt?: DateTimeInput;
-  endDate_lte?: DateTimeInput;
-  endDate_gt?: DateTimeInput;
-  endDate_gte?: DateTimeInput;
+  startDate?: String;
+  startDate_not?: String;
+  startDate_in?: String[] | String;
+  startDate_not_in?: String[] | String;
+  startDate_lt?: String;
+  startDate_lte?: String;
+  startDate_gt?: String;
+  startDate_gte?: String;
+  startDate_contains?: String;
+  startDate_not_contains?: String;
+  startDate_starts_with?: String;
+  startDate_not_starts_with?: String;
+  startDate_ends_with?: String;
+  startDate_not_ends_with?: String;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
   AND?: SitePromoWhereInput[] | SitePromoWhereInput;
   OR?: SitePromoWhereInput[] | SitePromoWhereInput;
   NOT?: SitePromoWhereInput[] | SitePromoWhereInput;
@@ -1848,6 +1882,8 @@ export interface ProductUpdateManyMutationInput {
 export interface PromoCodeCreateInput {
   code: String;
   valid?: Boolean;
+  type: VideoType;
+  endDate?: String;
   user: UserCreateOneInput;
   video?: VideoCreateOneInput;
 }
@@ -1872,6 +1908,8 @@ export interface UserCreateInput {
 export interface PromoCodeUpdateInput {
   code?: String;
   valid?: Boolean;
+  type?: VideoType;
+  endDate?: String;
   user?: UserUpdateOneRequiredInput;
   video?: VideoUpdateOneInput;
 }
@@ -1903,6 +1941,8 @@ export interface UserUpsertNestedInput {
 export interface PromoCodeUpdateManyMutationInput {
   code?: String;
   valid?: Boolean;
+  type?: VideoType;
+  endDate?: String;
 }
 
 export interface PromoVideoCreateInput {
@@ -1997,22 +2037,22 @@ export interface PromoVideoUpdateManyMutationInput {
 export interface SitePromoCreateInput {
   type: VideoType;
   promoOffer: PromoOffer;
-  startDate: DateTimeInput;
-  endDate: DateTimeInput;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface SitePromoUpdateInput {
   type?: VideoType;
   promoOffer?: PromoOffer;
-  startDate?: DateTimeInput;
-  endDate?: DateTimeInput;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface SitePromoUpdateManyMutationInput {
   type?: VideoType;
   promoOffer?: PromoOffer;
-  startDate?: DateTimeInput;
-  endDate?: DateTimeInput;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface UserUpdateInput {
@@ -2538,12 +2578,16 @@ export interface PromoCode {
   id: ID_Output;
   code: String;
   valid: Boolean;
+  type: VideoType;
+  endDate?: String;
 }
 
 export interface PromoCodePromise extends Promise<PromoCode>, Fragmentable {
   id: () => Promise<ID_Output>;
   code: () => Promise<String>;
   valid: () => Promise<Boolean>;
+  type: () => Promise<VideoType>;
+  endDate: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
 }
@@ -2554,6 +2598,8 @@ export interface PromoCodeSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   code: () => Promise<AsyncIterator<String>>;
   valid: () => Promise<AsyncIterator<Boolean>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  endDate: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   video: <T = VideoSubscription>() => T;
 }
@@ -2666,16 +2712,16 @@ export interface SitePromo {
   id: ID_Output;
   type: VideoType;
   promoOffer: PromoOffer;
-  startDate: DateTimeOutput;
-  endDate: DateTimeOutput;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface SitePromoPromise extends Promise<SitePromo>, Fragmentable {
   id: () => Promise<ID_Output>;
   type: () => Promise<VideoType>;
   promoOffer: () => Promise<PromoOffer>;
-  startDate: () => Promise<DateTimeOutput>;
-  endDate: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
 }
 
 export interface SitePromoSubscription
@@ -2684,8 +2730,8 @@ export interface SitePromoSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
-  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
 }
 
 export interface SitePromoConnection {}
@@ -2988,6 +3034,8 @@ export interface PromoCodePreviousValues {
   id: ID_Output;
   code: String;
   valid: Boolean;
+  type: VideoType;
+  endDate?: String;
 }
 
 export interface PromoCodePreviousValuesPromise
@@ -2996,6 +3044,8 @@ export interface PromoCodePreviousValuesPromise
   id: () => Promise<ID_Output>;
   code: () => Promise<String>;
   valid: () => Promise<Boolean>;
+  type: () => Promise<VideoType>;
+  endDate: () => Promise<String>;
 }
 
 export interface PromoCodePreviousValuesSubscription
@@ -3004,6 +3054,8 @@ export interface PromoCodePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   code: () => Promise<AsyncIterator<String>>;
   valid: () => Promise<AsyncIterator<Boolean>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  endDate: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -3099,8 +3151,8 @@ export interface SitePromoPreviousValues {
   id: ID_Output;
   type: VideoType;
   promoOffer: PromoOffer;
-  startDate: DateTimeOutput;
-  endDate: DateTimeOutput;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface SitePromoPreviousValuesPromise
@@ -3109,8 +3161,8 @@ export interface SitePromoPreviousValuesPromise
   id: () => Promise<ID_Output>;
   type: () => Promise<VideoType>;
   promoOffer: () => Promise<PromoOffer>;
-  startDate: () => Promise<DateTimeOutput>;
-  endDate: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
 }
 
 export interface SitePromoPreviousValuesSubscription
@@ -3119,8 +3171,8 @@ export interface SitePromoPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
-  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {

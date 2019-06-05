@@ -16,17 +16,22 @@ const handlePromo = async (context, type, email, name) => {
   const sitePromos = await context.prisma.sitePromoes({ where: { type } });
   const activePromo = hasActivePromo(sitePromos);
   
-  if (activePromo) {
+  if (activePromo) { 
     const { promoOffer } = activePromo;
     if (promoOffer === PROMO_BUY1GET1) {
       const generatedCodes = promoCodes.generate({ 
         length: 5, 
         charset: promoCodes.charset("alphabetic") 
       })
+
       const code = generatedCodes[0].toLowerCase();
+      const now = new Date();
+      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      endDate.setHours(23,59,59,999);
       const promoCode = await context.prisma.createPromoCode({
-        code, user: { connect: { email } }
+        code, endDate, user: { connect: { email } }
       });
+
       if (process.env.NODE_ENV === 'production') {
         const msg = {
           to: email,
@@ -54,15 +59,14 @@ const resolvers = {
         first: 1,
       })
 
-      if (!videos.length) { return; }
-      
+      if (!videos.length) { return; }      
       const video = videos[0];
       const { id: videoId, familyId, type } = video;
       const promoVideoQuery = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: videoId } },
         first: 1,
       }).promoVideo();
-
+      
       const { promoVideo } = promoVideoQuery[0];
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true, suggest: true }, 
@@ -111,21 +115,6 @@ const resolvers = {
       return promoCodes[0];
     },
     async dashboard(parent, { from, to, cloudflare }, context) { 
-      // TODO REMOVE WATCH AGAIN MODAL AND GIF
-      // TODO SHOW PROMO CODE IN NOTIFICATION (don't close in automatic)
-      // TODO create layout for pick a card reading (without preview label and with groups choice)
-      // TODO promo could should expire (use in one month)
-      // TODO Create item PICKACARD in navbar (copy style from Raise.com)
-      // TODO use Search/Dropdown pre-made component
-      // TODO refactor Promo modal show up dates (use String in SitePromo and use same logic used for modal)
-      // TODO create marketing campaigns bulk email (don't miss out! 4.99 for all videos at the end of the month)
-      // TODO implement DYNAMIC PRICING (2.99 off for 12 hours)
-      // TODO || later - refer a friend
-      // TODO implement GPAY | reimplement PAYPAL on Prisma Client (too many SDK errors)
-      // TODO track affiliate link when using INFLUENCERS (bitly.com)
-      // TODO >> FIX GOOGLE ECOMMERCE TRACK PURCHASE <<
-      // think of monthly payment 29.99 (add promos on navbar)
-
       const optsDate = cloudflare
         ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
         : { createdAt_gte: `${from}T00:00:00.000Z`, createdAt_lte: `${to}T23:59:59.999Z` };

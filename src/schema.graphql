@@ -89,6 +89,8 @@ type PromoCode {
   code: String!
   valid: Boolean!
   user: User!
+  endDate: String
+  type: VideoType!
 }
 
 type AnonymousIp {

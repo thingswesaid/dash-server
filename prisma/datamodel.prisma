@@ -49,6 +49,8 @@ type PromoCode {
   id: ID! @unique
   code: String! @unique
   valid: Boolean! @default(value: "true")
+  type: VideoType!
+  endDate: String
   user: User!
   video: Video
 }
@@ -57,8 +59,8 @@ type SitePromo {
   id: ID! @unique
   type: VideoType!
   promoOffer: PromoOffer!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String
+  endDate: String
 }
 
 type Product {

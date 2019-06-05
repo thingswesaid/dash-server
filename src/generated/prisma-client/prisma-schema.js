@@ -531,6 +531,8 @@ type PromoCode {
   id: ID!
   code: String!
   valid: Boolean!
+  type: VideoType!
+  endDate: String
   user: User!
   video: Video
 }
@@ -544,6 +546,8 @@ type PromoCodeConnection {
 input PromoCodeCreateInput {
   code: String!
   valid: Boolean
+  type: VideoType!
+  endDate: String
   user: UserCreateOneInput!
   video: VideoCreateOneInput
 }
@@ -560,6 +564,10 @@ enum PromoCodeOrderByInput {
   code_DESC
   valid_ASC
   valid_DESC
+  type_ASC
+  type_DESC
+  endDate_ASC
+  endDate_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -570,6 +578,8 @@ type PromoCodePreviousValues {
   id: ID!
   code: String!
   valid: Boolean!
+  type: VideoType!
+  endDate: String
 }
 
 type PromoCodeSubscriptionPayload {
@@ -593,6 +603,8 @@ input PromoCodeSubscriptionWhereInput {
 input PromoCodeUpdateInput {
   code: String
   valid: Boolean
+  type: VideoType
+  endDate: String
   user: UserUpdateOneRequiredInput
   video: VideoUpdateOneInput
 }
@@ -600,6 +612,8 @@ input PromoCodeUpdateInput {
 input PromoCodeUpdateManyMutationInput {
   code: String
   valid: Boolean
+  type: VideoType
+  endDate: String
 }
 
 input PromoCodeWhereInput {
@@ -633,6 +647,24 @@ input PromoCodeWhereInput {
   code_not_ends_with: String
   valid: Boolean
   valid_not: Boolean
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
   user: UserWhereInput
   video: VideoWhereInput
   AND: [PromoCodeWhereInput!]
@@ -984,8 +1016,8 @@ type SitePromo {
   id: ID!
   type: VideoType!
   promoOffer: PromoOffer!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String
+  endDate: String
 }
 
 type SitePromoConnection {
@@ -997,8 +1029,8 @@ type SitePromoConnection {
 input SitePromoCreateInput {
   type: VideoType!
   promoOffer: PromoOffer!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String
+  endDate: String
 }
 
 type SitePromoEdge {
@@ -1027,8 +1059,8 @@ type SitePromoPreviousValues {
   id: ID!
   type: VideoType!
   promoOffer: PromoOffer!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String
+  endDate: String
 }
 
 type SitePromoSubscriptionPayload {
@@ -1052,15 +1084,15 @@ input SitePromoSubscriptionWhereInput {
 input SitePromoUpdateInput {
   type: VideoType
   promoOffer: PromoOffer
-  startDate: DateTime
-  endDate: DateTime
+  startDate: String
+  endDate: String
 }
 
 input SitePromoUpdateManyMutationInput {
   type: VideoType
   promoOffer: PromoOffer
-  startDate: DateTime
-  endDate: DateTime
+  startDate: String
+  endDate: String
 }
 
 input SitePromoWhereInput {
@@ -1086,22 +1118,34 @@ input SitePromoWhereInput {
   promoOffer_not: PromoOffer
   promoOffer_in: [PromoOffer!]
   promoOffer_not_in: [PromoOffer!]
-  startDate: DateTime
-  startDate_not: DateTime
-  startDate_in: [DateTime!]
-  startDate_not_in: [DateTime!]
-  startDate_lt: DateTime
-  startDate_lte: DateTime
-  startDate_gt: DateTime
-  startDate_gte: DateTime
-  endDate: DateTime
-  endDate_not: DateTime
-  endDate_in: [DateTime!]
-  endDate_not_in: [DateTime!]
-  endDate_lt: DateTime
-  endDate_lte: DateTime
-  endDate_gt: DateTime
-  endDate_gte: DateTime
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
   AND: [SitePromoWhereInput!]
   OR: [SitePromoWhereInput!]
   NOT: [SitePromoWhereInput!]
