@@ -23,12 +23,21 @@ type Video {
   placeholder: String
   users: [User]!
   published: Boolean! @default(value: "false")
-  amount: Float
+  price: Float!
+  priceSchedule: [PriceSchedule]
   start: Int!
   type: VideoType!
   familyId: String @default(value: "")
   promoVideo: PromoVideo
   suggest: Boolean! @default(value: "true")
+}
+
+type PriceSchedule {
+  id: ID! @unique
+  price: Float!
+  startDate: String!
+  endDate: String!
+  videos: [Video]
 }
 
 type PromoVideo {

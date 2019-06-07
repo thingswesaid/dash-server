@@ -66,8 +66,14 @@ const resolvers = {
         where: { ...optsPublished, ...{ id_contains: videoId } },
         first: 1,
       }).promoVideo();
-      
       const { promoVideo } = promoVideoQuery[0];
+      
+      const priceScheduleQuery = await context.prisma.videos({   
+        where: { ...optsPublished, ...{ id_contains: videoId } },
+        first: 1,
+      }).priceSchedule();
+      const { priceSchedule } = priceScheduleQuery[0];      
+
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, published: true, suggest: true }, 
         orderBy: 'createdAt_DESC', 
@@ -87,7 +93,7 @@ const resolvers = {
       const sitePromo = hasActivePromo(sitePromos);
 
       return {
-        video,
+        video: {...video, ...{ priceSchedule }},
         latestVideos: latestVideosFormat,
         promoVideo: promoVideoSelect,
         userActive: user.length ? active : true,
@@ -136,6 +142,9 @@ const resolvers = {
   Video: {
     users(parent) {
       return prisma.video({ id: parent.id }).users()
+    },
+    priceSchedule(parent) {
+      return prisma.video({ id: parent.id }).priceSchedule()
     },
   },
   PromoCode: {

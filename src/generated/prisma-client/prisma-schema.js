@@ -3,6 +3,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregatePriceSchedule {
+  count: Int!
+}
+
 type AggregateProduct {
   count: Int!
 }
@@ -42,6 +46,12 @@ type Mutation {
   upsertOrder(where: OrderWhereUniqueInput!, create: OrderCreateInput!, update: OrderUpdateInput!): Order!
   deleteOrder(where: OrderWhereUniqueInput!): Order
   deleteManyOrders(where: OrderWhereInput): BatchPayload!
+  createPriceSchedule(data: PriceScheduleCreateInput!): PriceSchedule!
+  updatePriceSchedule(data: PriceScheduleUpdateInput!, where: PriceScheduleWhereUniqueInput!): PriceSchedule
+  updateManyPriceSchedules(data: PriceScheduleUpdateManyMutationInput!, where: PriceScheduleWhereInput): BatchPayload!
+  upsertPriceSchedule(where: PriceScheduleWhereUniqueInput!, create: PriceScheduleCreateInput!, update: PriceScheduleUpdateInput!): PriceSchedule!
+  deletePriceSchedule(where: PriceScheduleWhereUniqueInput!): PriceSchedule
+  deleteManyPriceSchedules(where: PriceScheduleWhereInput): BatchPayload!
   createProduct(data: ProductCreateInput!): Product!
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
@@ -320,6 +330,254 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type PriceSchedule {
+  id: ID!
+  price: Float!
+  startDate: String!
+  endDate: String!
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
+}
+
+type PriceScheduleConnection {
+  pageInfo: PageInfo!
+  edges: [PriceScheduleEdge]!
+  aggregate: AggregatePriceSchedule!
+}
+
+input PriceScheduleCreateInput {
+  price: Float!
+  startDate: String!
+  endDate: String!
+  videos: VideoCreateManyWithoutPriceScheduleInput
+}
+
+input PriceScheduleCreateManyWithoutVideosInput {
+  create: [PriceScheduleCreateWithoutVideosInput!]
+  connect: [PriceScheduleWhereUniqueInput!]
+}
+
+input PriceScheduleCreateWithoutVideosInput {
+  price: Float!
+  startDate: String!
+  endDate: String!
+}
+
+type PriceScheduleEdge {
+  node: PriceSchedule!
+  cursor: String!
+}
+
+enum PriceScheduleOrderByInput {
+  id_ASC
+  id_DESC
+  price_ASC
+  price_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PriceSchedulePreviousValues {
+  id: ID!
+  price: Float!
+  startDate: String!
+  endDate: String!
+}
+
+input PriceScheduleScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  AND: [PriceScheduleScalarWhereInput!]
+  OR: [PriceScheduleScalarWhereInput!]
+  NOT: [PriceScheduleScalarWhereInput!]
+}
+
+type PriceScheduleSubscriptionPayload {
+  mutation: MutationType!
+  node: PriceSchedule
+  updatedFields: [String!]
+  previousValues: PriceSchedulePreviousValues
+}
+
+input PriceScheduleSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PriceScheduleWhereInput
+  AND: [PriceScheduleSubscriptionWhereInput!]
+  OR: [PriceScheduleSubscriptionWhereInput!]
+  NOT: [PriceScheduleSubscriptionWhereInput!]
+}
+
+input PriceScheduleUpdateInput {
+  price: Float
+  startDate: String
+  endDate: String
+  videos: VideoUpdateManyWithoutPriceScheduleInput
+}
+
+input PriceScheduleUpdateManyDataInput {
+  price: Float
+  startDate: String
+  endDate: String
+}
+
+input PriceScheduleUpdateManyMutationInput {
+  price: Float
+  startDate: String
+  endDate: String
+}
+
+input PriceScheduleUpdateManyWithoutVideosInput {
+  create: [PriceScheduleCreateWithoutVideosInput!]
+  delete: [PriceScheduleWhereUniqueInput!]
+  connect: [PriceScheduleWhereUniqueInput!]
+  disconnect: [PriceScheduleWhereUniqueInput!]
+  update: [PriceScheduleUpdateWithWhereUniqueWithoutVideosInput!]
+  upsert: [PriceScheduleUpsertWithWhereUniqueWithoutVideosInput!]
+  deleteMany: [PriceScheduleScalarWhereInput!]
+  updateMany: [PriceScheduleUpdateManyWithWhereNestedInput!]
+}
+
+input PriceScheduleUpdateManyWithWhereNestedInput {
+  where: PriceScheduleScalarWhereInput!
+  data: PriceScheduleUpdateManyDataInput!
+}
+
+input PriceScheduleUpdateWithoutVideosDataInput {
+  price: Float
+  startDate: String
+  endDate: String
+}
+
+input PriceScheduleUpdateWithWhereUniqueWithoutVideosInput {
+  where: PriceScheduleWhereUniqueInput!
+  data: PriceScheduleUpdateWithoutVideosDataInput!
+}
+
+input PriceScheduleUpsertWithWhereUniqueWithoutVideosInput {
+  where: PriceScheduleWhereUniqueInput!
+  update: PriceScheduleUpdateWithoutVideosDataInput!
+  create: PriceScheduleCreateWithoutVideosInput!
+}
+
+input PriceScheduleWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  videos_every: VideoWhereInput
+  videos_some: VideoWhereInput
+  videos_none: VideoWhereInput
+  AND: [PriceScheduleWhereInput!]
+  OR: [PriceScheduleWhereInput!]
+  NOT: [PriceScheduleWhereInput!]
+}
+
+input PriceScheduleWhereUniqueInput {
+  id: ID
 }
 
 type Product {
@@ -991,6 +1249,9 @@ type Query {
   order(where: OrderWhereUniqueInput!): Order
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order]!
   ordersConnection(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrderConnection!
+  priceSchedule(where: PriceScheduleWhereUniqueInput!): PriceSchedule
+  priceSchedules(where: PriceScheduleWhereInput, orderBy: PriceScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PriceSchedule]!
+  priceSchedulesConnection(where: PriceScheduleWhereInput, orderBy: PriceScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PriceScheduleConnection!
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
@@ -1157,6 +1418,7 @@ input SitePromoWhereUniqueInput {
 
 type Subscription {
   order(where: OrderSubscriptionWhereInput): OrderSubscriptionPayload
+  priceSchedule(where: PriceScheduleSubscriptionWhereInput): PriceScheduleSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   promoCode(where: PromoCodeSubscriptionWhereInput): PromoCodeSubscriptionPayload
   promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
@@ -1632,7 +1894,8 @@ type Video {
   placeholder: String
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
-  amount: Float
+  price: Float!
+  priceSchedule(where: PriceScheduleWhereInput, orderBy: PriceScheduleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PriceSchedule!]
   start: Int!
   type: VideoType!
   familyId: String
@@ -1655,12 +1918,18 @@ input VideoCreateInput {
   placeholder: String
   users: UserCreateManyWithoutVideosInput
   published: Boolean
-  amount: Float
+  price: Float!
+  priceSchedule: PriceScheduleCreateManyWithoutVideosInput
   start: Int!
   type: VideoType!
   familyId: String
   promoVideo: PromoVideoCreateOneWithoutVideoInput
   suggest: Boolean
+}
+
+input VideoCreateManyWithoutPriceScheduleInput {
+  create: [VideoCreateWithoutPriceScheduleInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -1678,6 +1947,23 @@ input VideoCreateOneWithoutPromoVideoInput {
   connect: VideoWhereUniqueInput
 }
 
+input VideoCreateWithoutPriceScheduleInput {
+  name: String!
+  title: String
+  link: String!
+  preview: String!
+  image: String!
+  placeholder: String
+  users: UserCreateManyWithoutVideosInput
+  published: Boolean
+  price: Float!
+  start: Int!
+  type: VideoType!
+  familyId: String
+  promoVideo: PromoVideoCreateOneWithoutVideoInput
+  suggest: Boolean
+}
+
 input VideoCreateWithoutPromoVideoInput {
   name: String!
   title: String
@@ -1687,7 +1973,8 @@ input VideoCreateWithoutPromoVideoInput {
   placeholder: String
   users: UserCreateManyWithoutVideosInput
   published: Boolean
-  amount: Float
+  price: Float!
+  priceSchedule: PriceScheduleCreateManyWithoutVideosInput
   start: Int!
   type: VideoType!
   familyId: String
@@ -1702,7 +1989,8 @@ input VideoCreateWithoutUsersInput {
   image: String!
   placeholder: String
   published: Boolean
-  amount: Float
+  price: Float!
+  priceSchedule: PriceScheduleCreateManyWithoutVideosInput
   start: Int!
   type: VideoType!
   familyId: String
@@ -1732,8 +2020,8 @@ enum VideoOrderByInput {
   placeholder_DESC
   published_ASC
   published_DESC
-  amount_ASC
-  amount_DESC
+  price_ASC
+  price_DESC
   start_ASC
   start_DESC
   type_ASC
@@ -1757,7 +2045,7 @@ type VideoPreviousValues {
   image: String!
   placeholder: String
   published: Boolean!
-  amount: Float
+  price: Float!
   start: Int!
   type: VideoType!
   familyId: String
@@ -1865,14 +2153,14 @@ input VideoScalarWhereInput {
   placeholder_not_ends_with: String
   published: Boolean
   published_not: Boolean
-  amount: Float
-  amount_not: Float
-  amount_in: [Float!]
-  amount_not_in: [Float!]
-  amount_lt: Float
-  amount_lte: Float
-  amount_gt: Float
-  amount_gte: Float
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
   start: Int
   start_not: Int
   start_in: [Int!]
@@ -1938,7 +2226,8 @@ input VideoUpdateDataInput {
   placeholder: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
-  amount: Float
+  price: Float
+  priceSchedule: PriceScheduleUpdateManyWithoutVideosInput
   start: Int
   type: VideoType
   familyId: String
@@ -1955,7 +2244,8 @@ input VideoUpdateInput {
   placeholder: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
-  amount: Float
+  price: Float
+  priceSchedule: PriceScheduleUpdateManyWithoutVideosInput
   start: Int
   type: VideoType
   familyId: String
@@ -1971,7 +2261,7 @@ input VideoUpdateManyDataInput {
   image: String
   placeholder: String
   published: Boolean
-  amount: Float
+  price: Float
   start: Int
   type: VideoType
   familyId: String
@@ -1986,11 +2276,22 @@ input VideoUpdateManyMutationInput {
   image: String
   placeholder: String
   published: Boolean
-  amount: Float
+  price: Float
   start: Int
   type: VideoType
   familyId: String
   suggest: Boolean
+}
+
+input VideoUpdateManyWithoutPriceScheduleInput {
+  create: [VideoCreateWithoutPriceScheduleInput!]
+  delete: [VideoWhereUniqueInput!]
+  connect: [VideoWhereUniqueInput!]
+  disconnect: [VideoWhereUniqueInput!]
+  update: [VideoUpdateWithWhereUniqueWithoutPriceScheduleInput!]
+  upsert: [VideoUpsertWithWhereUniqueWithoutPriceScheduleInput!]
+  deleteMany: [VideoScalarWhereInput!]
+  updateMany: [VideoUpdateManyWithWhereNestedInput!]
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -2027,6 +2328,23 @@ input VideoUpdateOneWithoutPromoVideoInput {
   connect: VideoWhereUniqueInput
 }
 
+input VideoUpdateWithoutPriceScheduleDataInput {
+  name: String
+  title: String
+  link: String
+  preview: String
+  image: String
+  placeholder: String
+  users: UserUpdateManyWithoutVideosInput
+  published: Boolean
+  price: Float
+  start: Int
+  type: VideoType
+  familyId: String
+  promoVideo: PromoVideoUpdateOneWithoutVideoInput
+  suggest: Boolean
+}
+
 input VideoUpdateWithoutPromoVideoDataInput {
   name: String
   title: String
@@ -2036,7 +2354,8 @@ input VideoUpdateWithoutPromoVideoDataInput {
   placeholder: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
-  amount: Float
+  price: Float
+  priceSchedule: PriceScheduleUpdateManyWithoutVideosInput
   start: Int
   type: VideoType
   familyId: String
@@ -2051,12 +2370,18 @@ input VideoUpdateWithoutUsersDataInput {
   image: String
   placeholder: String
   published: Boolean
-  amount: Float
+  price: Float
+  priceSchedule: PriceScheduleUpdateManyWithoutVideosInput
   start: Int
   type: VideoType
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
+}
+
+input VideoUpdateWithWhereUniqueWithoutPriceScheduleInput {
+  where: VideoWhereUniqueInput!
+  data: VideoUpdateWithoutPriceScheduleDataInput!
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -2072,6 +2397,12 @@ input VideoUpsertNestedInput {
 input VideoUpsertWithoutPromoVideoInput {
   update: VideoUpdateWithoutPromoVideoDataInput!
   create: VideoCreateWithoutPromoVideoInput!
+}
+
+input VideoUpsertWithWhereUniqueWithoutPriceScheduleInput {
+  where: VideoWhereUniqueInput!
+  update: VideoUpdateWithoutPriceScheduleDataInput!
+  create: VideoCreateWithoutPriceScheduleInput!
 }
 
 input VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -2184,14 +2515,17 @@ input VideoWhereInput {
   users_none: UserWhereInput
   published: Boolean
   published_not: Boolean
-  amount: Float
-  amount_not: Float
-  amount_in: [Float!]
-  amount_not_in: [Float!]
-  amount_lt: Float
-  amount_lte: Float
-  amount_gt: Float
-  amount_gte: Float
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  priceSchedule_every: PriceScheduleWhereInput
+  priceSchedule_some: PriceScheduleWhereInput
+  priceSchedule_none: PriceScheduleWhereInput
   start: Int
   start_not: Int
   start_in: [Int!]

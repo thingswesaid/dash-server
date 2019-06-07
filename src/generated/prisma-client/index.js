@@ -9,6 +9,10 @@ var models = [
     embedded: false
   },
   {
+    name: "PriceSchedule",
+    embedded: false
+  },
+  {
     name: "Product",
     embedded: false
   },
@@ -51,6 +55,10 @@ exports.prisma = new exports.Prisma();
 var models = [
   {
     name: "Order",
+    embedded: false
+  },
+  {
+    name: "PriceSchedule",
     embedded: false
   },
   {

@@ -40,13 +40,22 @@ type Video {
   preview: String!
   image: String!
   placeholder: String
-  amount: Float!
+  price: Float!
   published: Boolean!
   users: [User]
   start: Int!
   type: String
   familyId: String
   promoVideo: PromoVideo
+  priceSchedule: [PriceSchedule]
+}
+
+type PriceSchedule {
+  id: ID!
+  price: Float!
+  startDate: String!
+  endDate: String!
+  videos: [Video]
 }
 
 type Dashboard {

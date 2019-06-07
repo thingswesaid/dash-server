@@ -11,6 +11,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 
 export interface Exists {
   order: (where?: OrderWhereInput) => Promise<boolean>;
+  priceSchedule: (where?: PriceScheduleWhereInput) => Promise<boolean>;
   product: (where?: ProductWhereInput) => Promise<boolean>;
   promoCode: (where?: PromoCodeWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
@@ -61,6 +62,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => OrderConnectionPromise;
+  priceSchedule: (where: PriceScheduleWhereUniqueInput) => PriceSchedulePromise;
+  priceSchedules: (
+    args?: {
+      where?: PriceScheduleWhereInput;
+      orderBy?: PriceScheduleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<PriceSchedule>;
+  priceSchedulesConnection: (
+    args?: {
+      where?: PriceScheduleWhereInput;
+      orderBy?: PriceScheduleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PriceScheduleConnectionPromise;
   product: (where: ProductWhereUniqueInput) => ProductPromise;
   products: (
     args?: {
@@ -221,6 +245,32 @@ export interface Prisma {
   ) => OrderPromise;
   deleteOrder: (where: OrderWhereUniqueInput) => OrderPromise;
   deleteManyOrders: (where?: OrderWhereInput) => BatchPayloadPromise;
+  createPriceSchedule: (data: PriceScheduleCreateInput) => PriceSchedulePromise;
+  updatePriceSchedule: (
+    args: {
+      data: PriceScheduleUpdateInput;
+      where: PriceScheduleWhereUniqueInput;
+    }
+  ) => PriceSchedulePromise;
+  updateManyPriceSchedules: (
+    args: {
+      data: PriceScheduleUpdateManyMutationInput;
+      where?: PriceScheduleWhereInput;
+    }
+  ) => BatchPayloadPromise;
+  upsertPriceSchedule: (
+    args: {
+      where: PriceScheduleWhereUniqueInput;
+      create: PriceScheduleCreateInput;
+      update: PriceScheduleUpdateInput;
+    }
+  ) => PriceSchedulePromise;
+  deletePriceSchedule: (
+    where: PriceScheduleWhereUniqueInput
+  ) => PriceSchedulePromise;
+  deleteManyPriceSchedules: (
+    where?: PriceScheduleWhereInput
+  ) => BatchPayloadPromise;
   createProduct: (data: ProductCreateInput) => ProductPromise;
   updateProduct: (
     args: { data: ProductUpdateInput; where: ProductWhereUniqueInput }
@@ -338,6 +388,9 @@ export interface Subscription {
   order: (
     where?: OrderSubscriptionWhereInput
   ) => OrderSubscriptionPayloadSubscription;
+  priceSchedule: (
+    where?: PriceScheduleSubscriptionWhereInput
+  ) => PriceScheduleSubscriptionPayloadSubscription;
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
@@ -385,8 +438,8 @@ export type VideoOrderByInput =
   | "placeholder_DESC"
   | "published_ASC"
   | "published_DESC"
-  | "amount_ASC"
-  | "amount_DESC"
+  | "price_ASC"
+  | "price_DESC"
   | "start_ASC"
   | "start_DESC"
   | "type_ASC"
@@ -415,6 +468,20 @@ export type UserOrderByInput =
   | "subscribed_DESC"
   | "active_ASC"
   | "active_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type PriceScheduleOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "price_ASC"
+  | "price_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -621,14 +688,17 @@ export interface VideoWhereInput {
   users_none?: UserWhereInput;
   published?: Boolean;
   published_not?: Boolean;
-  amount?: Float;
-  amount_not?: Float;
-  amount_in?: Float[] | Float;
-  amount_not_in?: Float[] | Float;
-  amount_lt?: Float;
-  amount_lte?: Float;
-  amount_gt?: Float;
-  amount_gte?: Float;
+  price?: Float;
+  price_not?: Float;
+  price_in?: Float[] | Float;
+  price_not_in?: Float[] | Float;
+  price_lt?: Float;
+  price_lte?: Float;
+  price_gt?: Float;
+  price_gte?: Float;
+  priceSchedule_every?: PriceScheduleWhereInput;
+  priceSchedule_some?: PriceScheduleWhereInput;
+  priceSchedule_none?: PriceScheduleWhereInput;
   start?: Int;
   start_not?: Int;
   start_in?: Int[] | Int;
@@ -817,6 +887,65 @@ export interface OrderWhereInput {
   NOT?: OrderWhereInput[] | OrderWhereInput;
 }
 
+export interface PriceScheduleWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  price?: Float;
+  price_not?: Float;
+  price_in?: Float[] | Float;
+  price_not_in?: Float[] | Float;
+  price_lt?: Float;
+  price_lte?: Float;
+  price_gt?: Float;
+  price_gte?: Float;
+  startDate?: String;
+  startDate_not?: String;
+  startDate_in?: String[] | String;
+  startDate_not_in?: String[] | String;
+  startDate_lt?: String;
+  startDate_lte?: String;
+  startDate_gt?: String;
+  startDate_gte?: String;
+  startDate_contains?: String;
+  startDate_not_contains?: String;
+  startDate_starts_with?: String;
+  startDate_not_starts_with?: String;
+  startDate_ends_with?: String;
+  startDate_not_ends_with?: String;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
+  videos_every?: VideoWhereInput;
+  videos_some?: VideoWhereInput;
+  videos_none?: VideoWhereInput;
+  AND?: PriceScheduleWhereInput[] | PriceScheduleWhereInput;
+  OR?: PriceScheduleWhereInput[] | PriceScheduleWhereInput;
+  NOT?: PriceScheduleWhereInput[] | PriceScheduleWhereInput;
+}
+
 export interface PromoVideoWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -953,6 +1082,10 @@ export interface PromoVideoWhereInput {
   OR?: PromoVideoWhereInput[] | PromoVideoWhereInput;
   NOT?: PromoVideoWhereInput[] | PromoVideoWhereInput;
 }
+
+export type PriceScheduleWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export type ProductWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
@@ -1235,12 +1368,26 @@ export interface VideoCreateWithoutUsersInput {
   image: String;
   placeholder?: String;
   published?: Boolean;
-  amount?: Float;
+  price: Float;
+  priceSchedule?: PriceScheduleCreateManyWithoutVideosInput;
   start: Int;
   type: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoCreateOneWithoutVideoInput;
   suggest?: Boolean;
+}
+
+export interface PriceScheduleCreateManyWithoutVideosInput {
+  create?:
+    | PriceScheduleCreateWithoutVideosInput[]
+    | PriceScheduleCreateWithoutVideosInput;
+  connect?: PriceScheduleWhereUniqueInput[] | PriceScheduleWhereUniqueInput;
+}
+
+export interface PriceScheduleCreateWithoutVideosInput {
+  price: Float;
+  startDate: String;
+  endDate: String;
 }
 
 export interface PromoVideoCreateOneWithoutVideoInput {
@@ -1274,7 +1421,8 @@ export interface VideoCreateInput {
   placeholder?: String;
   users?: UserCreateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Float;
+  price: Float;
+  priceSchedule?: PriceScheduleCreateManyWithoutVideosInput;
   start: Int;
   type: VideoType;
   familyId?: String;
@@ -1368,12 +1516,116 @@ export interface VideoUpdateWithoutUsersDataInput {
   image?: String;
   placeholder?: String;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
+  priceSchedule?: PriceScheduleUpdateManyWithoutVideosInput;
   start?: Int;
   type?: VideoType;
   familyId?: String;
   promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
   suggest?: Boolean;
+}
+
+export interface PriceScheduleUpdateManyWithoutVideosInput {
+  create?:
+    | PriceScheduleCreateWithoutVideosInput[]
+    | PriceScheduleCreateWithoutVideosInput;
+  delete?: PriceScheduleWhereUniqueInput[] | PriceScheduleWhereUniqueInput;
+  connect?: PriceScheduleWhereUniqueInput[] | PriceScheduleWhereUniqueInput;
+  disconnect?: PriceScheduleWhereUniqueInput[] | PriceScheduleWhereUniqueInput;
+  update?:
+    | PriceScheduleUpdateWithWhereUniqueWithoutVideosInput[]
+    | PriceScheduleUpdateWithWhereUniqueWithoutVideosInput;
+  upsert?:
+    | PriceScheduleUpsertWithWhereUniqueWithoutVideosInput[]
+    | PriceScheduleUpsertWithWhereUniqueWithoutVideosInput;
+  deleteMany?: PriceScheduleScalarWhereInput[] | PriceScheduleScalarWhereInput;
+  updateMany?:
+    | PriceScheduleUpdateManyWithWhereNestedInput[]
+    | PriceScheduleUpdateManyWithWhereNestedInput;
+}
+
+export interface PriceScheduleUpdateWithWhereUniqueWithoutVideosInput {
+  where: PriceScheduleWhereUniqueInput;
+  data: PriceScheduleUpdateWithoutVideosDataInput;
+}
+
+export interface PriceScheduleUpdateWithoutVideosDataInput {
+  price?: Float;
+  startDate?: String;
+  endDate?: String;
+}
+
+export interface PriceScheduleUpsertWithWhereUniqueWithoutVideosInput {
+  where: PriceScheduleWhereUniqueInput;
+  update: PriceScheduleUpdateWithoutVideosDataInput;
+  create: PriceScheduleCreateWithoutVideosInput;
+}
+
+export interface PriceScheduleScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  price?: Float;
+  price_not?: Float;
+  price_in?: Float[] | Float;
+  price_not_in?: Float[] | Float;
+  price_lt?: Float;
+  price_lte?: Float;
+  price_gt?: Float;
+  price_gte?: Float;
+  startDate?: String;
+  startDate_not?: String;
+  startDate_in?: String[] | String;
+  startDate_not_in?: String[] | String;
+  startDate_lt?: String;
+  startDate_lte?: String;
+  startDate_gt?: String;
+  startDate_gte?: String;
+  startDate_contains?: String;
+  startDate_not_contains?: String;
+  startDate_starts_with?: String;
+  startDate_not_starts_with?: String;
+  startDate_ends_with?: String;
+  startDate_not_ends_with?: String;
+  endDate?: String;
+  endDate_not?: String;
+  endDate_in?: String[] | String;
+  endDate_not_in?: String[] | String;
+  endDate_lt?: String;
+  endDate_lte?: String;
+  endDate_gt?: String;
+  endDate_gte?: String;
+  endDate_contains?: String;
+  endDate_not_contains?: String;
+  endDate_starts_with?: String;
+  endDate_not_starts_with?: String;
+  endDate_ends_with?: String;
+  endDate_not_ends_with?: String;
+  AND?: PriceScheduleScalarWhereInput[] | PriceScheduleScalarWhereInput;
+  OR?: PriceScheduleScalarWhereInput[] | PriceScheduleScalarWhereInput;
+  NOT?: PriceScheduleScalarWhereInput[] | PriceScheduleScalarWhereInput;
+}
+
+export interface PriceScheduleUpdateManyWithWhereNestedInput {
+  where: PriceScheduleScalarWhereInput;
+  data: PriceScheduleUpdateManyDataInput;
+}
+
+export interface PriceScheduleUpdateManyDataInput {
+  price?: Float;
+  startDate?: String;
+  endDate?: String;
 }
 
 export interface PromoVideoUpdateOneWithoutVideoInput {
@@ -1509,14 +1761,14 @@ export interface VideoScalarWhereInput {
   placeholder_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
-  amount?: Float;
-  amount_not?: Float;
-  amount_in?: Float[] | Float;
-  amount_not_in?: Float[] | Float;
-  amount_lt?: Float;
-  amount_lte?: Float;
-  amount_gt?: Float;
-  amount_gte?: Float;
+  price?: Float;
+  price_not?: Float;
+  price_in?: Float[] | Float;
+  price_not_in?: Float[] | Float;
+  price_lt?: Float;
+  price_lte?: Float;
+  price_gt?: Float;
+  price_gte?: Float;
   start?: Int;
   start_not?: Int;
   start_in?: Int[] | Int;
@@ -1563,7 +1815,7 @@ export interface VideoUpdateManyDataInput {
   image?: String;
   placeholder?: String;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
   start?: Int;
   type?: VideoType;
   familyId?: String;
@@ -1593,7 +1845,8 @@ export interface VideoUpdateDataInput {
   placeholder?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
+  priceSchedule?: PriceScheduleUpdateManyWithoutVideosInput;
   start?: Int;
   type?: VideoType;
   familyId?: String;
@@ -1852,6 +2105,97 @@ export interface OrderUpdateManyMutationInput {
   paymentId?: String;
 }
 
+export interface PriceScheduleCreateInput {
+  price: Float;
+  startDate: String;
+  endDate: String;
+  videos?: VideoCreateManyWithoutPriceScheduleInput;
+}
+
+export interface VideoCreateManyWithoutPriceScheduleInput {
+  create?:
+    | VideoCreateWithoutPriceScheduleInput[]
+    | VideoCreateWithoutPriceScheduleInput;
+  connect?: VideoWhereUniqueInput[] | VideoWhereUniqueInput;
+}
+
+export interface VideoCreateWithoutPriceScheduleInput {
+  name: String;
+  title?: String;
+  link: String;
+  preview: String;
+  image: String;
+  placeholder?: String;
+  users?: UserCreateManyWithoutVideosInput;
+  published?: Boolean;
+  price: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: String;
+  promoVideo?: PromoVideoCreateOneWithoutVideoInput;
+  suggest?: Boolean;
+}
+
+export interface PriceScheduleUpdateInput {
+  price?: Float;
+  startDate?: String;
+  endDate?: String;
+  videos?: VideoUpdateManyWithoutPriceScheduleInput;
+}
+
+export interface VideoUpdateManyWithoutPriceScheduleInput {
+  create?:
+    | VideoCreateWithoutPriceScheduleInput[]
+    | VideoCreateWithoutPriceScheduleInput;
+  delete?: VideoWhereUniqueInput[] | VideoWhereUniqueInput;
+  connect?: VideoWhereUniqueInput[] | VideoWhereUniqueInput;
+  disconnect?: VideoWhereUniqueInput[] | VideoWhereUniqueInput;
+  update?:
+    | VideoUpdateWithWhereUniqueWithoutPriceScheduleInput[]
+    | VideoUpdateWithWhereUniqueWithoutPriceScheduleInput;
+  upsert?:
+    | VideoUpsertWithWhereUniqueWithoutPriceScheduleInput[]
+    | VideoUpsertWithWhereUniqueWithoutPriceScheduleInput;
+  deleteMany?: VideoScalarWhereInput[] | VideoScalarWhereInput;
+  updateMany?:
+    | VideoUpdateManyWithWhereNestedInput[]
+    | VideoUpdateManyWithWhereNestedInput;
+}
+
+export interface VideoUpdateWithWhereUniqueWithoutPriceScheduleInput {
+  where: VideoWhereUniqueInput;
+  data: VideoUpdateWithoutPriceScheduleDataInput;
+}
+
+export interface VideoUpdateWithoutPriceScheduleDataInput {
+  name?: String;
+  title?: String;
+  link?: String;
+  preview?: String;
+  image?: String;
+  placeholder?: String;
+  users?: UserUpdateManyWithoutVideosInput;
+  published?: Boolean;
+  price?: Float;
+  start?: Int;
+  type?: VideoType;
+  familyId?: String;
+  promoVideo?: PromoVideoUpdateOneWithoutVideoInput;
+  suggest?: Boolean;
+}
+
+export interface VideoUpsertWithWhereUniqueWithoutPriceScheduleInput {
+  where: VideoWhereUniqueInput;
+  update: VideoUpdateWithoutPriceScheduleDataInput;
+  create: VideoCreateWithoutPriceScheduleInput;
+}
+
+export interface PriceScheduleUpdateManyMutationInput {
+  price?: Float;
+  startDate?: String;
+  endDate?: String;
+}
+
 export interface ProductCreateInput {
   link: String;
   name: String;
@@ -1972,7 +2316,8 @@ export interface VideoCreateWithoutPromoVideoInput {
   placeholder?: String;
   users?: UserCreateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Float;
+  price: Float;
+  priceSchedule?: PriceScheduleCreateManyWithoutVideosInput;
   start: Int;
   type: VideoType;
   familyId?: String;
@@ -2010,7 +2355,8 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   placeholder?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
+  priceSchedule?: PriceScheduleUpdateManyWithoutVideosInput;
   start?: Int;
   type?: VideoType;
   familyId?: String;
@@ -2086,7 +2432,8 @@ export interface VideoUpdateInput {
   placeholder?: String;
   users?: UserUpdateManyWithoutVideosInput;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
+  priceSchedule?: PriceScheduleUpdateManyWithoutVideosInput;
   start?: Int;
   type?: VideoType;
   familyId?: String;
@@ -2102,7 +2449,7 @@ export interface VideoUpdateManyMutationInput {
   image?: String;
   placeholder?: String;
   published?: Boolean;
-  amount?: Float;
+  price?: Float;
   start?: Int;
   type?: VideoType;
   familyId?: String;
@@ -2118,6 +2465,23 @@ export interface OrderSubscriptionWhereInput {
   AND?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
   OR?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
   NOT?: OrderSubscriptionWhereInput[] | OrderSubscriptionWhereInput;
+}
+
+export interface PriceScheduleSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PriceScheduleWhereInput;
+  AND?:
+    | PriceScheduleSubscriptionWhereInput[]
+    | PriceScheduleSubscriptionWhereInput;
+  OR?:
+    | PriceScheduleSubscriptionWhereInput[]
+    | PriceScheduleSubscriptionWhereInput;
+  NOT?:
+    | PriceScheduleSubscriptionWhereInput[]
+    | PriceScheduleSubscriptionWhereInput;
 }
 
 export interface ProductSubscriptionWhereInput {
@@ -2311,7 +2675,7 @@ export interface Video {
   image: String;
   placeholder?: String;
   published: Boolean;
-  amount?: Float;
+  price: Float;
   start: Int;
   type: VideoType;
   familyId?: String;
@@ -2338,7 +2702,18 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
     }
   ) => T;
   published: () => Promise<Boolean>;
-  amount: () => Promise<Float>;
+  price: () => Promise<Float>;
+  priceSchedule: <T = FragmentableArray<PriceSchedule>>(
+    args?: {
+      where?: PriceScheduleWhereInput;
+      orderBy?: PriceScheduleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
@@ -2368,12 +2743,70 @@ export interface VideoSubscription
     }
   ) => T;
   published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Float>>;
+  price: () => Promise<AsyncIterator<Float>>;
+  priceSchedule: <T = Promise<AsyncIterator<PriceScheduleSubscription>>>(
+    args?: {
+      where?: PriceScheduleWhereInput;
+      orderBy?: PriceScheduleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
   promoVideo: <T = PromoVideoSubscription>() => T;
   suggest: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface PriceSchedule {
+  id: ID_Output;
+  price: Float;
+  startDate: String;
+  endDate: String;
+}
+
+export interface PriceSchedulePromise
+  extends Promise<PriceSchedule>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  price: () => Promise<Float>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+  videos: <T = FragmentableArray<Video>>(
+    args?: {
+      where?: VideoWhereInput;
+      orderBy?: VideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface PriceScheduleSubscription
+  extends Promise<AsyncIterator<PriceSchedule>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  price: () => Promise<AsyncIterator<Float>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  videos: <T = Promise<AsyncIterator<VideoSubscription>>>(
+    args?: {
+      where?: VideoWhereInput;
+      orderBy?: VideoOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface PromoVideo {
@@ -2488,6 +2921,58 @@ export interface AggregateOrderPromise
 
 export interface AggregateOrderSubscription
   extends Promise<AsyncIterator<AggregateOrder>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PriceScheduleConnection {}
+
+export interface PriceScheduleConnectionPromise
+  extends Promise<PriceScheduleConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PriceScheduleEdge>>() => T;
+  aggregate: <T = AggregatePriceSchedulePromise>() => T;
+}
+
+export interface PriceScheduleConnectionSubscription
+  extends Promise<AsyncIterator<PriceScheduleConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PriceScheduleEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePriceScheduleSubscription>() => T;
+}
+
+export interface PriceScheduleEdge {
+  cursor: String;
+}
+
+export interface PriceScheduleEdgePromise
+  extends Promise<PriceScheduleEdge>,
+    Fragmentable {
+  node: <T = PriceSchedulePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PriceScheduleEdgeSubscription
+  extends Promise<AsyncIterator<PriceScheduleEdge>>,
+    Fragmentable {
+  node: <T = PriceScheduleSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregatePriceSchedule {
+  count: Int;
+}
+
+export interface AggregatePriceSchedulePromise
+  extends Promise<AggregatePriceSchedule>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePriceScheduleSubscription
+  extends Promise<AsyncIterator<AggregatePriceSchedule>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2950,6 +3435,54 @@ export interface OrderPreviousValuesSubscription
   paymentId: () => Promise<AsyncIterator<String>>;
 }
 
+export interface PriceScheduleSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface PriceScheduleSubscriptionPayloadPromise
+  extends Promise<PriceScheduleSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PriceSchedulePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PriceSchedulePreviousValuesPromise>() => T;
+}
+
+export interface PriceScheduleSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PriceScheduleSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PriceScheduleSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PriceSchedulePreviousValuesSubscription>() => T;
+}
+
+export interface PriceSchedulePreviousValues {
+  id: ID_Output;
+  price: Float;
+  startDate: String;
+  endDate: String;
+}
+
+export interface PriceSchedulePreviousValuesPromise
+  extends Promise<PriceSchedulePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  price: () => Promise<Float>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+}
+
+export interface PriceSchedulePreviousValuesSubscription
+  extends Promise<AsyncIterator<PriceSchedulePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  price: () => Promise<AsyncIterator<Float>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+}
+
 export interface ProductSubscriptionPayload {
   mutation: MutationType;
   updatedFields?: String[];
@@ -3273,7 +3806,7 @@ export interface VideoPreviousValues {
   image: String;
   placeholder?: String;
   published: Boolean;
-  amount?: Float;
+  price: Float;
   start: Int;
   type: VideoType;
   familyId?: String;
@@ -3291,7 +3824,7 @@ export interface VideoPreviousValuesPromise
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
   published: () => Promise<Boolean>;
-  amount: () => Promise<Float>;
+  price: () => Promise<Float>;
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
@@ -3309,7 +3842,7 @@ export interface VideoPreviousValuesSubscription
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
-  amount: () => Promise<AsyncIterator<Float>>;
+  price: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
@@ -3361,6 +3894,10 @@ export type Long = string;
 export const models = [
   {
     name: "Order",
+    embedded: false
+  },
+  {
+    name: "PriceSchedule",
     embedded: false
   },
   {
