@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 const promoCodes = require('voucher-code-generator');
 const sgMail = require('@sendgrid/mail');
+const fetch = require('node-fetch');
 
 const { prisma } = require('./generated/prisma-client')
 const { sort, shuffle, hasActivePromo } = require('./utils');
@@ -48,6 +49,20 @@ const handlePromo = async (context, type, email, name) => {
     }
   }
   return null;
+}
+
+const addUserToEmailList = async (firstName, lastName, email) => {
+  await fetch('https://api.sendgrid.com/v3/contactdb/recipients', {
+    method: 'post',
+    body: JSON.stringify([
+      { 
+        first_name: firstName, 
+        last_name: lastName, 
+        email 
+      }
+    ]),
+    headers: { 'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}` },
+  })
 }
 
 const resolvers = {
@@ -203,6 +218,10 @@ const resolvers = {
           ips: {set: updatedIps },
         }
       }); 
+
+      if (process.env.NODE_ENV === 'production') {
+        addUserToEmailList(firstName, lastName, email);
+      }
 
       await context.prisma.createOrder({
         paymentId,
