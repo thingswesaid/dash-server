@@ -1,69 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
-const promoCodes = require('voucher-code-generator');
-const sgMail = require('@sendgrid/mail');
-const fetch = require('node-fetch');
 
 const { prisma } = require('./generated/prisma-client')
-const { sort, shuffle, hasActivePromo } = require('./utils');
-const { 
-  EMAIL_SENDER, 
-  EMAIL_PROMO_TEMPLATE,
-  PROMO_BUY1GET1,
-} = require('./constants');
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-const handlePromo = async (context, type, email, name) => {
-  const sitePromos = await context.prisma.sitePromoes({ where: { type } });
-  const activePromo = hasActivePromo(sitePromos);
-  
-  if (activePromo) { 
-    const { promoOffer } = activePromo;
-    if (promoOffer === PROMO_BUY1GET1) {
-      const generatedCodes = promoCodes.generate({ 
-        length: 5, 
-        charset: promoCodes.charset("alphabetic") 
-      })
-
-      const code = generatedCodes[0].toLowerCase();
-      const now = new Date();
-      const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-      endDate.setHours(23,59,59,999);
-      const promoCode = await context.prisma.createPromoCode({
-        code, endDate, user: { connect: { email } }
-      });
-
-      if (process.env.NODE_ENV === 'production') {
-        const msg = {
-          to: email,
-          from: EMAIL_SENDER,
-          templateId: EMAIL_PROMO_TEMPLATE,
-          dynamic_template_data: {
-            name,
-            code: code.toUpperCase(),
-          },
-        };
-        sgMail.send(msg); 
-      }
-      return promoCode;
-    }
-  }
-  return null;
-}
-
-const addUserToEmailList = async (firstName, lastName, email) => {
-  await fetch('https://api.sendgrid.com/v3/contactdb/recipients', {
-    method: 'post',
-    body: JSON.stringify([
-      { 
-        first_name: firstName, 
-        last_name: lastName, 
-        email 
-      }
-    ]),
-    headers: { 'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}` },
-  })
-}
+const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo } = require('./utils');
 
 const resolvers = {
   Query: {
@@ -228,7 +166,6 @@ const resolvers = {
         user: { connect: { id: userId } },
         video: { connect: { id: videoId } }
       });
-
       const promo = await handlePromo(context, type, email, firstName);
       return promo;
     },
