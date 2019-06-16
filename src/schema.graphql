@@ -47,15 +47,6 @@ type Video {
   type: String
   familyId: String
   promoVideo: PromoVideo
-  priceSchedule: [PriceSchedule]
-}
-
-type PriceSchedule {
-  id: ID!
-  price: Float!
-  startDate: String!
-  endDate: String!
-  videos: [Video]
 }
 
 type Dashboard {
@@ -135,6 +126,10 @@ type SitePromo {
   promoOffer: PromoOffer!
   startDate: String!
   endDate: String!
+  title: String!
+  subtitle: String!
+  description: String!
+  newPrice: Float
 }
 
 enum Status {
@@ -149,5 +144,5 @@ enum VideoType {
 
 enum PromoOffer {
   BUY1GET1
-  BUY2GET1
+  DISCOUNT
 }

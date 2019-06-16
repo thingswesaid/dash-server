@@ -24,20 +24,11 @@ type Video {
   users: [User]!
   published: Boolean! @default(value: "false")
   price: Float!
-  priceSchedule: [PriceSchedule]
   start: Int!
   type: VideoType!
   familyId: String @default(value: "")
   promoVideo: PromoVideo
   suggest: Boolean! @default(value: "true")
-}
-
-type PriceSchedule {
-  id: ID! @unique
-  price: Float!
-  startDate: String!
-  endDate: String!
-  videos: [Video]
 }
 
 type PromoVideo {
@@ -70,6 +61,10 @@ type SitePromo {
   promoOffer: PromoOffer!
   startDate: String
   endDate: String
+  title: String!
+  subtitle: String!
+  description: String!
+  newPrice: Float
 }
 
 type Product {
@@ -98,5 +93,5 @@ enum VideoType {
 
 enum PromoOffer {
   BUY1GET1
-  BUY2GET1
+  DISCOUNT
 }
