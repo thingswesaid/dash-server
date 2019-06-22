@@ -5,12 +5,14 @@ type User {
   email: String! @unique
   phone: String
   ips: [String!]
-  subscribed: Boolean! @default(value: "true")
   videos: [Video]!
   active: Boolean! @default(value: "true")
   orders: [Order]! @default(value: [])
   createdAt: DateTime!
   updatedAt: DateTime!
+  subscribePromo: Boolean! @default(value: "true")
+  subscribeEarlyAccess: Boolean! @default(value: "true")
+  subscribeNews: Boolean! @default(value: "true")
 }
 
 type Video {

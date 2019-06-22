@@ -11,6 +11,7 @@ type Mutation {
   createUser(email: String!, ip: String!): User
   addUserIp(email: String!, ips: [String]!): User
   usePromoCode(code: String!, videoId: String!, email: String!): PromoCode
+  subscribeUpdate(email: String!, type: String!, subscribe: Boolean!): User
   createOrder(
     email: String!, 
     ips: [String], 

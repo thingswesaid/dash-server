@@ -1239,12 +1239,14 @@ type User {
   email: String!
   phone: String
   ips: [String!]!
-  subscribed: Boolean!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
   active: Boolean!
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order!]
   createdAt: DateTime!
   updatedAt: DateTime!
+  subscribePromo: Boolean!
+  subscribeEarlyAccess: Boolean!
+  subscribeNews: Boolean!
 }
 
 type UserConnection {
@@ -1259,10 +1261,12 @@ input UserCreateInput {
   email: String!
   phone: String
   ips: UserCreateipsInput
-  subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserCreateipsInput {
@@ -1290,9 +1294,11 @@ input UserCreateWithoutOrdersInput {
   email: String!
   phone: String
   ips: UserCreateipsInput
-  subscribed: Boolean
   videos: VideoCreateManyWithoutUsersInput
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserCreateWithoutVideosInput {
@@ -1301,9 +1307,11 @@ input UserCreateWithoutVideosInput {
   email: String!
   phone: String
   ips: UserCreateipsInput
-  subscribed: Boolean
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 type UserEdge {
@@ -1322,14 +1330,18 @@ enum UserOrderByInput {
   email_DESC
   phone_ASC
   phone_DESC
-  subscribed_ASC
-  subscribed_DESC
   active_ASC
   active_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  subscribePromo_ASC
+  subscribePromo_DESC
+  subscribeEarlyAccess_ASC
+  subscribeEarlyAccess_DESC
+  subscribeNews_ASC
+  subscribeNews_DESC
 }
 
 type UserPreviousValues {
@@ -1339,10 +1351,12 @@ type UserPreviousValues {
   email: String!
   phone: String
   ips: [String!]!
-  subscribed: Boolean!
   active: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
+  subscribePromo: Boolean!
+  subscribeEarlyAccess: Boolean!
+  subscribeNews: Boolean!
 }
 
 input UserScalarWhereInput {
@@ -1416,8 +1430,6 @@ input UserScalarWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  subscribed: Boolean
-  subscribed_not: Boolean
   active: Boolean
   active_not: Boolean
   createdAt: DateTime
@@ -1436,6 +1448,12 @@ input UserScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  subscribePromo: Boolean
+  subscribePromo_not: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeEarlyAccess_not: Boolean
+  subscribeNews: Boolean
+  subscribeNews_not: Boolean
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1465,10 +1483,12 @@ input UserUpdateDataInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateInput {
@@ -1477,10 +1497,12 @@ input UserUpdateInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateipsInput {
@@ -1493,8 +1515,10 @@ input UserUpdateManyDataInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateManyMutationInput {
@@ -1503,8 +1527,10 @@ input UserUpdateManyMutationInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateManyWithoutVideosInput {
@@ -1546,9 +1572,11 @@ input UserUpdateWithoutOrdersDataInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   videos: VideoUpdateManyWithoutUsersInput
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateWithoutVideosDataInput {
@@ -1557,9 +1585,11 @@ input UserUpdateWithoutVideosDataInput {
   email: String
   phone: String
   ips: UserUpdateipsInput
-  subscribed: Boolean
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
 }
 
 input UserUpdateWithWhereUniqueWithoutVideosInput {
@@ -1654,8 +1684,6 @@ input UserWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  subscribed: Boolean
-  subscribed_not: Boolean
   videos_every: VideoWhereInput
   videos_some: VideoWhereInput
   videos_none: VideoWhereInput
@@ -1680,6 +1708,12 @@ input UserWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
+  subscribePromo: Boolean
+  subscribePromo_not: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeEarlyAccess_not: Boolean
+  subscribeNews: Boolean
+  subscribeNews_not: Boolean
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

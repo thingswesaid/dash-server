@@ -54,7 +54,6 @@ const addUserToEmailList = async (firstName, lastName, email) => {
 }
 
 const handlePromo = async (context, type, email, name) => {
-
   const sitePromos = await context.prisma.sitePromoes({ where: { type } });
   const activePromo = hasActivePromo(sitePromos);
   

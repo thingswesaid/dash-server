@@ -160,6 +160,15 @@ const resolvers = {
       const promo = await handlePromo(context, type, email, firstName);
       return promo;
     },
+    async subscribeUpdate(parent, { email, type, subscribe }, context) {
+      try {
+        await context.prisma.updateUser({
+          where: { email }, data: { [type]: subscribe },
+        })
+      } catch(err) {
+        console.log("Error unsubscribe", err);
+      }
+    },
   },
 }
 

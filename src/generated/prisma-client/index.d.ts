@@ -376,14 +376,18 @@ export type UserOrderByInput =
   | "email_DESC"
   | "phone_ASC"
   | "phone_DESC"
-  | "subscribed_ASC"
-  | "subscribed_DESC"
   | "active_ASC"
   | "active_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "subscribePromo_ASC"
+  | "subscribePromo_DESC"
+  | "subscribeEarlyAccess_ASC"
+  | "subscribeEarlyAccess_DESC"
+  | "subscribeNews_ASC"
+  | "subscribeNews_DESC";
 
 export type OrderOrderByInput =
   | "id_ASC"
@@ -691,8 +695,6 @@ export interface UserWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
-  subscribed?: Maybe<Boolean>;
-  subscribed_not?: Maybe<Boolean>;
   videos_every?: Maybe<VideoWhereInput>;
   videos_some?: Maybe<VideoWhereInput>;
   videos_none?: Maybe<VideoWhereInput>;
@@ -717,6 +719,12 @@ export interface UserWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribePromo_not?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeEarlyAccess_not?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
+  subscribeNews_not?: Maybe<Boolean>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -1220,9 +1228,11 @@ export interface UserCreateWithoutOrdersInput {
   email: String;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
-  subscribed?: Maybe<Boolean>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
   active?: Maybe<Boolean>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface UserCreateipsInput {
@@ -1300,9 +1310,11 @@ export interface UserCreateWithoutVideosInput {
   email: String;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
-  subscribed?: Maybe<Boolean>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderCreateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface OrderCreateManyWithoutUserInput {
@@ -1336,9 +1348,11 @@ export interface UserUpdateWithoutOrdersDataInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
   active?: Maybe<Boolean>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface UserUpdateipsInput {
@@ -1642,9 +1656,11 @@ export interface UserUpdateWithoutVideosDataInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface OrderUpdateManyWithoutUserInput {
@@ -1819,8 +1835,6 @@ export interface UserScalarWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
-  subscribed?: Maybe<Boolean>;
-  subscribed_not?: Maybe<Boolean>;
   active?: Maybe<Boolean>;
   active_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
@@ -1839,6 +1853,12 @@ export interface UserScalarWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribePromo_not?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeEarlyAccess_not?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
+  subscribeNews_not?: Maybe<Boolean>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -1855,8 +1875,10 @@ export interface UserUpdateManyDataInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   active?: Maybe<Boolean>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface VideoUpsertNestedInput {
@@ -1915,10 +1937,12 @@ export interface UserCreateInput {
   email: String;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
-  subscribed?: Maybe<Boolean>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderCreateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface PromoCodeUpdateInput {
@@ -1943,10 +1967,12 @@ export interface UserUpdateDataInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface UserUpsertNestedInput {
@@ -2089,10 +2115,12 @@ export interface UserUpdateInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2101,8 +2129,10 @@ export interface UserUpdateManyMutationInput {
   email?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  subscribed?: Maybe<Boolean>;
   active?: Maybe<Boolean>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
 }
 
 export interface VideoUpdateInput {
@@ -2281,10 +2311,12 @@ export interface User {
   email: String;
   phone?: String;
   ips: String[];
-  subscribed: Boolean;
   active: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  subscribePromo: Boolean;
+  subscribeEarlyAccess: Boolean;
+  subscribeNews: Boolean;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -2294,7 +2326,6 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
-  subscribed: () => Promise<Boolean>;
   videos: <T = FragmentableArray<Video>>(args?: {
     where?: VideoWhereInput;
     orderBy?: VideoOrderByInput;
@@ -2316,6 +2347,9 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  subscribePromo: () => Promise<Boolean>;
+  subscribeEarlyAccess: () => Promise<Boolean>;
+  subscribeNews: () => Promise<Boolean>;
 }
 
 export interface UserSubscription
@@ -2327,7 +2361,6 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
-  subscribed: () => Promise<AsyncIterator<Boolean>>;
   videos: <T = Promise<AsyncIterator<VideoSubscription>>>(args?: {
     where?: VideoWhereInput;
     orderBy?: VideoOrderByInput;
@@ -2349,6 +2382,9 @@ export interface UserSubscription
   }) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  subscribePromo: () => Promise<AsyncIterator<Boolean>>;
+  subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
+  subscribeNews: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface UserNullablePromise
@@ -2360,7 +2396,6 @@ export interface UserNullablePromise
   email: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
-  subscribed: () => Promise<Boolean>;
   videos: <T = FragmentableArray<Video>>(args?: {
     where?: VideoWhereInput;
     orderBy?: VideoOrderByInput;
@@ -2382,6 +2417,9 @@ export interface UserNullablePromise
   }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  subscribePromo: () => Promise<Boolean>;
+  subscribeEarlyAccess: () => Promise<Boolean>;
+  subscribeNews: () => Promise<Boolean>;
 }
 
 export interface Video {
@@ -3429,10 +3467,12 @@ export interface UserPreviousValues {
   email: String;
   phone?: String;
   ips: String[];
-  subscribed: Boolean;
   active: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  subscribePromo: Boolean;
+  subscribeEarlyAccess: Boolean;
+  subscribeNews: Boolean;
 }
 
 export interface UserPreviousValuesPromise
@@ -3444,10 +3484,12 @@ export interface UserPreviousValuesPromise
   email: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
-  subscribed: () => Promise<Boolean>;
   active: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  subscribePromo: () => Promise<Boolean>;
+  subscribeEarlyAccess: () => Promise<Boolean>;
+  subscribeNews: () => Promise<Boolean>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -3459,10 +3501,12 @@ export interface UserPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
-  subscribed: () => Promise<AsyncIterator<Boolean>>;
   active: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  subscribePromo: () => Promise<AsyncIterator<Boolean>>;
+  subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
+  subscribeNews: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface VideoSubscriptionPayload {
