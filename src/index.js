@@ -195,12 +195,19 @@ const resolvers = {
       type,
       paymentEmail,
     }, context) {
-      const { userId } = jwt.verify(userToken, process.env.JWT_SECRET);
-      const userQuery = await context.prisma.user({ id: userId });
+      const userFromToken = userToken ? jwt.verify(userToken, process.env.JWT_SECRET): false;
+      const userSearchField  = userFromToken ? { id: userFromToken.userId } : { email: paymentEmail };
+      const userQuery = await context.prisma.user({...userSearchField});
       const updatedIps = userQuery ? [...new Set([...userQuery.ips, ...ips])] : ips;
-      const user = await context.prisma.updateUser({
-        where: { id: userId }, 
-        data: {
+      const user = await context.prisma.upsertUser({
+        where: {...userSearchField}, 
+        create: {
+          email: paymentEmail,
+          firstName,
+          lastName,
+          videos: { connect: { id: videoId } },
+          ips: { set: updatedIps },
+        }, update: {
           firstName,
           lastName,
           videos: { connect: { id: videoId } },
@@ -216,7 +223,7 @@ const resolvers = {
       });
 
       const promo = await handlePromo(context, type, user.email, firstName);
-      return { promo: promo, user };
+      return { promo, user };
     },
 
     async subscribeUpdate(parent, { email, type, subscribe }, context) {
