@@ -191,6 +191,7 @@ const resolvers = {
       lastName,
       paymentId,
       type,
+      paymentEmail,
     }, context) {
       const { userId } = jwt.verify(userToken, 'temporarydashsecret');
       const userQuery = await context.prisma.user({ id: userId });
@@ -207,6 +208,7 @@ const resolvers = {
 
       await context.prisma.createOrder({
         paymentId,
+        paymentEmail,
         video: { connect: { id: videoId } },
         user: { connect: { id: user.id } },
       });

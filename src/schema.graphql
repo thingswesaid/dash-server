@@ -24,6 +24,7 @@ type Mutation {
     lastName: String,
     paymentId: String,
     type: String,
+    paymentEmail: String,
   ): OrderResponse
   bulkAddVideos(
     titles: [String]!, 

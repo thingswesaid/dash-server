@@ -401,7 +401,9 @@ export type OrderOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "paymentId_ASC"
-  | "paymentId_DESC";
+  | "paymentId_DESC"
+  | "paymentEmail_ASC"
+  | "paymentEmail_DESC";
 
 export type ProductOrderByInput =
   | "id_ASC"
@@ -809,6 +811,20 @@ export interface OrderWhereInput {
   paymentId_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
   video?: Maybe<VideoWhereInput>;
+  paymentEmail?: Maybe<String>;
+  paymentEmail_not?: Maybe<String>;
+  paymentEmail_in?: Maybe<String[] | String>;
+  paymentEmail_not_in?: Maybe<String[] | String>;
+  paymentEmail_lt?: Maybe<String>;
+  paymentEmail_lte?: Maybe<String>;
+  paymentEmail_gt?: Maybe<String>;
+  paymentEmail_gte?: Maybe<String>;
+  paymentEmail_contains?: Maybe<String>;
+  paymentEmail_not_contains?: Maybe<String>;
+  paymentEmail_starts_with?: Maybe<String>;
+  paymentEmail_not_starts_with?: Maybe<String>;
+  paymentEmail_ends_with?: Maybe<String>;
+  paymentEmail_not_ends_with?: Maybe<String>;
   AND?: Maybe<OrderWhereInput[] | OrderWhereInput>;
   OR?: Maybe<OrderWhereInput[] | OrderWhereInput>;
   NOT?: Maybe<OrderWhereInput[] | OrderWhereInput>;
@@ -1247,6 +1263,7 @@ export interface OrderCreateInput {
   paymentId: String;
   user?: Maybe<UserCreateOneWithoutOrdersInput>;
   video?: Maybe<VideoCreateOneInput>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface UserCreateOneWithoutOrdersInput {
@@ -1367,12 +1384,14 @@ export interface OrderCreateManyWithoutUserInput {
 export interface OrderCreateWithoutUserInput {
   paymentId: String;
   video?: Maybe<VideoCreateOneInput>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface OrderUpdateInput {
   paymentId?: Maybe<String>;
   user?: Maybe<UserUpdateOneWithoutOrdersInput>;
   video?: Maybe<VideoUpdateOneInput>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface UserUpdateOneWithoutOrdersInput {
@@ -1759,6 +1778,7 @@ export interface OrderUpdateWithWhereUniqueWithoutUserInput {
 export interface OrderUpdateWithoutUserDataInput {
   paymentId?: Maybe<String>;
   video?: Maybe<VideoUpdateOneInput>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface OrderUpsertWithWhereUniqueWithoutUserInput {
@@ -1812,6 +1832,20 @@ export interface OrderScalarWhereInput {
   paymentId_not_starts_with?: Maybe<String>;
   paymentId_ends_with?: Maybe<String>;
   paymentId_not_ends_with?: Maybe<String>;
+  paymentEmail?: Maybe<String>;
+  paymentEmail_not?: Maybe<String>;
+  paymentEmail_in?: Maybe<String[] | String>;
+  paymentEmail_not_in?: Maybe<String[] | String>;
+  paymentEmail_lt?: Maybe<String>;
+  paymentEmail_lte?: Maybe<String>;
+  paymentEmail_gt?: Maybe<String>;
+  paymentEmail_gte?: Maybe<String>;
+  paymentEmail_contains?: Maybe<String>;
+  paymentEmail_not_contains?: Maybe<String>;
+  paymentEmail_starts_with?: Maybe<String>;
+  paymentEmail_not_starts_with?: Maybe<String>;
+  paymentEmail_ends_with?: Maybe<String>;
+  paymentEmail_not_ends_with?: Maybe<String>;
   AND?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
   OR?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
   NOT?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
@@ -1824,6 +1858,7 @@ export interface OrderUpdateManyWithWhereNestedInput {
 
 export interface OrderUpdateManyDataInput {
   paymentId?: Maybe<String>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutVideosInput {
@@ -1971,6 +2006,7 @@ export interface VideoUpsertNestedInput {
 
 export interface OrderUpdateManyMutationInput {
   paymentId?: Maybe<String>;
+  paymentEmail?: Maybe<String>;
 }
 
 export interface ProductCreateInput {
@@ -2366,6 +2402,7 @@ export interface Order {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   paymentId: String;
+  paymentEmail?: String;
 }
 
 export interface OrderPromise extends Promise<Order>, Fragmentable {
@@ -2375,6 +2412,7 @@ export interface OrderPromise extends Promise<Order>, Fragmentable {
   paymentId: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
+  paymentEmail: () => Promise<String>;
 }
 
 export interface OrderSubscription
@@ -2386,6 +2424,7 @@ export interface OrderSubscription
   paymentId: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   video: <T = VideoSubscription>() => T;
+  paymentEmail: () => Promise<AsyncIterator<String>>;
 }
 
 export interface OrderNullablePromise
@@ -2397,6 +2436,7 @@ export interface OrderNullablePromise
   paymentId: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
+  paymentEmail: () => Promise<String>;
 }
 
 export interface User {
@@ -3277,6 +3317,7 @@ export interface OrderPreviousValues {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   paymentId: String;
+  paymentEmail?: String;
 }
 
 export interface OrderPreviousValuesPromise
@@ -3286,6 +3327,7 @@ export interface OrderPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   paymentId: () => Promise<String>;
+  paymentEmail: () => Promise<String>;
 }
 
 export interface OrderPreviousValuesSubscription
@@ -3295,6 +3337,7 @@ export interface OrderPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   paymentId: () => Promise<AsyncIterator<String>>;
+  paymentEmail: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProductSubscriptionPayload {

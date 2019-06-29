@@ -101,6 +101,7 @@ type Order {
   paymentId: String!
   user: User
   video: Video
+  paymentEmail: String
 }
 
 type OrderConnection {
@@ -113,6 +114,7 @@ input OrderCreateInput {
   paymentId: String!
   user: UserCreateOneWithoutOrdersInput
   video: VideoCreateOneInput
+  paymentEmail: String
 }
 
 input OrderCreateManyWithoutUserInput {
@@ -123,6 +125,7 @@ input OrderCreateManyWithoutUserInput {
 input OrderCreateWithoutUserInput {
   paymentId: String!
   video: VideoCreateOneInput
+  paymentEmail: String
 }
 
 type OrderEdge {
@@ -139,6 +142,8 @@ enum OrderOrderByInput {
   updatedAt_DESC
   paymentId_ASC
   paymentId_DESC
+  paymentEmail_ASC
+  paymentEmail_DESC
 }
 
 type OrderPreviousValues {
@@ -146,6 +151,7 @@ type OrderPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   paymentId: String!
+  paymentEmail: String
 }
 
 input OrderScalarWhereInput {
@@ -193,6 +199,20 @@ input OrderScalarWhereInput {
   paymentId_not_starts_with: String
   paymentId_ends_with: String
   paymentId_not_ends_with: String
+  paymentEmail: String
+  paymentEmail_not: String
+  paymentEmail_in: [String!]
+  paymentEmail_not_in: [String!]
+  paymentEmail_lt: String
+  paymentEmail_lte: String
+  paymentEmail_gt: String
+  paymentEmail_gte: String
+  paymentEmail_contains: String
+  paymentEmail_not_contains: String
+  paymentEmail_starts_with: String
+  paymentEmail_not_starts_with: String
+  paymentEmail_ends_with: String
+  paymentEmail_not_ends_with: String
   AND: [OrderScalarWhereInput!]
   OR: [OrderScalarWhereInput!]
   NOT: [OrderScalarWhereInput!]
@@ -220,14 +240,17 @@ input OrderUpdateInput {
   paymentId: String
   user: UserUpdateOneWithoutOrdersInput
   video: VideoUpdateOneInput
+  paymentEmail: String
 }
 
 input OrderUpdateManyDataInput {
   paymentId: String
+  paymentEmail: String
 }
 
 input OrderUpdateManyMutationInput {
   paymentId: String
+  paymentEmail: String
 }
 
 input OrderUpdateManyWithoutUserInput {
@@ -250,6 +273,7 @@ input OrderUpdateManyWithWhereNestedInput {
 input OrderUpdateWithoutUserDataInput {
   paymentId: String
   video: VideoUpdateOneInput
+  paymentEmail: String
 }
 
 input OrderUpdateWithWhereUniqueWithoutUserInput {
@@ -310,6 +334,20 @@ input OrderWhereInput {
   paymentId_not_ends_with: String
   user: UserWhereInput
   video: VideoWhereInput
+  paymentEmail: String
+  paymentEmail_not: String
+  paymentEmail_in: [String!]
+  paymentEmail_not_in: [String!]
+  paymentEmail_lt: String
+  paymentEmail_lte: String
+  paymentEmail_gt: String
+  paymentEmail_gte: String
+  paymentEmail_contains: String
+  paymentEmail_not_contains: String
+  paymentEmail_starts_with: String
+  paymentEmail_not_starts_with: String
+  paymentEmail_ends_with: String
+  paymentEmail_not_ends_with: String
   AND: [OrderWhereInput!]
   OR: [OrderWhereInput!]
   NOT: [OrderWhereInput!]

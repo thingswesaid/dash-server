@@ -89,6 +89,7 @@ type Order {
   paymentId: String! @unique
   user: User
   video: Video
+  paymentEmail: String
 }
 
 enum VideoType {
