@@ -1,5 +1,5 @@
 type Query {
-  videos(id: ID, keywords: String): [Video]
+  videos(id: ID, keywords: String, type: String): [Video]
   userIp: String
   products(type: String): ProductPayload!
   videoPage(id: ID!, ip: String, email: String, showAll: Boolean): VideoPage
@@ -8,20 +8,47 @@ type Query {
 }
 
 type Mutation {
-  createUser(email: String!, ip: String!): User
+  login(token: String!): Auth!  
+  signup(token: String!): Auth!
+  passwordUpdate(token: String!): Auth!
+  createUser(email: String!, ip: String!): User # might need to be removed
   addUserIp(email: String!, ips: [String]!): User
-  usePromoCode(code: String!, videoId: String!, email: String!): PromoCode
+  usePromoCode(code: String!, videoId: String!, videoType: String!, token: String!): General
   subscribeUpdate(email: String!, type: String!, subscribe: Boolean!): User
+  sendPasswordResetEmail(email: String!): General
   createOrder(
-    email: String!, 
+    userToken: String, 
     ips: [String], 
     videoId: String!, 
-    phone: String,
     firstName: String,
     lastName: String,
     paymentId: String,
     type: String,
-  ): PromoCode
+  ): OrderResponse
+  bulkAddVideos(
+    titles: [String]!, 
+    links: [String]!, 
+    previews: [String]!, 
+    starts: [Int]!, 
+    month: String!, 
+    readingType: String!, 
+    price: Float!
+  ): General
+}
+
+type General {
+  error: String
+}
+
+type OrderResponse {
+  promo: PromoCode
+  user: User
+}
+
+type Auth {
+  user: User
+  token: String
+  error: String
 }
 
 type User {
@@ -48,6 +75,7 @@ type Video {
   type: String
   familyId: String
   promoVideo: PromoVideo
+  options: [String]
 }
 
 type Dashboard {

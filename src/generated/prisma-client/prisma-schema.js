@@ -1236,7 +1236,8 @@ type User {
   id: ID!
   firstName: String
   lastName: String
-  email: String!
+  email: String
+  password: String
   phone: String
   ips: [String!]!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
@@ -1258,7 +1259,8 @@ type UserConnection {
 input UserCreateInput {
   firstName: String
   lastName: String
-  email: String!
+  email: String
+  password: String
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
@@ -1291,7 +1293,8 @@ input UserCreateOneWithoutOrdersInput {
 input UserCreateWithoutOrdersInput {
   firstName: String
   lastName: String
-  email: String!
+  email: String
+  password: String
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
@@ -1304,7 +1307,8 @@ input UserCreateWithoutOrdersInput {
 input UserCreateWithoutVideosInput {
   firstName: String
   lastName: String
-  email: String!
+  email: String
+  password: String
   phone: String
   ips: UserCreateipsInput
   active: Boolean
@@ -1328,6 +1332,8 @@ enum UserOrderByInput {
   lastName_DESC
   email_ASC
   email_DESC
+  password_ASC
+  password_DESC
   phone_ASC
   phone_DESC
   active_ASC
@@ -1348,7 +1354,8 @@ type UserPreviousValues {
   id: ID!
   firstName: String
   lastName: String
-  email: String!
+  email: String
+  password: String
   phone: String
   ips: [String!]!
   active: Boolean!
@@ -1416,6 +1423,20 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
   phone: String
   phone_not: String
   phone_in: [String!]
@@ -1481,6 +1502,7 @@ input UserUpdateDataInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
@@ -1495,6 +1517,7 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
@@ -1513,6 +1536,7 @@ input UserUpdateManyDataInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   active: Boolean
@@ -1525,6 +1549,7 @@ input UserUpdateManyMutationInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   active: Boolean
@@ -1570,6 +1595,7 @@ input UserUpdateWithoutOrdersDataInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
@@ -1583,6 +1609,7 @@ input UserUpdateWithoutVideosDataInput {
   firstName: String
   lastName: String
   email: String
+  password: String
   phone: String
   ips: UserUpdateipsInput
   active: Boolean
@@ -1670,6 +1697,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
   phone: String
   phone_not: String
   phone_in: [String!]
@@ -1726,12 +1767,13 @@ input UserWhereUniqueInput {
 
 type Video {
   id: ID!
-  name: String!
+  name: String
+  keywords: String
   title: String
-  link: String!
+  link: String
   preview: String!
   image: String!
-  placeholder: String
+  placeholder: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
   price: Float!
@@ -1740,6 +1782,7 @@ type Video {
   familyId: String
   promoVideo: PromoVideo
   suggest: Boolean!
+  options: [String!]!
 }
 
 type VideoConnection {
@@ -1749,12 +1792,13 @@ type VideoConnection {
 }
 
 input VideoCreateInput {
-  name: String!
+  name: String
+  keywords: String
   title: String
-  link: String!
+  link: String
   preview: String!
   image: String!
-  placeholder: String
+  placeholder: String!
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   price: Float!
@@ -1763,6 +1807,7 @@ input VideoCreateInput {
   familyId: String
   promoVideo: PromoVideoCreateOneWithoutVideoInput
   suggest: Boolean
+  options: VideoCreateoptionsInput
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -1780,13 +1825,18 @@ input VideoCreateOneWithoutPromoVideoInput {
   connect: VideoWhereUniqueInput
 }
 
+input VideoCreateoptionsInput {
+  set: [String!]
+}
+
 input VideoCreateWithoutPromoVideoInput {
-  name: String!
+  name: String
+  keywords: String
   title: String
-  link: String!
+  link: String
   preview: String!
   image: String!
-  placeholder: String
+  placeholder: String!
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   price: Float!
@@ -1794,15 +1844,17 @@ input VideoCreateWithoutPromoVideoInput {
   type: VideoType!
   familyId: String
   suggest: Boolean
+  options: VideoCreateoptionsInput
 }
 
 input VideoCreateWithoutUsersInput {
-  name: String!
+  name: String
+  keywords: String
   title: String
-  link: String!
+  link: String
   preview: String!
   image: String!
-  placeholder: String
+  placeholder: String!
   published: Boolean
   price: Float!
   start: Int!
@@ -1810,6 +1862,7 @@ input VideoCreateWithoutUsersInput {
   familyId: String
   promoVideo: PromoVideoCreateOneWithoutVideoInput
   suggest: Boolean
+  options: VideoCreateoptionsInput
 }
 
 type VideoEdge {
@@ -1822,6 +1875,8 @@ enum VideoOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  keywords_ASC
+  keywords_DESC
   title_ASC
   title_DESC
   link_ASC
@@ -1848,18 +1903,20 @@ enum VideoOrderByInput {
 
 type VideoPreviousValues {
   id: ID!
-  name: String!
+  name: String
+  keywords: String
   title: String
-  link: String!
+  link: String
   preview: String!
   image: String!
-  placeholder: String
+  placeholder: String!
   published: Boolean!
   price: Float!
   start: Int!
   type: VideoType!
   familyId: String
   suggest: Boolean!
+  options: [String!]!
 }
 
 input VideoScalarWhereInput {
@@ -1891,6 +1948,20 @@ input VideoScalarWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  keywords: String
+  keywords_not: String
+  keywords_in: [String!]
+  keywords_not_in: [String!]
+  keywords_lt: String
+  keywords_lte: String
+  keywords_gt: String
+  keywords_gte: String
+  keywords_contains: String
+  keywords_not_contains: String
+  keywords_starts_with: String
+  keywords_not_starts_with: String
+  keywords_ends_with: String
+  keywords_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]
@@ -2029,6 +2100,7 @@ enum VideoType {
 
 input VideoUpdateDataInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2042,10 +2114,12 @@ input VideoUpdateDataInput {
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2059,10 +2133,12 @@ input VideoUpdateInput {
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateManyDataInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2074,10 +2150,12 @@ input VideoUpdateManyDataInput {
   type: VideoType
   familyId: String
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateManyMutationInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2089,6 +2167,7 @@ input VideoUpdateManyMutationInput {
   type: VideoType
   familyId: String
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -2126,8 +2205,13 @@ input VideoUpdateOneWithoutPromoVideoInput {
   connect: VideoWhereUniqueInput
 }
 
+input VideoUpdateoptionsInput {
+  set: [String!]
+}
+
 input VideoUpdateWithoutPromoVideoDataInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2140,10 +2224,12 @@ input VideoUpdateWithoutPromoVideoDataInput {
   type: VideoType
   familyId: String
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateWithoutUsersDataInput {
   name: String
+  keywords: String
   title: String
   link: String
   preview: String
@@ -2156,6 +2242,7 @@ input VideoUpdateWithoutUsersDataInput {
   familyId: String
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
+  options: VideoUpdateoptionsInput
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -2208,6 +2295,20 @@ input VideoWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  keywords: String
+  keywords_not: String
+  keywords_in: [String!]
+  keywords_not_in: [String!]
+  keywords_lt: String
+  keywords_lte: String
+  keywords_gt: String
+  keywords_gte: String
+  keywords_contains: String
+  keywords_not_contains: String
+  keywords_starts_with: String
+  keywords_not_starts_with: String
+  keywords_ends_with: String
+  keywords_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]

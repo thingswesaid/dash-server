@@ -342,6 +342,8 @@ export type VideoOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "keywords_ASC"
+  | "keywords_DESC"
   | "title_ASC"
   | "title_DESC"
   | "link_ASC"
@@ -374,6 +376,8 @@ export type UserOrderByInput =
   | "lastName_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "password_ASC"
+  | "password_DESC"
   | "phone_ASC"
   | "phone_DESC"
   | "active_ASC"
@@ -507,6 +511,20 @@ export interface VideoWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  keywords?: Maybe<String>;
+  keywords_not?: Maybe<String>;
+  keywords_in?: Maybe<String[] | String>;
+  keywords_not_in?: Maybe<String[] | String>;
+  keywords_lt?: Maybe<String>;
+  keywords_lte?: Maybe<String>;
+  keywords_gt?: Maybe<String>;
+  keywords_gte?: Maybe<String>;
+  keywords_contains?: Maybe<String>;
+  keywords_not_contains?: Maybe<String>;
+  keywords_starts_with?: Maybe<String>;
+  keywords_not_starts_with?: Maybe<String>;
+  keywords_ends_with?: Maybe<String>;
+  keywords_not_ends_with?: Maybe<String>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -681,6 +699,20 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
   phone?: Maybe<String>;
   phone_not?: Maybe<String>;
   phone_in?: Maybe<String[] | String>;
@@ -1225,7 +1257,8 @@ export interface UserCreateOneWithoutOrdersInput {
 export interface UserCreateWithoutOrdersInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
-  email: String;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
@@ -1245,12 +1278,13 @@ export interface VideoCreateManyWithoutUsersInput {
 }
 
 export interface VideoCreateWithoutUsersInput {
-  name: String;
+  name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
-  link: String;
+  link?: Maybe<String>;
   preview: String;
   image: String;
-  placeholder?: Maybe<String>;
+  placeholder: String;
   published?: Maybe<Boolean>;
   price: Float;
   start: Int;
@@ -1258,6 +1292,7 @@ export interface VideoCreateWithoutUsersInput {
   familyId?: Maybe<String>;
   promoVideo?: Maybe<PromoVideoCreateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoCreateoptionsInput>;
 }
 
 export interface PromoVideoCreateOneWithoutVideoInput {
@@ -1277,18 +1312,23 @@ export interface PromoVideoCreateWithoutVideoInput {
   type: VideoType;
 }
 
+export interface VideoCreateoptionsInput {
+  set?: Maybe<String[] | String>;
+}
+
 export interface VideoCreateOneInput {
   create?: Maybe<VideoCreateInput>;
   connect?: Maybe<VideoWhereUniqueInput>;
 }
 
 export interface VideoCreateInput {
-  name: String;
+  name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
-  link: String;
+  link?: Maybe<String>;
   preview: String;
   image: String;
-  placeholder?: Maybe<String>;
+  placeholder: String;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price: Float;
@@ -1297,6 +1337,7 @@ export interface VideoCreateInput {
   familyId?: Maybe<String>;
   promoVideo?: Maybe<PromoVideoCreateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoCreateoptionsInput>;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -1307,7 +1348,8 @@ export interface UserCreateManyWithoutVideosInput {
 export interface UserCreateWithoutVideosInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
-  email: String;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   active?: Maybe<Boolean>;
@@ -1346,6 +1388,7 @@ export interface UserUpdateWithoutOrdersDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
@@ -1386,6 +1429,7 @@ export interface VideoUpdateWithWhereUniqueWithoutUsersInput {
 
 export interface VideoUpdateWithoutUsersDataInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -1398,6 +1442,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   familyId?: Maybe<String>;
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface PromoVideoUpdateOneWithoutVideoInput {
@@ -1424,6 +1469,10 @@ export interface PromoVideoUpdateWithoutVideoDataInput {
 export interface PromoVideoUpsertWithoutVideoInput {
   update: PromoVideoUpdateWithoutVideoDataInput;
   create: PromoVideoCreateWithoutVideoInput;
+}
+
+export interface VideoUpdateoptionsInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -1461,6 +1510,20 @@ export interface VideoScalarWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  keywords?: Maybe<String>;
+  keywords_not?: Maybe<String>;
+  keywords_in?: Maybe<String[] | String>;
+  keywords_not_in?: Maybe<String[] | String>;
+  keywords_lt?: Maybe<String>;
+  keywords_lte?: Maybe<String>;
+  keywords_gt?: Maybe<String>;
+  keywords_gte?: Maybe<String>;
+  keywords_contains?: Maybe<String>;
+  keywords_not_contains?: Maybe<String>;
+  keywords_starts_with?: Maybe<String>;
+  keywords_not_starts_with?: Maybe<String>;
+  keywords_ends_with?: Maybe<String>;
+  keywords_not_ends_with?: Maybe<String>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -1581,6 +1644,7 @@ export interface VideoUpdateManyWithWhereNestedInput {
 
 export interface VideoUpdateManyDataInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -1592,6 +1656,7 @@ export interface VideoUpdateManyDataInput {
   type?: Maybe<VideoType>;
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface UserUpsertWithoutOrdersInput {
@@ -1610,6 +1675,7 @@ export interface VideoUpdateOneInput {
 
 export interface VideoUpdateDataInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -1623,6 +1689,7 @@ export interface VideoUpdateDataInput {
   familyId?: Maybe<String>;
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -1654,6 +1721,7 @@ export interface UserUpdateWithoutVideosDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   active?: Maybe<Boolean>;
@@ -1821,6 +1889,20 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
   phone?: Maybe<String>;
   phone_not?: Maybe<String>;
   phone_in?: Maybe<String[] | String>;
@@ -1873,6 +1955,7 @@ export interface UserUpdateManyDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   active?: Maybe<Boolean>;
@@ -1934,7 +2017,8 @@ export interface UserCreateOneInput {
 export interface UserCreateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
-  email: String;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
@@ -1965,6 +2049,7 @@ export interface UserUpdateDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
@@ -2006,12 +2091,13 @@ export interface VideoCreateOneWithoutPromoVideoInput {
 }
 
 export interface VideoCreateWithoutPromoVideoInput {
-  name: String;
+  name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
-  link: String;
+  link?: Maybe<String>;
   preview: String;
   image: String;
-  placeholder?: Maybe<String>;
+  placeholder: String;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price: Float;
@@ -2019,6 +2105,7 @@ export interface VideoCreateWithoutPromoVideoInput {
   type: VideoType;
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoCreateoptionsInput>;
 }
 
 export interface PromoVideoUpdateInput {
@@ -2045,6 +2132,7 @@ export interface VideoUpdateOneWithoutPromoVideoInput {
 
 export interface VideoUpdateWithoutPromoVideoDataInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -2057,6 +2145,7 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   type?: Maybe<VideoType>;
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface VideoUpsertWithoutPromoVideoInput {
@@ -2113,6 +2202,7 @@ export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
@@ -2127,6 +2217,7 @@ export interface UserUpdateManyMutationInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
+  password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   active?: Maybe<Boolean>;
@@ -2137,6 +2228,7 @@ export interface UserUpdateManyMutationInput {
 
 export interface VideoUpdateInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -2150,10 +2242,12 @@ export interface VideoUpdateInput {
   familyId?: Maybe<String>;
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface VideoUpdateManyMutationInput {
   name?: Maybe<String>;
+  keywords?: Maybe<String>;
   title?: Maybe<String>;
   link?: Maybe<String>;
   preview?: Maybe<String>;
@@ -2165,6 +2259,7 @@ export interface VideoUpdateManyMutationInput {
   type?: Maybe<VideoType>;
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
 }
 
 export interface OrderSubscriptionWhereInput {
@@ -2308,7 +2403,8 @@ export interface User {
   id: ID_Output;
   firstName?: String;
   lastName?: String;
-  email: String;
+  email?: String;
+  password?: String;
   phone?: String;
   ips: String[];
   active: Boolean;
@@ -2324,6 +2420,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   videos: <T = FragmentableArray<Video>>(args?: {
@@ -2359,6 +2456,7 @@ export interface UserSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   videos: <T = Promise<AsyncIterator<VideoSubscription>>>(args?: {
@@ -2394,6 +2492,7 @@ export interface UserNullablePromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   videos: <T = FragmentableArray<Video>>(args?: {
@@ -2424,23 +2523,26 @@ export interface UserNullablePromise
 
 export interface Video {
   id: ID_Output;
-  name: String;
+  name?: String;
+  keywords?: String;
   title?: String;
-  link: String;
+  link?: String;
   preview: String;
   image: String;
-  placeholder?: String;
+  placeholder: String;
   published: Boolean;
   price: Float;
   start: Int;
   type: VideoType;
   familyId?: String;
   suggest: Boolean;
+  options: String[];
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  keywords: () => Promise<String>;
   title: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
@@ -2462,6 +2564,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   familyId: () => Promise<String>;
   promoVideo: <T = PromoVideoPromise>() => T;
   suggest: () => Promise<Boolean>;
+  options: () => Promise<String[]>;
 }
 
 export interface VideoSubscription
@@ -2469,6 +2572,7 @@ export interface VideoSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  keywords: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
@@ -2490,6 +2594,7 @@ export interface VideoSubscription
   familyId: () => Promise<AsyncIterator<String>>;
   promoVideo: <T = PromoVideoSubscription>() => T;
   suggest: () => Promise<AsyncIterator<Boolean>>;
+  options: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface VideoNullablePromise
@@ -2497,6 +2602,7 @@ export interface VideoNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  keywords: () => Promise<String>;
   title: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
@@ -2518,6 +2624,7 @@ export interface VideoNullablePromise
   familyId: () => Promise<String>;
   promoVideo: <T = PromoVideoPromise>() => T;
   suggest: () => Promise<Boolean>;
+  options: () => Promise<String[]>;
 }
 
 export interface PromoVideo {
@@ -3464,7 +3571,8 @@ export interface UserPreviousValues {
   id: ID_Output;
   firstName?: String;
   lastName?: String;
-  email: String;
+  email?: String;
+  password?: String;
   phone?: String;
   ips: String[];
   active: Boolean;
@@ -3482,6 +3590,7 @@ export interface UserPreviousValuesPromise
   firstName: () => Promise<String>;
   lastName: () => Promise<String>;
   email: () => Promise<String>;
+  password: () => Promise<String>;
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   active: () => Promise<Boolean>;
@@ -3499,6 +3608,7 @@ export interface UserPreviousValuesSubscription
   firstName: () => Promise<AsyncIterator<String>>;
   lastName: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   active: () => Promise<AsyncIterator<Boolean>>;
@@ -3536,18 +3646,20 @@ export interface VideoSubscriptionPayloadSubscription
 
 export interface VideoPreviousValues {
   id: ID_Output;
-  name: String;
+  name?: String;
+  keywords?: String;
   title?: String;
-  link: String;
+  link?: String;
   preview: String;
   image: String;
-  placeholder?: String;
+  placeholder: String;
   published: Boolean;
   price: Float;
   start: Int;
   type: VideoType;
   familyId?: String;
   suggest: Boolean;
+  options: String[];
 }
 
 export interface VideoPreviousValuesPromise
@@ -3555,6 +3667,7 @@ export interface VideoPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  keywords: () => Promise<String>;
   title: () => Promise<String>;
   link: () => Promise<String>;
   preview: () => Promise<String>;
@@ -3566,6 +3679,7 @@ export interface VideoPreviousValuesPromise
   type: () => Promise<VideoType>;
   familyId: () => Promise<String>;
   suggest: () => Promise<Boolean>;
+  options: () => Promise<String[]>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -3573,6 +3687,7 @@ export interface VideoPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  keywords: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   link: () => Promise<AsyncIterator<String>>;
   preview: () => Promise<AsyncIterator<String>>;
@@ -3584,6 +3699,7 @@ export interface VideoPreviousValuesSubscription
   type: () => Promise<AsyncIterator<VideoType>>;
   familyId: () => Promise<AsyncIterator<String>>;
   suggest: () => Promise<AsyncIterator<Boolean>>;
+  options: () => Promise<AsyncIterator<String[]>>;
 }
 
 /*

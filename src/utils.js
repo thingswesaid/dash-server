@@ -3,9 +3,10 @@ const promoCodes = require('voucher-code-generator');
 const sgMail = require('@sendgrid/mail');
 
 const { 
+  PROMO_BUY1GET1,
   EMAIL_SENDER, 
   EMAIL_PROMO_TEMPLATE,
-  PROMO_BUY1GET1,
+  EMAIL_PSW_RESET_TEMPLATE,
 } = require('./constants');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -91,4 +92,21 @@ const handlePromo = async (context, type, email, name) => {
   return null;
 }
 
-module.exports = { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo };
+sendPasswordReset = (email, url) => {
+  const msg = {
+    to: email,
+    from: EMAIL_SENDER,
+    templateId: EMAIL_PSW_RESET_TEMPLATE,
+    dynamic_template_data: { url },
+  };
+  sgMail.send(msg); 
+}
+
+module.exports = { 
+  sort, 
+  shuffle,
+  hasActivePromo, 
+  addUserToEmailList, 
+  handlePromo,
+  sendPasswordReset,
+};

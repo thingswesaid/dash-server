@@ -1,7 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
+const jwt = require('jsonwebtoken');
+var passwordHash = require('password-hash');
 
 const { prisma } = require('./generated/prisma-client')
-const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo } = require('./utils');
+const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo, sendPasswordReset } = require('./utils');
 
 const resolvers = {
   Query: {
@@ -47,26 +49,34 @@ const resolvers = {
         sitePromo,
       };
     },
-    videos: (parent, { id='', keywords='' }, context) => {
-      return context.prisma.videos({ where: { 
+
+    videos: async (parent, { id='', keywords='', type='' }, context) => {
+      const typeOpt = type.length? { type } : {};
+      const videos = await context.prisma.videos({ where: { 
         id_contains: id, 
-        name_contains: keywords, 
-        published: true 
-      }, first: 20})
+        keywords_contains: keywords,
+        published: true,
+        ...typeOpt,
+      }, first: 20});
+      return videos.reverse();
     },
+
     userIp: (parent, args, context) => {
       return context.userIp();
     },
+
     async products(parent, args, context) {
       const items = await context.prisma.products();
       const types = items ? sort([...new Set(items.map(product => product.type))]) : [];
       return { types, items };
     },
+
     async promoCode(parent, { code }, context) {
       if (!code) return;
       const promoCodes = await context.prisma.promoCodes({ where: { code } });
       return promoCodes[0];
     },
+
     async dashboard(parent, { from, to, cloudflare }, context) { 
       const optsDate = cloudflare
         ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
@@ -86,89 +96,168 @@ const resolvers = {
       }
     }
   },
+
   Video: {
     users(parent) {
       return prisma.video({ id: parent.id }).users()
     },
   },
+  
   PromoCode: {
     user(parent) {
       return prisma.promoCode({ id: parent.id }).user()
     },
   },
+
   Mutation: {
+    async login(parent, { token }, context) {
+      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const userQuery = await context.prisma.users({ where: { email } });
+      const user = userQuery[0];
+      if (!user) { return { error: "User does not exist." } }; // TODO move to constants
+      const { password: userPsw } = user;
+      const isPasswordValid = passwordHash.verify(password, userPsw);
+      if (!isPasswordValid) { return { error: "Invalid Password." } };
+      const userToken = jwt.sign({ userId: user.id }, 'temporarydashsecret');
+      return { token: userToken, user };
+    },   
+
+    async signup(parent, { token }, context) {
+      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const hashedPassword = passwordHash.generate(password);
+      const user = await context.prisma.user({ email });
+      if (user && user.password) { return { error: 'User already exists.' } }
+      const newUser = await context.prisma.upsertUser({
+        where: { email },
+        create: { email, password: hashedPassword },
+        update: { password: hashedPassword },
+      }); 
+      if (process.env.NODE_ENV === 'production') {
+        addUserToEmailList(email);
+      }
+      const userToken = jwt.sign({ userId: newUser.id }, 'temporarydashsecret');
+      return { user: newUser, token: userToken };
+    },    
+
+    async passwordUpdate(parent, { token }, context) {
+      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const hashedPassword = passwordHash.generate(password);
+      const user = await context.prisma.updateUser({ where: { email }, data: { password: hashedPassword } });
+      return { user, token };
+    }, 
+
     createUser(parent, { email, ip }, context) {
       return context.prisma.createUser({ email, ips: { set: ip } })
     },
+
     addUserIp(parent, { email, ips }, context) {
       return context.prisma.updateUser({
         where: { email }, data: { ips: { set: ips } },
       })
     },
-    async usePromoCode(parent, { code, videoId, email }, context) {
-      const promoCodes = await context.prisma.promoCodes({ where: { code } });
-      const promoCode = promoCodes[0];
-      if (promoCode) {
-        await context.prisma.updateUser({
-          where: { email },
-          data: { videos: { connect: { id: videoId } } },
-        });
-        return context.prisma.updatePromoCode({ 
-          where: { code }, 
-          data: { valid: false, video: { connect: { id: videoId } } } 
-        });
-      }
-      return null;
+
+    async usePromoCode(parent, { code, videoId, videoType, token }, context) {
+      const { userId } = jwt.verify(token, 'temporarydashsecret');
+      const promoCodes = await context.prisma.promoCodes({ 
+        where: { code, user: { id: userId } }
+      });
+      if (!promoCodes.length) return { error: 'Promo Code does not exist.' }
+      
+      const { type, endDate } = promoCodes[0];
+      if (type !== videoType) return { error: `Promo valid only for ${type.toLowerCase()} videos.` }
+
+      const now = new Date();
+      const promoEndDate = new Date(endDate);
+      if (promoEndDate < now) return { error: 'Promo code has expired' };
+
+      await context.prisma.updateUser({
+        where: { id: userId },
+        data: { videos: { connect: { id: videoId } } },
+      });
+      
+      await context.prisma.updatePromoCode({ 
+        where: { code }, 
+        data: { valid: false, video: { connect: { id: videoId } } } 
+      });
+
+      return {};
     },
+
     async createOrder(parent, { 
-      email, 
-      ips, 
-      videoId, 
-      phone, 
-      firstName, 
-      lastName, 
-      paymentId, 
-      type
+      userToken,
+      ips,
+      videoId,
+      firstName,
+      lastName,
+      paymentId,
+      type,
     }, context) {
-      const user = await context.prisma.user({ email });
-      const updatedIps = user ? [...new Set([...user.ips, ...ips])] : ips;
-      const { id: userId } = await context.prisma.upsertUser({
-        where: { email }, 
-        create: {
-          email,
+      const { userId } = jwt.verify(userToken, 'temporarydashsecret');
+      const userQuery = await context.prisma.user({ id: userId });
+      const updatedIps = userQuery ? [...new Set([...userQuery.ips, ...ips])] : ips;
+      const user = await context.prisma.updateUser({
+        where: { id: userId }, 
+        data: {
           firstName,
           lastName,
-          phone,
+          videos: { connect: { id: videoId } },
           ips: { set: updatedIps },
-          videos: { connect: { id: videoId } },
-        }, update: {
-          phone,
-          videos: { connect: { id: videoId } },
-          ips: {set: updatedIps },
         }
       }); 
 
-      if (process.env.NODE_ENV === 'production') {
-        addUserToEmailList(firstName, lastName, email);
-      }
-
       await context.prisma.createOrder({
         paymentId,
-        user: { connect: { id: userId } },
-        video: { connect: { id: videoId } }
+        video: { connect: { id: videoId } },
+        user: { connect: { id: user.id } },
       });
-      const promo = await handlePromo(context, type, email, firstName);
-      return promo;
+
+      const promo = await handlePromo(context, type, user.email, firstName);
+      return { promo: promo, user };
     },
+
     async subscribeUpdate(parent, { email, type, subscribe }, context) {
       try {
         await context.prisma.updateUser({
           where: { email }, data: { [type]: subscribe },
         })
       } catch(err) {
-        console.log("Error unsubscribe", err);
+        // TODO will send to Sentry
       }
     },
+
+    async sendPasswordResetEmail(parent, { email }, context) {
+      try {
+        const user = await context.prisma.users({ where: { email } });
+        if (!user.length) return { error: 'User does not exist.' };          
+        const token = jwt.sign({ email }, 'temporarydashsecret'); // TODO get from process
+        sendPasswordReset(email, `https://www.dashinbetween.com/?reset=true&token=${token}`);
+        return {};
+      } catch (e) {
+        return { error: 'There was an error sending the password reset email. Please try again.' };          
+      }
+    },
+
+    async bulkAddVideos(parent, { titles, links, previews, starts, month, readingType, price }, context) {
+      const signs = [
+        'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+        'libra', 'scorpio', 'sagittarius', 'capricorn', 
+        'aquarius', 'pisces',
+      ]
+
+      signs.map(async (sign, index) => {
+        await context.prisma.createVideo({
+          title: titles[index],
+          link: links[index],
+          preview: previews[index],
+          start: starts[index],
+          keywords: `${sign} ${readingType} ${month} 2019`,
+          image: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}.jpg`,
+          placeholder: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-pl.jpg`,
+          type: "ZODIAC",
+          price,
+        });
+      })
+    }
   },
 }
 
