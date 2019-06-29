@@ -5,6 +5,8 @@ var passwordHash = require('password-hash');
 const { prisma } = require('./generated/prisma-client')
 const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo, sendPasswordReset } = require('./utils');
 
+require('dotenv').config();
+
 const resolvers = {
   Query: {
     videoPage: async (parent, { id, email, showAll }, context) => {
@@ -111,19 +113,19 @@ const resolvers = {
 
   Mutation: {
     async login(parent, { token }, context) {
-      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const { email, password } = jwt.verify(token, process.env.JWT_SECRET);
       const userQuery = await context.prisma.users({ where: { email } });
       const user = userQuery[0];
       if (!user) { return { error: "User does not exist." } }; // TODO move to constants
       const { password: userPsw } = user;
       const isPasswordValid = passwordHash.verify(password, userPsw);
       if (!isPasswordValid) { return { error: "Invalid Password." } };
-      const userToken = jwt.sign({ userId: user.id }, 'temporarydashsecret');
+      const userToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
       return { token: userToken, user };
     },   
 
     async signup(parent, { token }, context) {
-      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const { email, password } = jwt.verify(token, process.env.JWT_SECRET);
       const hashedPassword = passwordHash.generate(password);
       const user = await context.prisma.user({ email });
       if (user && user.password) { return { error: 'User already exists.' } }
@@ -135,12 +137,12 @@ const resolvers = {
       if (process.env.NODE_ENV === 'production') {
         addUserToEmailList(email);
       }
-      const userToken = jwt.sign({ userId: newUser.id }, 'temporarydashsecret');
+      const userToken = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET);
       return { user: newUser, token: userToken };
     },    
 
     async passwordUpdate(parent, { token }, context) {
-      const { email, password } = jwt.verify(token, 'temporarydashsecret');
+      const { email, password } = jwt.verify(token, process.env.JWT_SECRET);
       const hashedPassword = passwordHash.generate(password);
       const user = await context.prisma.updateUser({ where: { email }, data: { password: hashedPassword } });
       return { user, token };
@@ -157,7 +159,7 @@ const resolvers = {
     },
 
     async usePromoCode(parent, { code, videoId, videoType, token }, context) {
-      const { userId } = jwt.verify(token, 'temporarydashsecret');
+      const { userId } = jwt.verify(token, process.env.JWT_SECRET);
       const promoCodes = await context.prisma.promoCodes({ 
         where: { code, user: { id: userId } }
       });
@@ -193,7 +195,7 @@ const resolvers = {
       type,
       paymentEmail,
     }, context) {
-      const { userId } = jwt.verify(userToken, 'temporarydashsecret');
+      const { userId } = jwt.verify(userToken, process.env.JWT_SECRET);
       const userQuery = await context.prisma.user({ id: userId });
       const updatedIps = userQuery ? [...new Set([...userQuery.ips, ...ips])] : ips;
       const user = await context.prisma.updateUser({
@@ -231,7 +233,7 @@ const resolvers = {
       try {
         const user = await context.prisma.users({ where: { email } });
         if (!user.length) return { error: 'User does not exist.' };          
-        const token = jwt.sign({ email }, 'temporarydashsecret'); // TODO get from process
+        const token = jwt.sign({ email }, process.env.JWT_SECRET); // TODO get from process
         sendPasswordReset(email, `https://www.dashinbetween.com/?reset=true&token=${token}`);
         return {};
       } catch (e) {
