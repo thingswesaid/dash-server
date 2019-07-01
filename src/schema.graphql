@@ -2,7 +2,8 @@ type Query {
   videos(id: ID, keywords: String, type: String): [Video]
   userIp: String
   products(type: String): ProductPayload!
-  videoPage(id: ID!, ip: String, email: String, showAll: Boolean): VideoPage
+  videoPage(id: ID!, ip: String, userId: String, showAll: Boolean): VideoPage
+  userPage(id: ID!): User
   promoCode(code: String): PromoCode
   dashboard(from: String!, to: String!, cloudflare: Boolean): Dashboard!
 }
@@ -59,6 +60,8 @@ type User {
   subscribed: Boolean!
   active: Boolean
   videos: [Video]!
+  promos: [PromoCode]
+  orders: [Order]
 }
 
 type Video {
@@ -76,6 +79,7 @@ type Video {
   type: String
   familyId: String
   promoVideo: PromoVideo
+  keywords: String
   options: [String]
 }
 
@@ -121,6 +125,7 @@ type PromoCode {
   user: User!
   endDate: String
   type: VideoType!
+  createdAt: String!
 }
 
 type AnonymousIp {
@@ -146,8 +151,8 @@ type VideoPage {
   video: Video
   latestVideos: [Video]
   promoVideo: PromoVideo
-  userActive: Boolean
   sitePromo: SitePromo
+  user: User
 }
 
 type SitePromo {
@@ -160,6 +165,12 @@ type SitePromo {
   subtitle: String!
   description: String!
   newPrice: Float
+}
+
+type Order {
+  id: ID!
+  video: Video
+  createdAt: String!
 }
 
 enum Status {

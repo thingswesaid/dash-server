@@ -96,12 +96,12 @@ interface Node {
 
 type Order {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
   paymentId: String!
   user: User
   video: Video
   paymentEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type OrderConnection {
@@ -136,22 +136,22 @@ type OrderEdge {
 enum OrderOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   paymentId_ASC
   paymentId_DESC
   paymentEmail_ASC
   paymentEmail_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type OrderPreviousValues {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
   paymentId: String!
   paymentEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input OrderScalarWhereInput {
@@ -169,22 +169,6 @@ input OrderScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
   paymentId: String
   paymentId_not: String
   paymentId_in: [String!]
@@ -213,6 +197,22 @@ input OrderScalarWhereInput {
   paymentEmail_not_starts_with: String
   paymentEmail_ends_with: String
   paymentEmail_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [OrderScalarWhereInput!]
   OR: [OrderScalarWhereInput!]
   NOT: [OrderScalarWhereInput!]
@@ -302,22 +302,6 @@ input OrderWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
   paymentId: String
   paymentId_not: String
   paymentId_in: [String!]
@@ -348,6 +332,22 @@ input OrderWhereInput {
   paymentEmail_not_starts_with: String
   paymentEmail_ends_with: String
   paymentEmail_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [OrderWhereInput!]
   OR: [OrderWhereInput!]
   NOT: [OrderWhereInput!]
@@ -574,6 +574,8 @@ type PromoCode {
   endDate: String
   user: User!
   video: Video
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type PromoCodeConnection {
@@ -587,7 +589,20 @@ input PromoCodeCreateInput {
   valid: Boolean
   type: VideoType!
   endDate: String
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutPromosInput!
+  video: VideoCreateOneInput
+}
+
+input PromoCodeCreateManyWithoutUserInput {
+  create: [PromoCodeCreateWithoutUserInput!]
+  connect: [PromoCodeWhereUniqueInput!]
+}
+
+input PromoCodeCreateWithoutUserInput {
+  code: String!
+  valid: Boolean
+  type: VideoType!
+  endDate: String
   video: VideoCreateOneInput
 }
 
@@ -607,6 +622,10 @@ enum PromoCodeOrderByInput {
   type_DESC
   endDate_ASC
   endDate_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type PromoCodePreviousValues {
@@ -615,6 +634,78 @@ type PromoCodePreviousValues {
   valid: Boolean!
   type: VideoType!
   endDate: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input PromoCodeScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  valid: Boolean
+  valid_not: Boolean
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [PromoCodeScalarWhereInput!]
+  OR: [PromoCodeScalarWhereInput!]
+  NOT: [PromoCodeScalarWhereInput!]
 }
 
 type PromoCodeSubscriptionPayload {
@@ -640,8 +731,15 @@ input PromoCodeUpdateInput {
   valid: Boolean
   type: VideoType
   endDate: String
-  user: UserUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutPromosInput
   video: VideoUpdateOneInput
+}
+
+input PromoCodeUpdateManyDataInput {
+  code: String
+  valid: Boolean
+  type: VideoType
+  endDate: String
 }
 
 input PromoCodeUpdateManyMutationInput {
@@ -649,6 +747,42 @@ input PromoCodeUpdateManyMutationInput {
   valid: Boolean
   type: VideoType
   endDate: String
+}
+
+input PromoCodeUpdateManyWithoutUserInput {
+  create: [PromoCodeCreateWithoutUserInput!]
+  delete: [PromoCodeWhereUniqueInput!]
+  connect: [PromoCodeWhereUniqueInput!]
+  set: [PromoCodeWhereUniqueInput!]
+  disconnect: [PromoCodeWhereUniqueInput!]
+  update: [PromoCodeUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [PromoCodeUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [PromoCodeScalarWhereInput!]
+  updateMany: [PromoCodeUpdateManyWithWhereNestedInput!]
+}
+
+input PromoCodeUpdateManyWithWhereNestedInput {
+  where: PromoCodeScalarWhereInput!
+  data: PromoCodeUpdateManyDataInput!
+}
+
+input PromoCodeUpdateWithoutUserDataInput {
+  code: String
+  valid: Boolean
+  type: VideoType
+  endDate: String
+  video: VideoUpdateOneInput
+}
+
+input PromoCodeUpdateWithWhereUniqueWithoutUserInput {
+  where: PromoCodeWhereUniqueInput!
+  data: PromoCodeUpdateWithoutUserDataInput!
+}
+
+input PromoCodeUpsertWithWhereUniqueWithoutUserInput {
+  where: PromoCodeWhereUniqueInput!
+  update: PromoCodeUpdateWithoutUserDataInput!
+  create: PromoCodeCreateWithoutUserInput!
 }
 
 input PromoCodeWhereInput {
@@ -702,6 +836,22 @@ input PromoCodeWhereInput {
   endDate_not_ends_with: String
   user: UserWhereInput
   video: VideoWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [PromoCodeWhereInput!]
   OR: [PromoCodeWhereInput!]
   NOT: [PromoCodeWhereInput!]
@@ -1279,13 +1429,14 @@ type User {
   phone: String
   ips: [String!]!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
+  promos(where: PromoCodeWhereInput, orderBy: PromoCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoCode!]
   active: Boolean!
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order!]
-  createdAt: DateTime!
-  updatedAt: DateTime!
   subscribePromo: Boolean!
   subscribeEarlyAccess: Boolean!
   subscribeNews: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserConnection {
@@ -1302,6 +1453,7 @@ input UserCreateInput {
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
+  promos: PromoCodeCreateManyWithoutUserInput
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1318,13 +1470,13 @@ input UserCreateManyWithoutVideosInput {
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutOrdersInput {
+  create: UserCreateWithoutOrdersInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutOrdersInput {
-  create: UserCreateWithoutOrdersInput
+input UserCreateOneWithoutPromosInput {
+  create: UserCreateWithoutPromosInput
   connect: UserWhereUniqueInput
 }
 
@@ -1336,7 +1488,23 @@ input UserCreateWithoutOrdersInput {
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
+  promos: PromoCodeCreateManyWithoutUserInput
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
+}
+
+input UserCreateWithoutPromosInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  phone: String
+  ips: UserCreateipsInput
+  videos: VideoCreateManyWithoutUsersInput
+  active: Boolean
+  orders: OrderCreateManyWithoutUserInput
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
@@ -1349,6 +1517,7 @@ input UserCreateWithoutVideosInput {
   password: String
   phone: String
   ips: UserCreateipsInput
+  promos: PromoCodeCreateManyWithoutUserInput
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1376,16 +1545,16 @@ enum UserOrderByInput {
   phone_DESC
   active_ASC
   active_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
   subscribePromo_ASC
   subscribePromo_DESC
   subscribeEarlyAccess_ASC
   subscribeEarlyAccess_DESC
   subscribeNews_ASC
   subscribeNews_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 type UserPreviousValues {
@@ -1397,11 +1566,11 @@ type UserPreviousValues {
   phone: String
   ips: [String!]!
   active: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
   subscribePromo: Boolean!
   subscribeEarlyAccess: Boolean!
   subscribeNews: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input UserScalarWhereInput {
@@ -1491,6 +1660,12 @@ input UserScalarWhereInput {
   phone_not_ends_with: String
   active: Boolean
   active_not: Boolean
+  subscribePromo: Boolean
+  subscribePromo_not: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeEarlyAccess_not: Boolean
+  subscribeNews: Boolean
+  subscribeNews_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1507,12 +1682,6 @@ input UserScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
-  subscribePromo: Boolean
-  subscribePromo_not: Boolean
-  subscribeEarlyAccess: Boolean
-  subscribeEarlyAccess_not: Boolean
-  subscribeNews: Boolean
-  subscribeNews_not: Boolean
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1536,21 +1705,6 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  firstName: String
-  lastName: String
-  email: String
-  password: String
-  phone: String
-  ips: UserUpdateipsInput
-  videos: VideoUpdateManyWithoutUsersInput
-  active: Boolean
-  orders: OrderUpdateManyWithoutUserInput
-  subscribePromo: Boolean
-  subscribeEarlyAccess: Boolean
-  subscribeNews: Boolean
-}
-
 input UserUpdateInput {
   firstName: String
   lastName: String
@@ -1559,6 +1713,7 @@ input UserUpdateInput {
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
+  promos: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1613,10 +1768,10 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneRequiredWithoutPromosInput {
+  create: UserCreateWithoutPromosInput
+  update: UserUpdateWithoutPromosDataInput
+  upsert: UserUpsertWithoutPromosInput
   connect: UserWhereUniqueInput
 }
 
@@ -1637,7 +1792,23 @@ input UserUpdateWithoutOrdersDataInput {
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
+  promos: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
+  subscribePromo: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeNews: Boolean
+}
+
+input UserUpdateWithoutPromosDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  phone: String
+  ips: UserUpdateipsInput
+  videos: VideoUpdateManyWithoutUsersInput
+  active: Boolean
+  orders: OrderUpdateManyWithoutUserInput
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
@@ -1650,6 +1821,7 @@ input UserUpdateWithoutVideosDataInput {
   password: String
   phone: String
   ips: UserUpdateipsInput
+  promos: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1662,14 +1834,14 @@ input UserUpdateWithWhereUniqueWithoutVideosInput {
   data: UserUpdateWithoutVideosDataInput!
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
-}
-
 input UserUpsertWithoutOrdersInput {
   update: UserUpdateWithoutOrdersDataInput!
   create: UserCreateWithoutOrdersInput!
+}
+
+input UserUpsertWithoutPromosInput {
+  update: UserUpdateWithoutPromosDataInput!
+  create: UserCreateWithoutPromosInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutVideosInput {
@@ -1766,11 +1938,20 @@ input UserWhereInput {
   videos_every: VideoWhereInput
   videos_some: VideoWhereInput
   videos_none: VideoWhereInput
+  promos_every: PromoCodeWhereInput
+  promos_some: PromoCodeWhereInput
+  promos_none: PromoCodeWhereInput
   active: Boolean
   active_not: Boolean
   orders_every: OrderWhereInput
   orders_some: OrderWhereInput
   orders_none: OrderWhereInput
+  subscribePromo: Boolean
+  subscribePromo_not: Boolean
+  subscribeEarlyAccess: Boolean
+  subscribeEarlyAccess_not: Boolean
+  subscribeNews: Boolean
+  subscribeNews_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1787,12 +1968,6 @@ input UserWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
-  subscribePromo: Boolean
-  subscribePromo_not: Boolean
-  subscribeEarlyAccess: Boolean
-  subscribeEarlyAccess_not: Boolean
-  subscribeNews: Boolean
-  subscribeNews_not: Boolean
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

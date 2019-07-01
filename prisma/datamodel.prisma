@@ -7,13 +7,14 @@ type User {
   phone: String
   ips: [String!]
   videos: [Video]!
+  promos: [PromoCode]
   active: Boolean! @default(value: "true")
   orders: [Order]! @default(value: [])
-  createdAt: DateTime!
-  updatedAt: DateTime!
   subscribePromo: Boolean! @default(value: "true")
   subscribeEarlyAccess: Boolean! @default(value: "true")
   subscribeNews: Boolean! @default(value: "true")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Video {
@@ -58,6 +59,8 @@ type PromoCode {
   endDate: String
   user: User!
   video: Video
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type SitePromo {
@@ -84,12 +87,12 @@ type Product {
 
 type Order {
   id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
   paymentId: String! @unique
   user: User
   video: Video
   paymentEmail: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 enum VideoType {

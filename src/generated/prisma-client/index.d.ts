@@ -382,28 +382,44 @@ export type UserOrderByInput =
   | "phone_DESC"
   | "active_ASC"
   | "active_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
   | "subscribePromo_ASC"
   | "subscribePromo_DESC"
   | "subscribeEarlyAccess_ASC"
   | "subscribeEarlyAccess_DESC"
   | "subscribeNews_ASC"
-  | "subscribeNews_DESC";
+  | "subscribeNews_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type PromoCodeOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "code_ASC"
+  | "code_DESC"
+  | "valid_ASC"
+  | "valid_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type OrderOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC"
   | "paymentId_ASC"
   | "paymentId_DESC"
   | "paymentEmail_ASC"
-  | "paymentEmail_DESC";
+  | "paymentEmail_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type ProductOrderByInput =
   | "id_ASC"
@@ -420,18 +436,6 @@ export type ProductOrderByInput =
   | "placeholder_DESC"
   | "type_ASC"
   | "type_DESC";
-
-export type PromoCodeOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "code_ASC"
-  | "code_DESC"
-  | "valid_ASC"
-  | "valid_DESC"
-  | "type_ASC"
-  | "type_DESC"
-  | "endDate_ASC"
-  | "endDate_DESC";
 
 export type PromoVideoOrderByInput =
   | "id_ASC"
@@ -732,11 +736,20 @@ export interface UserWhereInput {
   videos_every?: Maybe<VideoWhereInput>;
   videos_some?: Maybe<VideoWhereInput>;
   videos_none?: Maybe<VideoWhereInput>;
+  promos_every?: Maybe<PromoCodeWhereInput>;
+  promos_some?: Maybe<PromoCodeWhereInput>;
+  promos_none?: Maybe<PromoCodeWhereInput>;
   active?: Maybe<Boolean>;
   active_not?: Maybe<Boolean>;
   orders_every?: Maybe<OrderWhereInput>;
   orders_some?: Maybe<OrderWhereInput>;
   orders_none?: Maybe<OrderWhereInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribePromo_not?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeEarlyAccess_not?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
+  subscribeNews_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -753,15 +766,81 @@ export interface UserWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  subscribePromo?: Maybe<Boolean>;
-  subscribePromo_not?: Maybe<Boolean>;
-  subscribeEarlyAccess?: Maybe<Boolean>;
-  subscribeEarlyAccess_not?: Maybe<Boolean>;
-  subscribeNews?: Maybe<Boolean>;
-  subscribeNews_not?: Maybe<Boolean>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export interface PromoCodeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
+  valid?: Maybe<Boolean>;
+  valid_not?: Maybe<Boolean>;
+  type?: Maybe<VideoType>;
+  type_not?: Maybe<VideoType>;
+  type_in?: Maybe<VideoType[] | VideoType>;
+  type_not_in?: Maybe<VideoType[] | VideoType>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
+  user?: Maybe<UserWhereInput>;
+  video?: Maybe<VideoWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
+  OR?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
+  NOT?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
 }
 
 export interface OrderWhereInput {
@@ -779,22 +858,6 @@ export interface OrderWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
   paymentId?: Maybe<String>;
   paymentId_not?: Maybe<String>;
   paymentId_in?: Maybe<String[] | String>;
@@ -825,6 +888,22 @@ export interface OrderWhereInput {
   paymentEmail_not_starts_with?: Maybe<String>;
   paymentEmail_ends_with?: Maybe<String>;
   paymentEmail_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<OrderWhereInput[] | OrderWhereInput>;
   OR?: Maybe<OrderWhereInput[] | OrderWhereInput>;
   NOT?: Maybe<OrderWhereInput[] | OrderWhereInput>;
@@ -1080,62 +1159,6 @@ export type PromoCodeWhereUniqueInput = AtLeastOne<{
   code?: Maybe<String>;
 }>;
 
-export interface PromoCodeWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  code?: Maybe<String>;
-  code_not?: Maybe<String>;
-  code_in?: Maybe<String[] | String>;
-  code_not_in?: Maybe<String[] | String>;
-  code_lt?: Maybe<String>;
-  code_lte?: Maybe<String>;
-  code_gt?: Maybe<String>;
-  code_gte?: Maybe<String>;
-  code_contains?: Maybe<String>;
-  code_not_contains?: Maybe<String>;
-  code_starts_with?: Maybe<String>;
-  code_not_starts_with?: Maybe<String>;
-  code_ends_with?: Maybe<String>;
-  code_not_ends_with?: Maybe<String>;
-  valid?: Maybe<Boolean>;
-  valid_not?: Maybe<Boolean>;
-  type?: Maybe<VideoType>;
-  type_not?: Maybe<VideoType>;
-  type_in?: Maybe<VideoType[] | VideoType>;
-  type_not_in?: Maybe<VideoType[] | VideoType>;
-  endDate?: Maybe<String>;
-  endDate_not?: Maybe<String>;
-  endDate_in?: Maybe<String[] | String>;
-  endDate_not_in?: Maybe<String[] | String>;
-  endDate_lt?: Maybe<String>;
-  endDate_lte?: Maybe<String>;
-  endDate_gt?: Maybe<String>;
-  endDate_gte?: Maybe<String>;
-  endDate_contains?: Maybe<String>;
-  endDate_not_contains?: Maybe<String>;
-  endDate_starts_with?: Maybe<String>;
-  endDate_not_starts_with?: Maybe<String>;
-  endDate_ends_with?: Maybe<String>;
-  endDate_not_ends_with?: Maybe<String>;
-  user?: Maybe<UserWhereInput>;
-  video?: Maybe<VideoWhereInput>;
-  AND?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
-  OR?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
-  NOT?: Maybe<PromoCodeWhereInput[] | PromoCodeWhereInput>;
-}
-
 export type PromoVideoWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1279,6 +1302,7 @@ export interface UserCreateWithoutOrdersInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
+  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
@@ -1333,6 +1357,21 @@ export interface VideoCreateoptionsInput {
   set?: Maybe<String[] | String>;
 }
 
+export interface PromoCodeCreateManyWithoutUserInput {
+  create?: Maybe<
+    PromoCodeCreateWithoutUserInput[] | PromoCodeCreateWithoutUserInput
+  >;
+  connect?: Maybe<PromoCodeWhereUniqueInput[] | PromoCodeWhereUniqueInput>;
+}
+
+export interface PromoCodeCreateWithoutUserInput {
+  code: String;
+  valid?: Maybe<Boolean>;
+  type: VideoType;
+  endDate?: Maybe<String>;
+  video?: Maybe<VideoCreateOneInput>;
+}
+
 export interface VideoCreateOneInput {
   create?: Maybe<VideoCreateInput>;
   connect?: Maybe<VideoWhereUniqueInput>;
@@ -1369,6 +1408,7 @@ export interface UserCreateWithoutVideosInput {
   password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
+  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderCreateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -1411,6 +1451,7 @@ export interface UserUpdateWithoutOrdersDataInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
+  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
@@ -1678,9 +1719,40 @@ export interface VideoUpdateManyDataInput {
   options?: Maybe<VideoUpdateoptionsInput>;
 }
 
-export interface UserUpsertWithoutOrdersInput {
-  update: UserUpdateWithoutOrdersDataInput;
-  create: UserCreateWithoutOrdersInput;
+export interface PromoCodeUpdateManyWithoutUserInput {
+  create?: Maybe<
+    PromoCodeCreateWithoutUserInput[] | PromoCodeCreateWithoutUserInput
+  >;
+  delete?: Maybe<PromoCodeWhereUniqueInput[] | PromoCodeWhereUniqueInput>;
+  connect?: Maybe<PromoCodeWhereUniqueInput[] | PromoCodeWhereUniqueInput>;
+  set?: Maybe<PromoCodeWhereUniqueInput[] | PromoCodeWhereUniqueInput>;
+  disconnect?: Maybe<PromoCodeWhereUniqueInput[] | PromoCodeWhereUniqueInput>;
+  update?: Maybe<
+    | PromoCodeUpdateWithWhereUniqueWithoutUserInput[]
+    | PromoCodeUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | PromoCodeUpsertWithWhereUniqueWithoutUserInput[]
+    | PromoCodeUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<PromoCodeScalarWhereInput[] | PromoCodeScalarWhereInput>;
+  updateMany?: Maybe<
+    | PromoCodeUpdateManyWithWhereNestedInput[]
+    | PromoCodeUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PromoCodeUpdateWithWhereUniqueWithoutUserInput {
+  where: PromoCodeWhereUniqueInput;
+  data: PromoCodeUpdateWithoutUserDataInput;
+}
+
+export interface PromoCodeUpdateWithoutUserDataInput {
+  code?: Maybe<String>;
+  valid?: Maybe<Boolean>;
+  type?: Maybe<VideoType>;
+  endDate?: Maybe<String>;
+  video?: Maybe<VideoUpdateOneInput>;
 }
 
 export interface VideoUpdateOneInput {
@@ -1743,6 +1815,7 @@ export interface UserUpdateWithoutVideosDataInput {
   password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
+  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -1802,22 +1875,6 @@ export interface OrderScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  updatedAt?: Maybe<DateTimeInput>;
-  updatedAt_not?: Maybe<DateTimeInput>;
-  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  updatedAt_lt?: Maybe<DateTimeInput>;
-  updatedAt_lte?: Maybe<DateTimeInput>;
-  updatedAt_gt?: Maybe<DateTimeInput>;
-  updatedAt_gte?: Maybe<DateTimeInput>;
   paymentId?: Maybe<String>;
   paymentId_not?: Maybe<String>;
   paymentId_in?: Maybe<String[] | String>;
@@ -1846,6 +1903,22 @@ export interface OrderScalarWhereInput {
   paymentEmail_not_starts_with?: Maybe<String>;
   paymentEmail_ends_with?: Maybe<String>;
   paymentEmail_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
   OR?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
   NOT?: Maybe<OrderScalarWhereInput[] | OrderScalarWhereInput>;
@@ -1954,6 +2027,12 @@ export interface UserScalarWhereInput {
   phone_not_ends_with?: Maybe<String>;
   active?: Maybe<Boolean>;
   active_not?: Maybe<Boolean>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribePromo_not?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeEarlyAccess_not?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
+  subscribeNews_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1970,12 +2049,6 @@ export interface UserScalarWhereInput {
   updatedAt_lte?: Maybe<DateTimeInput>;
   updatedAt_gt?: Maybe<DateTimeInput>;
   updatedAt_gte?: Maybe<DateTimeInput>;
-  subscribePromo?: Maybe<Boolean>;
-  subscribePromo_not?: Maybe<Boolean>;
-  subscribeEarlyAccess?: Maybe<Boolean>;
-  subscribeEarlyAccess_not?: Maybe<Boolean>;
-  subscribeNews?: Maybe<Boolean>;
-  subscribeNews_not?: Maybe<Boolean>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -2002,6 +2075,99 @@ export interface UserUpdateManyDataInput {
 export interface VideoUpsertNestedInput {
   update: VideoUpdateDataInput;
   create: VideoCreateInput;
+}
+
+export interface PromoCodeUpsertWithWhereUniqueWithoutUserInput {
+  where: PromoCodeWhereUniqueInput;
+  update: PromoCodeUpdateWithoutUserDataInput;
+  create: PromoCodeCreateWithoutUserInput;
+}
+
+export interface PromoCodeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
+  valid?: Maybe<Boolean>;
+  valid_not?: Maybe<Boolean>;
+  type?: Maybe<VideoType>;
+  type_not?: Maybe<VideoType>;
+  type_in?: Maybe<VideoType[] | VideoType>;
+  type_not_in?: Maybe<VideoType[] | VideoType>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<PromoCodeScalarWhereInput[] | PromoCodeScalarWhereInput>;
+  OR?: Maybe<PromoCodeScalarWhereInput[] | PromoCodeScalarWhereInput>;
+  NOT?: Maybe<PromoCodeScalarWhereInput[] | PromoCodeScalarWhereInput>;
+}
+
+export interface PromoCodeUpdateManyWithWhereNestedInput {
+  where: PromoCodeScalarWhereInput;
+  data: PromoCodeUpdateManyDataInput;
+}
+
+export interface PromoCodeUpdateManyDataInput {
+  code?: Maybe<String>;
+  valid?: Maybe<Boolean>;
+  type?: Maybe<VideoType>;
+  endDate?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutOrdersInput {
+  update: UserUpdateWithoutOrdersDataInput;
+  create: UserCreateWithoutOrdersInput;
 }
 
 export interface OrderUpdateManyMutationInput {
@@ -2041,16 +2207,16 @@ export interface PromoCodeCreateInput {
   valid?: Maybe<Boolean>;
   type: VideoType;
   endDate?: Maybe<String>;
-  user: UserCreateOneInput;
+  user: UserCreateOneWithoutPromosInput;
   video?: Maybe<VideoCreateOneInput>;
 }
 
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
+export interface UserCreateOneWithoutPromosInput {
+  create?: Maybe<UserCreateWithoutPromosInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateInput {
+export interface UserCreateWithoutPromosInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
@@ -2070,18 +2236,18 @@ export interface PromoCodeUpdateInput {
   valid?: Maybe<Boolean>;
   type?: Maybe<VideoType>;
   endDate?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutPromosInput>;
   video?: Maybe<VideoUpdateOneInput>;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
+export interface UserUpdateOneRequiredWithoutPromosInput {
+  create?: Maybe<UserCreateWithoutPromosInput>;
+  update?: Maybe<UserUpdateWithoutPromosDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPromosInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateDataInput {
+export interface UserUpdateWithoutPromosDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
@@ -2096,9 +2262,9 @@ export interface UserUpdateDataInput {
   subscribeNews?: Maybe<Boolean>;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface UserUpsertWithoutPromosInput {
+  update: UserUpdateWithoutPromosDataInput;
+  create: UserCreateWithoutPromosInput;
 }
 
 export interface PromoCodeUpdateManyMutationInput {
@@ -2234,6 +2400,22 @@ export interface SitePromoUpdateManyMutationInput {
   newPrice?: Maybe<Float>;
 }
 
+export interface UserCreateInput {
+  firstName?: Maybe<String>;
+  lastName?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  ips?: Maybe<UserCreateipsInput>;
+  videos?: Maybe<VideoCreateManyWithoutUsersInput>;
+  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
+  active?: Maybe<Boolean>;
+  orders?: Maybe<OrderCreateManyWithoutUserInput>;
+  subscribePromo?: Maybe<Boolean>;
+  subscribeEarlyAccess?: Maybe<Boolean>;
+  subscribeNews?: Maybe<Boolean>;
+}
+
 export interface UserUpdateInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
@@ -2242,6 +2424,7 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
+  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -2399,44 +2582,44 @@ export interface NodeNode {
 
 export interface Order {
   id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
   paymentId: String;
   paymentEmail?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface OrderPromise extends Promise<Order>, Fragmentable {
   id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   paymentId: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
   paymentEmail: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface OrderSubscription
   extends Promise<AsyncIterator<Order>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   paymentId: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   video: <T = VideoSubscription>() => T;
   paymentEmail: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface OrderNullablePromise
   extends Promise<Order | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   paymentId: () => Promise<String>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
   paymentEmail: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface User {
@@ -2448,11 +2631,11 @@ export interface User {
   phone?: String;
   ips: String[];
   active: Boolean;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
   subscribePromo: Boolean;
   subscribeEarlyAccess: Boolean;
   subscribeNews: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -2472,6 +2655,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  promos: <T = FragmentableArray<PromoCode>>(args?: {
+    where?: PromoCodeWhereInput;
+    orderBy?: PromoCodeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   active: () => Promise<Boolean>;
   orders: <T = FragmentableArray<Order>>(args?: {
     where?: OrderWhereInput;
@@ -2482,11 +2674,11 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserSubscription
@@ -2508,6 +2700,15 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  promos: <T = Promise<AsyncIterator<PromoCodeSubscription>>>(args?: {
+    where?: PromoCodeWhereInput;
+    orderBy?: PromoCodeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   active: () => Promise<AsyncIterator<Boolean>>;
   orders: <T = Promise<AsyncIterator<OrderSubscription>>>(args?: {
     where?: OrderWhereInput;
@@ -2518,11 +2719,11 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   subscribePromo: () => Promise<AsyncIterator<Boolean>>;
   subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
   subscribeNews: () => Promise<AsyncIterator<Boolean>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserNullablePromise
@@ -2544,6 +2745,15 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  promos: <T = FragmentableArray<PromoCode>>(args?: {
+    where?: PromoCodeWhereInput;
+    orderBy?: PromoCodeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   active: () => Promise<Boolean>;
   orders: <T = FragmentableArray<Order>>(args?: {
     where?: OrderWhereInput;
@@ -2554,11 +2764,11 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface Video {
@@ -2724,6 +2934,56 @@ export interface PromoVideoNullablePromise
   bannerMobile: () => Promise<String>;
   type: () => Promise<VideoType>;
   video: <T = VideoPromise>() => T;
+}
+
+export interface PromoCode {
+  id: ID_Output;
+  code: String;
+  valid: Boolean;
+  type: VideoType;
+  endDate?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface PromoCodePromise extends Promise<PromoCode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  code: () => Promise<String>;
+  valid: () => Promise<Boolean>;
+  type: () => Promise<VideoType>;
+  endDate: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  video: <T = VideoPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface PromoCodeSubscription
+  extends Promise<AsyncIterator<PromoCode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  code: () => Promise<AsyncIterator<String>>;
+  valid: () => Promise<AsyncIterator<Boolean>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  video: <T = VideoSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface PromoCodeNullablePromise
+  extends Promise<PromoCode | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  code: () => Promise<String>;
+  valid: () => Promise<Boolean>;
+  type: () => Promise<VideoType>;
+  endDate: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  video: <T = VideoPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface OrderConnection {
@@ -2899,48 +3159,6 @@ export interface AggregateProductSubscription
   extends Promise<AsyncIterator<AggregateProduct>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PromoCode {
-  id: ID_Output;
-  code: String;
-  valid: Boolean;
-  type: VideoType;
-  endDate?: String;
-}
-
-export interface PromoCodePromise extends Promise<PromoCode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  code: () => Promise<String>;
-  valid: () => Promise<Boolean>;
-  type: () => Promise<VideoType>;
-  endDate: () => Promise<String>;
-  user: <T = UserPromise>() => T;
-  video: <T = VideoPromise>() => T;
-}
-
-export interface PromoCodeSubscription
-  extends Promise<AsyncIterator<PromoCode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  code: () => Promise<AsyncIterator<String>>;
-  valid: () => Promise<AsyncIterator<Boolean>>;
-  type: () => Promise<AsyncIterator<VideoType>>;
-  endDate: () => Promise<AsyncIterator<String>>;
-  user: <T = UserSubscription>() => T;
-  video: <T = VideoSubscription>() => T;
-}
-
-export interface PromoCodeNullablePromise
-  extends Promise<PromoCode | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  code: () => Promise<String>;
-  valid: () => Promise<Boolean>;
-  type: () => Promise<VideoType>;
-  endDate: () => Promise<String>;
-  user: <T = UserPromise>() => T;
-  video: <T = VideoPromise>() => T;
 }
 
 export interface PromoCodeConnection {
@@ -3314,30 +3532,30 @@ export interface OrderSubscriptionPayloadSubscription
 
 export interface OrderPreviousValues {
   id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
   paymentId: String;
   paymentEmail?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface OrderPreviousValuesPromise
   extends Promise<OrderPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   paymentId: () => Promise<String>;
   paymentEmail: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface OrderPreviousValuesSubscription
   extends Promise<AsyncIterator<OrderPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   paymentId: () => Promise<AsyncIterator<String>>;
   paymentEmail: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface ProductSubscriptionPayload {
@@ -3430,6 +3648,8 @@ export interface PromoCodePreviousValues {
   valid: Boolean;
   type: VideoType;
   endDate?: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface PromoCodePreviousValuesPromise
@@ -3440,6 +3660,8 @@ export interface PromoCodePreviousValuesPromise
   valid: () => Promise<Boolean>;
   type: () => Promise<VideoType>;
   endDate: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface PromoCodePreviousValuesSubscription
@@ -3450,6 +3672,8 @@ export interface PromoCodePreviousValuesSubscription
   valid: () => Promise<AsyncIterator<Boolean>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   endDate: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface PromoVideoSubscriptionPayload {
@@ -3619,11 +3843,11 @@ export interface UserPreviousValues {
   phone?: String;
   ips: String[];
   active: Boolean;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
   subscribePromo: Boolean;
   subscribeEarlyAccess: Boolean;
   subscribeNews: Boolean;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -3637,11 +3861,11 @@ export interface UserPreviousValuesPromise
   phone: () => Promise<String>;
   ips: () => Promise<String[]>;
   active: () => Promise<Boolean>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -3655,11 +3879,11 @@ export interface UserPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
   ips: () => Promise<AsyncIterator<String[]>>;
   active: () => Promise<AsyncIterator<Boolean>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   subscribePromo: () => Promise<AsyncIterator<Boolean>>;
   subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
   subscribeNews: () => Promise<AsyncIterator<Boolean>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface VideoSubscriptionPayload {
@@ -3757,6 +3981,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -3765,11 +3994,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /*
 The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). 

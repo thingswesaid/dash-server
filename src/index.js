@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const resolvers = {
   Query: {
-    videoPage: async (parent, { id, email, showAll }, context) => {
+    videoPage: async (parent, { id, userId, showAll }, context) => {
       const optsPublished = showAll ?  {} : { published: true }; 
       const videos = await context.prisma.videos({   
         where: { ...optsPublished, ...{ id_contains: id } },
@@ -37,9 +37,7 @@ const resolvers = {
       await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
       
       const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
-      const user = await context.prisma.users({ where: { email } });
-      const { active } = user.length ? user[0] : {};
-
+      const user = userId ? await context.prisma.user({ id: userId }) : null;
       const sitePromos = await context.prisma.sitePromoes({ where: { type } });
       const sitePromo = hasActivePromo(sitePromos);
 
@@ -47,8 +45,8 @@ const resolvers = {
         video,
         latestVideos: latestVideosFormat,
         promoVideo: promoVideoSelect,
-        userActive: user.length ? active : true,
         sitePromo,
+        user,
       };
     },
 
@@ -65,6 +63,10 @@ const resolvers = {
 
     userIp: (parent, args, context) => {
       return context.userIp();
+    },
+
+    userPage: (parent, { id }, context) => { // TODO change name to user (only)
+      return context.prisma.user({ id });
     },
 
     async products(parent, args, context) {
@@ -101,13 +103,31 @@ const resolvers = {
 
   Video: {
     users(parent) {
-      return prisma.video({ id: parent.id }).users()
+      return prisma.video({ id: parent.id }).users();
     },
   },
   
   PromoCode: {
     user(parent) {
-      return prisma.promoCode({ id: parent.id }).user()
+      return prisma.promoCode({ id: parent.id }).user();
+    },
+  },
+
+  Order: {
+    video(parent) {
+      return prisma.order({ id: parent.id }).video();
+    },
+  },
+
+  User: {
+    orders(parent) {
+      return prisma.user({ id: parent.id }).orders();
+    },
+    videos(parent) {
+      return prisma.user({ id: parent.id }).videos();
+    },
+    promos(parent) {
+      return prisma.user({ id: parent.id }).promos();
     },
   },
 
@@ -195,8 +215,8 @@ const resolvers = {
       type,
       paymentEmail,
     }, context) {
-      const userFromToken = userToken ? jwt.verify(userToken, process.env.JWT_SECRET): false;
-      const userSearchField  = userFromToken ? { id: userFromToken.userId } : { email: paymentEmail };
+      const { userId } = userToken ? jwt.verify(userToken, process.env.JWT_SECRET): false;
+      const userSearchField  = userId ? { id: userId } : { email: paymentEmail };
       const userQuery = await context.prisma.user({...userSearchField});
       const updatedIps = userQuery ? [...new Set([...userQuery.ips, ...ips])] : ips;
       const user = await context.prisma.upsertUser({
