@@ -65,8 +65,10 @@ const resolvers = {
       return context.userIp();
     },
 
-    userPage: (parent, { id }, context) => { // TODO change name to user (only)
-      return context.prisma.user({ id });
+    userPage: async (parent, { id }, context) => {
+      const user = await context.prisma.user({ id });
+      const quotes = await context.prisma.quotes();
+      return { user, quotes };
     },
 
     async products(parent, args, context) {
@@ -126,8 +128,8 @@ const resolvers = {
     videos(parent) {
       return prisma.user({ id: parent.id }).videos();
     },
-    promos(parent) {
-      return prisma.user({ id: parent.id }).promos();
+    promoCodes(parent) {
+      return prisma.user({ id: parent.id }).promoCodes();
     },
   },
 
@@ -284,6 +286,8 @@ const resolvers = {
           keywords: `${sign} ${readingType} ${month} 2019`,
           image: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}.jpg`,
           placeholder: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-pl.jpg`,
+          imageVertical: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-vertical.jpg`,
+          placeholderVertical: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-vertical-pl.jpg`,
           type: "ZODIAC",
           price,
         });

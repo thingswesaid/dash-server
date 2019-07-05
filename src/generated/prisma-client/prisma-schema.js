@@ -19,6 +19,10 @@ type AggregatePromoVideo {
   count: Int!
 }
 
+type AggregateQuote {
+  count: Int!
+}
+
 type AggregateSitePromo {
   count: Int!
 }
@@ -64,6 +68,12 @@ type Mutation {
   upsertPromoVideo(where: PromoVideoWhereUniqueInput!, create: PromoVideoCreateInput!, update: PromoVideoUpdateInput!): PromoVideo!
   deletePromoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
   deleteManyPromoVideos(where: PromoVideoWhereInput): BatchPayload!
+  createQuote(data: QuoteCreateInput!): Quote!
+  updateQuote(data: QuoteUpdateInput!, where: QuoteWhereUniqueInput!): Quote
+  updateManyQuotes(data: QuoteUpdateManyMutationInput!, where: QuoteWhereInput): BatchPayload!
+  upsertQuote(where: QuoteWhereUniqueInput!, create: QuoteCreateInput!, update: QuoteUpdateInput!): Quote!
+  deleteQuote(where: QuoteWhereUniqueInput!): Quote
+  deleteManyQuotes(where: QuoteWhereInput): BatchPayload!
   createSitePromo(data: SitePromoCreateInput!): SitePromo!
   updateSitePromo(data: SitePromoUpdateInput!, where: SitePromoWhereUniqueInput!): SitePromo
   updateManySitePromoes(data: SitePromoUpdateManyMutationInput!, where: SitePromoWhereInput): BatchPayload!
@@ -589,7 +599,7 @@ input PromoCodeCreateInput {
   valid: Boolean
   type: VideoType!
   endDate: String
-  user: UserCreateOneWithoutPromosInput!
+  user: UserCreateOneWithoutPromoCodesInput!
   video: VideoCreateOneInput
 }
 
@@ -731,7 +741,7 @@ input PromoCodeUpdateInput {
   valid: Boolean
   type: VideoType
   endDate: String
-  user: UserUpdateOneRequiredWithoutPromosInput
+  user: UserUpdateOneRequiredWithoutPromoCodesInput
   video: VideoUpdateOneInput
 }
 
@@ -1181,6 +1191,9 @@ type Query {
   promoVideo(where: PromoVideoWhereUniqueInput!): PromoVideo
   promoVideos(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoVideo]!
   promoVideosConnection(where: PromoVideoWhereInput, orderBy: PromoVideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PromoVideoConnection!
+  quote(where: QuoteWhereUniqueInput!): Quote
+  quotes(where: QuoteWhereInput, orderBy: QuoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Quote]!
+  quotesConnection(where: QuoteWhereInput, orderBy: QuoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuoteConnection!
   sitePromo(where: SitePromoWhereUniqueInput!): SitePromo
   sitePromoes(where: SitePromoWhereInput, orderBy: SitePromoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitePromo]!
   sitePromoesConnection(where: SitePromoWhereInput, orderBy: SitePromoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SitePromoConnection!
@@ -1191,6 +1204,123 @@ type Query {
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video]!
   videosConnection(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VideoConnection!
   node(id: ID!): Node
+}
+
+type Quote {
+  id: ID!
+  text: String!
+  linkTo: String
+}
+
+type QuoteConnection {
+  pageInfo: PageInfo!
+  edges: [QuoteEdge]!
+  aggregate: AggregateQuote!
+}
+
+input QuoteCreateInput {
+  text: String!
+  linkTo: String
+}
+
+type QuoteEdge {
+  node: Quote!
+  cursor: String!
+}
+
+enum QuoteOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  linkTo_ASC
+  linkTo_DESC
+}
+
+type QuotePreviousValues {
+  id: ID!
+  text: String!
+  linkTo: String
+}
+
+type QuoteSubscriptionPayload {
+  mutation: MutationType!
+  node: Quote
+  updatedFields: [String!]
+  previousValues: QuotePreviousValues
+}
+
+input QuoteSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: QuoteWhereInput
+  AND: [QuoteSubscriptionWhereInput!]
+  OR: [QuoteSubscriptionWhereInput!]
+  NOT: [QuoteSubscriptionWhereInput!]
+}
+
+input QuoteUpdateInput {
+  text: String
+  linkTo: String
+}
+
+input QuoteUpdateManyMutationInput {
+  text: String
+  linkTo: String
+}
+
+input QuoteWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  linkTo: String
+  linkTo_not: String
+  linkTo_in: [String!]
+  linkTo_not_in: [String!]
+  linkTo_lt: String
+  linkTo_lte: String
+  linkTo_gt: String
+  linkTo_gte: String
+  linkTo_contains: String
+  linkTo_not_contains: String
+  linkTo_starts_with: String
+  linkTo_not_starts_with: String
+  linkTo_ends_with: String
+  linkTo_not_ends_with: String
+  AND: [QuoteWhereInput!]
+  OR: [QuoteWhereInput!]
+  NOT: [QuoteWhereInput!]
+}
+
+input QuoteWhereUniqueInput {
+  id: ID
 }
 
 type SitePromo {
@@ -1415,6 +1545,7 @@ type Subscription {
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   promoCode(where: PromoCodeSubscriptionWhereInput): PromoCodeSubscriptionPayload
   promoVideo(where: PromoVideoSubscriptionWhereInput): PromoVideoSubscriptionPayload
+  quote(where: QuoteSubscriptionWhereInput): QuoteSubscriptionPayload
   sitePromo(where: SitePromoSubscriptionWhereInput): SitePromoSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
@@ -1429,7 +1560,7 @@ type User {
   phone: String
   ips: [String!]!
   videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
-  promos(where: PromoCodeWhereInput, orderBy: PromoCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoCode!]
+  promoCodes(where: PromoCodeWhereInput, orderBy: PromoCodeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PromoCode!]
   active: Boolean!
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order!]
   subscribePromo: Boolean!
@@ -1453,7 +1584,7 @@ input UserCreateInput {
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
-  promos: PromoCodeCreateManyWithoutUserInput
+  promoCodes: PromoCodeCreateManyWithoutUserInput
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1475,8 +1606,8 @@ input UserCreateOneWithoutOrdersInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutPromosInput {
-  create: UserCreateWithoutPromosInput
+input UserCreateOneWithoutPromoCodesInput {
+  create: UserCreateWithoutPromoCodesInput
   connect: UserWhereUniqueInput
 }
 
@@ -1488,14 +1619,14 @@ input UserCreateWithoutOrdersInput {
   phone: String
   ips: UserCreateipsInput
   videos: VideoCreateManyWithoutUsersInput
-  promos: PromoCodeCreateManyWithoutUserInput
+  promoCodes: PromoCodeCreateManyWithoutUserInput
   active: Boolean
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
 }
 
-input UserCreateWithoutPromosInput {
+input UserCreateWithoutPromoCodesInput {
   firstName: String
   lastName: String
   email: String
@@ -1517,7 +1648,7 @@ input UserCreateWithoutVideosInput {
   password: String
   phone: String
   ips: UserCreateipsInput
-  promos: PromoCodeCreateManyWithoutUserInput
+  promoCodes: PromoCodeCreateManyWithoutUserInput
   active: Boolean
   orders: OrderCreateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1713,7 +1844,7 @@ input UserUpdateInput {
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
-  promos: PromoCodeUpdateManyWithoutUserInput
+  promoCodes: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1768,10 +1899,10 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredWithoutPromosInput {
-  create: UserCreateWithoutPromosInput
-  update: UserUpdateWithoutPromosDataInput
-  upsert: UserUpsertWithoutPromosInput
+input UserUpdateOneRequiredWithoutPromoCodesInput {
+  create: UserCreateWithoutPromoCodesInput
+  update: UserUpdateWithoutPromoCodesDataInput
+  upsert: UserUpsertWithoutPromoCodesInput
   connect: UserWhereUniqueInput
 }
 
@@ -1792,14 +1923,14 @@ input UserUpdateWithoutOrdersDataInput {
   phone: String
   ips: UserUpdateipsInput
   videos: VideoUpdateManyWithoutUsersInput
-  promos: PromoCodeUpdateManyWithoutUserInput
+  promoCodes: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
 }
 
-input UserUpdateWithoutPromosDataInput {
+input UserUpdateWithoutPromoCodesDataInput {
   firstName: String
   lastName: String
   email: String
@@ -1821,7 +1952,7 @@ input UserUpdateWithoutVideosDataInput {
   password: String
   phone: String
   ips: UserUpdateipsInput
-  promos: PromoCodeUpdateManyWithoutUserInput
+  promoCodes: PromoCodeUpdateManyWithoutUserInput
   active: Boolean
   orders: OrderUpdateManyWithoutUserInput
   subscribePromo: Boolean
@@ -1839,9 +1970,9 @@ input UserUpsertWithoutOrdersInput {
   create: UserCreateWithoutOrdersInput!
 }
 
-input UserUpsertWithoutPromosInput {
-  update: UserUpdateWithoutPromosDataInput!
-  create: UserCreateWithoutPromosInput!
+input UserUpsertWithoutPromoCodesInput {
+  update: UserUpdateWithoutPromoCodesDataInput!
+  create: UserCreateWithoutPromoCodesInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutVideosInput {
@@ -1938,9 +2069,9 @@ input UserWhereInput {
   videos_every: VideoWhereInput
   videos_some: VideoWhereInput
   videos_none: VideoWhereInput
-  promos_every: PromoCodeWhereInput
-  promos_some: PromoCodeWhereInput
-  promos_none: PromoCodeWhereInput
+  promoCodes_every: PromoCodeWhereInput
+  promoCodes_some: PromoCodeWhereInput
+  promoCodes_none: PromoCodeWhereInput
   active: Boolean
   active_not: Boolean
   orders_every: OrderWhereInput
@@ -1987,6 +2118,8 @@ type Video {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   published: Boolean!
   price: Float!
@@ -2012,6 +2145,8 @@ input VideoCreateInput {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   price: Float!
@@ -2050,6 +2185,8 @@ input VideoCreateWithoutPromoVideoInput {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   users: UserCreateManyWithoutVideosInput
   published: Boolean
   price: Float!
@@ -2068,6 +2205,8 @@ input VideoCreateWithoutUsersInput {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   published: Boolean
   price: Float!
   start: Int!
@@ -2100,6 +2239,10 @@ enum VideoOrderByInput {
   image_DESC
   placeholder_ASC
   placeholder_DESC
+  imageVertical_ASC
+  imageVertical_DESC
+  placeholderVertical_ASC
+  placeholderVertical_DESC
   published_ASC
   published_DESC
   price_ASC
@@ -2123,6 +2266,8 @@ type VideoPreviousValues {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   published: Boolean!
   price: Float!
   start: Int!
@@ -2245,6 +2390,34 @@ input VideoScalarWhereInput {
   placeholder_not_starts_with: String
   placeholder_ends_with: String
   placeholder_not_ends_with: String
+  imageVertical: String
+  imageVertical_not: String
+  imageVertical_in: [String!]
+  imageVertical_not_in: [String!]
+  imageVertical_lt: String
+  imageVertical_lte: String
+  imageVertical_gt: String
+  imageVertical_gte: String
+  imageVertical_contains: String
+  imageVertical_not_contains: String
+  imageVertical_starts_with: String
+  imageVertical_not_starts_with: String
+  imageVertical_ends_with: String
+  imageVertical_not_ends_with: String
+  placeholderVertical: String
+  placeholderVertical_not: String
+  placeholderVertical_in: [String!]
+  placeholderVertical_not_in: [String!]
+  placeholderVertical_lt: String
+  placeholderVertical_lte: String
+  placeholderVertical_gt: String
+  placeholderVertical_gte: String
+  placeholderVertical_contains: String
+  placeholderVertical_not_contains: String
+  placeholderVertical_starts_with: String
+  placeholderVertical_not_starts_with: String
+  placeholderVertical_ends_with: String
+  placeholderVertical_not_ends_with: String
   published: Boolean
   published_not: Boolean
   price: Float
@@ -2319,6 +2492,8 @@ input VideoUpdateDataInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
   price: Float
@@ -2338,6 +2513,8 @@ input VideoUpdateInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
   price: Float
@@ -2357,6 +2534,8 @@ input VideoUpdateManyDataInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   published: Boolean
   price: Float
   start: Int
@@ -2374,6 +2553,8 @@ input VideoUpdateManyMutationInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   published: Boolean
   price: Float
   start: Int
@@ -2430,6 +2611,8 @@ input VideoUpdateWithoutPromoVideoDataInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
   published: Boolean
   price: Float
@@ -2448,6 +2631,8 @@ input VideoUpdateWithoutUsersDataInput {
   preview: String
   image: String
   placeholder: String
+  imageVertical: String
+  placeholderVertical: String
   published: Boolean
   price: Float
   start: Int
@@ -2592,6 +2777,34 @@ input VideoWhereInput {
   placeholder_not_starts_with: String
   placeholder_ends_with: String
   placeholder_not_ends_with: String
+  imageVertical: String
+  imageVertical_not: String
+  imageVertical_in: [String!]
+  imageVertical_not_in: [String!]
+  imageVertical_lt: String
+  imageVertical_lte: String
+  imageVertical_gt: String
+  imageVertical_gte: String
+  imageVertical_contains: String
+  imageVertical_not_contains: String
+  imageVertical_starts_with: String
+  imageVertical_not_starts_with: String
+  imageVertical_ends_with: String
+  imageVertical_not_ends_with: String
+  placeholderVertical: String
+  placeholderVertical_not: String
+  placeholderVertical_in: [String!]
+  placeholderVertical_not_in: [String!]
+  placeholderVertical_lt: String
+  placeholderVertical_lte: String
+  placeholderVertical_gt: String
+  placeholderVertical_gte: String
+  placeholderVertical_contains: String
+  placeholderVertical_not_contains: String
+  placeholderVertical_starts_with: String
+  placeholderVertical_not_starts_with: String
+  placeholderVertical_ends_with: String
+  placeholderVertical_not_ends_with: String
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput

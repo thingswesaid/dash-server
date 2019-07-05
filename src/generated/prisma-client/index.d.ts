@@ -20,6 +20,7 @@ export interface Exists {
   product: (where?: ProductWhereInput) => Promise<boolean>;
   promoCode: (where?: PromoCodeWhereInput) => Promise<boolean>;
   promoVideo: (where?: PromoVideoWhereInput) => Promise<boolean>;
+  quote: (where?: QuoteWhereInput) => Promise<boolean>;
   sitePromo: (where?: SitePromoWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
   video: (where?: VideoWhereInput) => Promise<boolean>;
@@ -120,6 +121,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => PromoVideoConnectionPromise;
+  quote: (where: QuoteWhereUniqueInput) => QuoteNullablePromise;
+  quotes: (args?: {
+    where?: QuoteWhereInput;
+    orderBy?: QuoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Quote>;
+  quotesConnection: (args?: {
+    where?: QuoteWhereInput;
+    orderBy?: QuoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => QuoteConnectionPromise;
   sitePromo: (where: SitePromoWhereUniqueInput) => SitePromoNullablePromise;
   sitePromoes: (args?: {
     where?: SitePromoWhereInput;
@@ -247,6 +267,22 @@ export interface Prisma {
   }) => PromoVideoPromise;
   deletePromoVideo: (where: PromoVideoWhereUniqueInput) => PromoVideoPromise;
   deleteManyPromoVideos: (where?: PromoVideoWhereInput) => BatchPayloadPromise;
+  createQuote: (data: QuoteCreateInput) => QuotePromise;
+  updateQuote: (args: {
+    data: QuoteUpdateInput;
+    where: QuoteWhereUniqueInput;
+  }) => QuotePromise;
+  updateManyQuotes: (args: {
+    data: QuoteUpdateManyMutationInput;
+    where?: QuoteWhereInput;
+  }) => BatchPayloadPromise;
+  upsertQuote: (args: {
+    where: QuoteWhereUniqueInput;
+    create: QuoteCreateInput;
+    update: QuoteUpdateInput;
+  }) => QuotePromise;
+  deleteQuote: (where: QuoteWhereUniqueInput) => QuotePromise;
+  deleteManyQuotes: (where?: QuoteWhereInput) => BatchPayloadPromise;
   createSitePromo: (data: SitePromoCreateInput) => SitePromoPromise;
   updateSitePromo: (args: {
     data: SitePromoUpdateInput;
@@ -316,6 +352,9 @@ export interface Subscription {
   promoVideo: (
     where?: PromoVideoSubscriptionWhereInput
   ) => PromoVideoSubscriptionPayloadSubscription;
+  quote: (
+    where?: QuoteSubscriptionWhereInput
+  ) => QuoteSubscriptionPayloadSubscription;
   sitePromo: (
     where?: SitePromoSubscriptionWhereInput
   ) => SitePromoSubscriptionPayloadSubscription;
@@ -354,6 +393,10 @@ export type VideoOrderByInput =
   | "image_DESC"
   | "placeholder_ASC"
   | "placeholder_DESC"
+  | "imageVertical_ASC"
+  | "imageVertical_DESC"
+  | "placeholderVertical_ASC"
+  | "placeholderVertical_DESC"
   | "published_ASC"
   | "published_DESC"
   | "price_ASC"
@@ -458,6 +501,14 @@ export type PromoVideoOrderByInput =
   | "bannerMobile_DESC"
   | "type_ASC"
   | "type_DESC";
+
+export type QuoteOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "text_ASC"
+  | "text_DESC"
+  | "linkTo_ASC"
+  | "linkTo_DESC";
 
 export type PromoOffer = "BUY1GET1" | "DISCOUNT";
 
@@ -601,6 +652,34 @@ export interface VideoWhereInput {
   placeholder_not_starts_with?: Maybe<String>;
   placeholder_ends_with?: Maybe<String>;
   placeholder_not_ends_with?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  imageVertical_not?: Maybe<String>;
+  imageVertical_in?: Maybe<String[] | String>;
+  imageVertical_not_in?: Maybe<String[] | String>;
+  imageVertical_lt?: Maybe<String>;
+  imageVertical_lte?: Maybe<String>;
+  imageVertical_gt?: Maybe<String>;
+  imageVertical_gte?: Maybe<String>;
+  imageVertical_contains?: Maybe<String>;
+  imageVertical_not_contains?: Maybe<String>;
+  imageVertical_starts_with?: Maybe<String>;
+  imageVertical_not_starts_with?: Maybe<String>;
+  imageVertical_ends_with?: Maybe<String>;
+  imageVertical_not_ends_with?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
+  placeholderVertical_not?: Maybe<String>;
+  placeholderVertical_in?: Maybe<String[] | String>;
+  placeholderVertical_not_in?: Maybe<String[] | String>;
+  placeholderVertical_lt?: Maybe<String>;
+  placeholderVertical_lte?: Maybe<String>;
+  placeholderVertical_gt?: Maybe<String>;
+  placeholderVertical_gte?: Maybe<String>;
+  placeholderVertical_contains?: Maybe<String>;
+  placeholderVertical_not_contains?: Maybe<String>;
+  placeholderVertical_starts_with?: Maybe<String>;
+  placeholderVertical_not_starts_with?: Maybe<String>;
+  placeholderVertical_ends_with?: Maybe<String>;
+  placeholderVertical_not_ends_with?: Maybe<String>;
   users_every?: Maybe<UserWhereInput>;
   users_some?: Maybe<UserWhereInput>;
   users_none?: Maybe<UserWhereInput>;
@@ -736,9 +815,9 @@ export interface UserWhereInput {
   videos_every?: Maybe<VideoWhereInput>;
   videos_some?: Maybe<VideoWhereInput>;
   videos_none?: Maybe<VideoWhereInput>;
-  promos_every?: Maybe<PromoCodeWhereInput>;
-  promos_some?: Maybe<PromoCodeWhereInput>;
-  promos_none?: Maybe<PromoCodeWhereInput>;
+  promoCodes_every?: Maybe<PromoCodeWhereInput>;
+  promoCodes_some?: Maybe<PromoCodeWhereInput>;
+  promoCodes_none?: Maybe<PromoCodeWhereInput>;
   active?: Maybe<Boolean>;
   active_not?: Maybe<Boolean>;
   orders_every?: Maybe<OrderWhereInput>;
@@ -1163,6 +1242,58 @@ export type PromoVideoWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type QuoteWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface QuoteWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  linkTo?: Maybe<String>;
+  linkTo_not?: Maybe<String>;
+  linkTo_in?: Maybe<String[] | String>;
+  linkTo_not_in?: Maybe<String[] | String>;
+  linkTo_lt?: Maybe<String>;
+  linkTo_lte?: Maybe<String>;
+  linkTo_gt?: Maybe<String>;
+  linkTo_gte?: Maybe<String>;
+  linkTo_contains?: Maybe<String>;
+  linkTo_not_contains?: Maybe<String>;
+  linkTo_starts_with?: Maybe<String>;
+  linkTo_not_starts_with?: Maybe<String>;
+  linkTo_ends_with?: Maybe<String>;
+  linkTo_not_ends_with?: Maybe<String>;
+  AND?: Maybe<QuoteWhereInput[] | QuoteWhereInput>;
+  OR?: Maybe<QuoteWhereInput[] | QuoteWhereInput>;
+  NOT?: Maybe<QuoteWhereInput[] | QuoteWhereInput>;
+}
+
 export type SitePromoWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1302,7 +1433,7 @@ export interface UserCreateWithoutOrdersInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
-  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeCreateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
@@ -1326,6 +1457,8 @@ export interface VideoCreateWithoutUsersInput {
   preview: String;
   image: String;
   placeholder: String;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   published?: Maybe<Boolean>;
   price: Float;
   start: Int;
@@ -1385,6 +1518,8 @@ export interface VideoCreateInput {
   preview: String;
   image: String;
   placeholder: String;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price: Float;
@@ -1408,7 +1543,7 @@ export interface UserCreateWithoutVideosInput {
   password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
-  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeCreateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderCreateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -1451,7 +1586,7 @@ export interface UserUpdateWithoutOrdersDataInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
-  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
@@ -1495,6 +1630,8 @@ export interface VideoUpdateWithoutUsersDataInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
@@ -1654,6 +1791,34 @@ export interface VideoScalarWhereInput {
   placeholder_not_starts_with?: Maybe<String>;
   placeholder_ends_with?: Maybe<String>;
   placeholder_not_ends_with?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  imageVertical_not?: Maybe<String>;
+  imageVertical_in?: Maybe<String[] | String>;
+  imageVertical_not_in?: Maybe<String[] | String>;
+  imageVertical_lt?: Maybe<String>;
+  imageVertical_lte?: Maybe<String>;
+  imageVertical_gt?: Maybe<String>;
+  imageVertical_gte?: Maybe<String>;
+  imageVertical_contains?: Maybe<String>;
+  imageVertical_not_contains?: Maybe<String>;
+  imageVertical_starts_with?: Maybe<String>;
+  imageVertical_not_starts_with?: Maybe<String>;
+  imageVertical_ends_with?: Maybe<String>;
+  imageVertical_not_ends_with?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
+  placeholderVertical_not?: Maybe<String>;
+  placeholderVertical_in?: Maybe<String[] | String>;
+  placeholderVertical_not_in?: Maybe<String[] | String>;
+  placeholderVertical_lt?: Maybe<String>;
+  placeholderVertical_lte?: Maybe<String>;
+  placeholderVertical_gt?: Maybe<String>;
+  placeholderVertical_gte?: Maybe<String>;
+  placeholderVertical_contains?: Maybe<String>;
+  placeholderVertical_not_contains?: Maybe<String>;
+  placeholderVertical_starts_with?: Maybe<String>;
+  placeholderVertical_not_starts_with?: Maybe<String>;
+  placeholderVertical_ends_with?: Maybe<String>;
+  placeholderVertical_not_ends_with?: Maybe<String>;
   published?: Maybe<Boolean>;
   published_not?: Maybe<Boolean>;
   price?: Maybe<Float>;
@@ -1710,6 +1875,8 @@ export interface VideoUpdateManyDataInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
@@ -1772,6 +1939,8 @@ export interface VideoUpdateDataInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
@@ -1815,7 +1984,7 @@ export interface UserUpdateWithoutVideosDataInput {
   password?: Maybe<String>;
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
-  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -2207,16 +2376,16 @@ export interface PromoCodeCreateInput {
   valid?: Maybe<Boolean>;
   type: VideoType;
   endDate?: Maybe<String>;
-  user: UserCreateOneWithoutPromosInput;
+  user: UserCreateOneWithoutPromoCodesInput;
   video?: Maybe<VideoCreateOneInput>;
 }
 
-export interface UserCreateOneWithoutPromosInput {
-  create?: Maybe<UserCreateWithoutPromosInput>;
+export interface UserCreateOneWithoutPromoCodesInput {
+  create?: Maybe<UserCreateWithoutPromoCodesInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutPromosInput {
+export interface UserCreateWithoutPromoCodesInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
@@ -2236,18 +2405,18 @@ export interface PromoCodeUpdateInput {
   valid?: Maybe<Boolean>;
   type?: Maybe<VideoType>;
   endDate?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredWithoutPromosInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutPromoCodesInput>;
   video?: Maybe<VideoUpdateOneInput>;
 }
 
-export interface UserUpdateOneRequiredWithoutPromosInput {
-  create?: Maybe<UserCreateWithoutPromosInput>;
-  update?: Maybe<UserUpdateWithoutPromosDataInput>;
-  upsert?: Maybe<UserUpsertWithoutPromosInput>;
+export interface UserUpdateOneRequiredWithoutPromoCodesInput {
+  create?: Maybe<UserCreateWithoutPromoCodesInput>;
+  update?: Maybe<UserUpdateWithoutPromoCodesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPromoCodesInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateWithoutPromosDataInput {
+export interface UserUpdateWithoutPromoCodesDataInput {
   firstName?: Maybe<String>;
   lastName?: Maybe<String>;
   email?: Maybe<String>;
@@ -2262,9 +2431,9 @@ export interface UserUpdateWithoutPromosDataInput {
   subscribeNews?: Maybe<Boolean>;
 }
 
-export interface UserUpsertWithoutPromosInput {
-  update: UserUpdateWithoutPromosDataInput;
-  create: UserCreateWithoutPromosInput;
+export interface UserUpsertWithoutPromoCodesInput {
+  update: UserUpdateWithoutPromoCodesDataInput;
+  create: UserCreateWithoutPromoCodesInput;
 }
 
 export interface PromoCodeUpdateManyMutationInput {
@@ -2300,6 +2469,8 @@ export interface VideoCreateWithoutPromoVideoInput {
   preview: String;
   image: String;
   placeholder: String;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price: Float;
@@ -2340,6 +2511,8 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
@@ -2365,6 +2538,21 @@ export interface PromoVideoUpdateManyMutationInput {
   banner?: Maybe<String>;
   bannerMobile?: Maybe<String>;
   type?: Maybe<VideoType>;
+}
+
+export interface QuoteCreateInput {
+  text: String;
+  linkTo?: Maybe<String>;
+}
+
+export interface QuoteUpdateInput {
+  text?: Maybe<String>;
+  linkTo?: Maybe<String>;
+}
+
+export interface QuoteUpdateManyMutationInput {
+  text?: Maybe<String>;
+  linkTo?: Maybe<String>;
 }
 
 export interface SitePromoCreateInput {
@@ -2408,7 +2596,7 @@ export interface UserCreateInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserCreateipsInput>;
   videos?: Maybe<VideoCreateManyWithoutUsersInput>;
-  promos?: Maybe<PromoCodeCreateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeCreateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderCreateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -2424,7 +2612,7 @@ export interface UserUpdateInput {
   phone?: Maybe<String>;
   ips?: Maybe<UserUpdateipsInput>;
   videos?: Maybe<VideoUpdateManyWithoutUsersInput>;
-  promos?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
+  promoCodes?: Maybe<PromoCodeUpdateManyWithoutUserInput>;
   active?: Maybe<Boolean>;
   orders?: Maybe<OrderUpdateManyWithoutUserInput>;
   subscribePromo?: Maybe<Boolean>;
@@ -2453,6 +2641,8 @@ export interface VideoUpdateInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
@@ -2472,6 +2662,8 @@ export interface VideoUpdateManyMutationInput {
   preview?: Maybe<String>;
   image?: Maybe<String>;
   placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
   published?: Maybe<Boolean>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
@@ -2535,6 +2727,17 @@ export interface PromoVideoSubscriptionWhereInput {
   NOT?: Maybe<
     PromoVideoSubscriptionWhereInput[] | PromoVideoSubscriptionWhereInput
   >;
+}
+
+export interface QuoteSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<QuoteWhereInput>;
+  AND?: Maybe<QuoteSubscriptionWhereInput[] | QuoteSubscriptionWhereInput>;
+  OR?: Maybe<QuoteSubscriptionWhereInput[] | QuoteSubscriptionWhereInput>;
+  NOT?: Maybe<QuoteSubscriptionWhereInput[] | QuoteSubscriptionWhereInput>;
 }
 
 export interface SitePromoSubscriptionWhereInput {
@@ -2655,7 +2858,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  promos: <T = FragmentableArray<PromoCode>>(args?: {
+  promoCodes: <T = FragmentableArray<PromoCode>>(args?: {
     where?: PromoCodeWhereInput;
     orderBy?: PromoCodeOrderByInput;
     skip?: Int;
@@ -2700,7 +2903,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  promos: <T = Promise<AsyncIterator<PromoCodeSubscription>>>(args?: {
+  promoCodes: <T = Promise<AsyncIterator<PromoCodeSubscription>>>(args?: {
     where?: PromoCodeWhereInput;
     orderBy?: PromoCodeOrderByInput;
     skip?: Int;
@@ -2745,7 +2948,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  promos: <T = FragmentableArray<PromoCode>>(args?: {
+  promoCodes: <T = FragmentableArray<PromoCode>>(args?: {
     where?: PromoCodeWhereInput;
     orderBy?: PromoCodeOrderByInput;
     skip?: Int;
@@ -2780,6 +2983,8 @@ export interface Video {
   preview: String;
   image: String;
   placeholder: String;
+  imageVertical?: String;
+  placeholderVertical?: String;
   published: Boolean;
   price: Float;
   start: Int;
@@ -2798,6 +3003,8 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   preview: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
+  imageVertical: () => Promise<String>;
+  placeholderVertical: () => Promise<String>;
   users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -2828,6 +3035,8 @@ export interface VideoSubscription
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
+  imageVertical: () => Promise<AsyncIterator<String>>;
+  placeholderVertical: () => Promise<AsyncIterator<String>>;
   users: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -2858,6 +3067,8 @@ export interface VideoNullablePromise
   preview: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
+  imageVertical: () => Promise<String>;
+  placeholderVertical: () => Promise<String>;
   users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -3269,6 +3480,88 @@ export interface AggregatePromoVideoPromise
 
 export interface AggregatePromoVideoSubscription
   extends Promise<AsyncIterator<AggregatePromoVideo>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Quote {
+  id: ID_Output;
+  text: String;
+  linkTo?: String;
+}
+
+export interface QuotePromise extends Promise<Quote>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  linkTo: () => Promise<String>;
+}
+
+export interface QuoteSubscription
+  extends Promise<AsyncIterator<Quote>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  linkTo: () => Promise<AsyncIterator<String>>;
+}
+
+export interface QuoteNullablePromise
+  extends Promise<Quote | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  linkTo: () => Promise<String>;
+}
+
+export interface QuoteConnection {
+  pageInfo: PageInfo;
+  edges: QuoteEdge[];
+}
+
+export interface QuoteConnectionPromise
+  extends Promise<QuoteConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<QuoteEdge>>() => T;
+  aggregate: <T = AggregateQuotePromise>() => T;
+}
+
+export interface QuoteConnectionSubscription
+  extends Promise<AsyncIterator<QuoteConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<QuoteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateQuoteSubscription>() => T;
+}
+
+export interface QuoteEdge {
+  node: Quote;
+  cursor: String;
+}
+
+export interface QuoteEdgePromise extends Promise<QuoteEdge>, Fragmentable {
+  node: <T = QuotePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface QuoteEdgeSubscription
+  extends Promise<AsyncIterator<QuoteEdge>>,
+    Fragmentable {
+  node: <T = QuoteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateQuote {
+  count: Int;
+}
+
+export interface AggregateQuotePromise
+  extends Promise<AggregateQuote>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateQuoteSubscription
+  extends Promise<AsyncIterator<AggregateQuote>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3744,6 +4037,53 @@ export interface PromoVideoPreviousValuesSubscription
   type: () => Promise<AsyncIterator<VideoType>>;
 }
 
+export interface QuoteSubscriptionPayload {
+  mutation: MutationType;
+  node: Quote;
+  updatedFields: String[];
+  previousValues: QuotePreviousValues;
+}
+
+export interface QuoteSubscriptionPayloadPromise
+  extends Promise<QuoteSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = QuotePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = QuotePreviousValuesPromise>() => T;
+}
+
+export interface QuoteSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<QuoteSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = QuoteSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = QuotePreviousValuesSubscription>() => T;
+}
+
+export interface QuotePreviousValues {
+  id: ID_Output;
+  text: String;
+  linkTo?: String;
+}
+
+export interface QuotePreviousValuesPromise
+  extends Promise<QuotePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  linkTo: () => Promise<String>;
+}
+
+export interface QuotePreviousValuesSubscription
+  extends Promise<AsyncIterator<QuotePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  linkTo: () => Promise<AsyncIterator<String>>;
+}
+
 export interface SitePromoSubscriptionPayload {
   mutation: MutationType;
   node: SitePromo;
@@ -3920,6 +4260,8 @@ export interface VideoPreviousValues {
   preview: String;
   image: String;
   placeholder: String;
+  imageVertical?: String;
+  placeholderVertical?: String;
   published: Boolean;
   price: Float;
   start: Int;
@@ -3940,6 +4282,8 @@ export interface VideoPreviousValuesPromise
   preview: () => Promise<String>;
   image: () => Promise<String>;
   placeholder: () => Promise<String>;
+  imageVertical: () => Promise<String>;
+  placeholderVertical: () => Promise<String>;
   published: () => Promise<Boolean>;
   price: () => Promise<Float>;
   start: () => Promise<Int>;
@@ -3960,6 +4304,8 @@ export interface VideoPreviousValuesSubscription
   preview: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   placeholder: () => Promise<AsyncIterator<String>>;
+  imageVertical: () => Promise<AsyncIterator<String>>;
+  placeholderVertical: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
   price: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
@@ -4038,6 +4384,10 @@ export const models: Model[] = [
   },
   {
     name: "Order",
+    embedded: false
+  },
+  {
+    name: "Quote",
     embedded: false
   },
   {

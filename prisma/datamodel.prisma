@@ -7,7 +7,7 @@ type User {
   phone: String
   ips: [String!]
   videos: [Video]!
-  promos: [PromoCode]
+  promoCodes: [PromoCode]
   active: Boolean! @default(value: "true")
   orders: [Order]! @default(value: [])
   subscribePromo: Boolean! @default(value: "true")
@@ -26,6 +26,8 @@ type Video {
   preview: String!
   image: String!
   placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
   users: [User]!
   published: Boolean! @default(value: "false")
   price: Float!
@@ -93,6 +95,12 @@ type Order {
   paymentEmail: String
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type Quote {
+  id: ID! @unique
+  text: String!
+  linkTo: String
 }
 
 enum VideoType {

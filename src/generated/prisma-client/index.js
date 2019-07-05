@@ -33,6 +33,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Quote",
+    embedded: false
+  },
+  {
     name: "VideoType",
     embedded: false
   },
