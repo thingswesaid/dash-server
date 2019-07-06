@@ -50,15 +50,18 @@ const resolvers = {
       };
     },
 
-    videos: async (parent, { id='', keywords='', type='' }, context) => {
+    videos: (parent, { id='', keywords='', type='' }, context) => {
       const typeOpt = type.length? { type } : {};
-      const videos = await context.prisma.videos({ where: { 
-        id_contains: id, 
-        keywords_contains: keywords,
-        published: true,
-        ...typeOpt,
-      }, first: 20});
-      return videos.reverse();
+      return context.prisma.videos({ 
+        where: { 
+          id_contains: id, 
+          keywords_contains: keywords,
+          published: true,
+          ...typeOpt,
+        }, 
+        orderBy: 'createdAt_DESC', 
+        first: 20
+      });
     },
 
     userIp: (parent, args, context) => {
