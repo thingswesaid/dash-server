@@ -8,6 +8,7 @@
     "@sendgrid/mail": "^6.4.0",
     "dotenv": "^8.0.0",
     "graphql-yoga": "1.17.4",
+    "iplocation": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
     "password-hash": "^1.2.2",

@@ -1,6 +1,6 @@
 type Query {
   videos(id: ID, keywords: String, type: String): [Video]
-  userIp: String
+  userIp: UserIp
   products(type: String): ProductPayload!
   videoPage(id: ID!, ip: String, userId: String, showAll: Boolean): VideoPage
   userPage(id: ID!): UserPage
@@ -50,6 +50,11 @@ type UserPage {
 type OrderResponse {
   promo: PromoCode
   user: User
+}
+
+type UserIp {
+  ip: String
+  location: String
 }
 
 type Auth {

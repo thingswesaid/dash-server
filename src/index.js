@@ -1,6 +1,8 @@
 const { GraphQLServer } = require('graphql-yoga')
 const jwt = require('jsonwebtoken');
 var passwordHash = require('password-hash');
+const iplocation = require("iplocation").default;
+
 
 const { prisma } = require('./generated/prisma-client')
 const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo, sendPasswordReset } = require('./utils');
@@ -64,8 +66,11 @@ const resolvers = {
       });
     },
 
-    userIp: (parent, args, context) => {
-      return context.userIp();
+    userIp: async (parent, args, context) => {
+      const ip = await context.userIp();
+      const locationIp = ip ? await iplocation(ip).then(res => res) : ''; // TODO remove ip hardcoded and bang
+      const country = locationIp ? locationIp.country : '';
+      return { ip, location: country };
     },
 
     userPage: async (parent, { id }, context) => {
