@@ -3,7 +3,7 @@ type Query {
   userIp: UserIp
   products(type: String): ProductPayload!
   videoPage(id: ID!, ip: String, userId: String, showAll: Boolean): VideoPage
-  userPage(id: ID!): UserPage
+  userPage(id: ID, email: String): UserPage
   promoCode(code: String): PromoCode
   dashboard(from: String!, to: String!, cloudflare: Boolean): Dashboard!
 }
@@ -67,11 +67,15 @@ type User {
   id: ID!
   email: String!
   ips: [String!]
-  subscribed: Boolean!
   active: Boolean
   videos: [Video]!
   promoCodes: [PromoCode]
   orders: [Order]
+  role: UserRole
+  subscribePromo: Boolean!
+  subscribeEarlyAccess: Boolean!
+  subscribeNews: Boolean!
+  password: String
 }
 
 type Video {
@@ -204,4 +208,10 @@ enum VideoType {
 enum PromoOffer {
   BUY1GET1
   DISCOUNT
+}
+
+enum UserRole {
+  ADMIN
+  READER
+  CONSUMER
 }

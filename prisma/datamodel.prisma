@@ -13,6 +13,7 @@ type User {
   subscribePromo: Boolean! @default(value: "true")
   subscribeEarlyAccess: Boolean! @default(value: "true")
   subscribeNews: Boolean! @default(value: "true")
+  role: UserRole
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -101,6 +102,12 @@ type Quote {
   id: ID! @unique
   text: String!
   linkTo: String
+}
+
+enum UserRole {
+  ADMIN
+  READER
+  CONSUMER
 }
 
 enum VideoType {

@@ -1566,6 +1566,7 @@ type User {
   subscribePromo: Boolean!
   subscribeEarlyAccess: Boolean!
   subscribeNews: Boolean!
+  role: UserRole
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1590,6 +1591,7 @@ input UserCreateInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserCreateipsInput {
@@ -1624,6 +1626,7 @@ input UserCreateWithoutOrdersInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserCreateWithoutPromoCodesInput {
@@ -1639,6 +1642,7 @@ input UserCreateWithoutPromoCodesInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserCreateWithoutVideosInput {
@@ -1654,6 +1658,7 @@ input UserCreateWithoutVideosInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 type UserEdge {
@@ -1682,6 +1687,8 @@ enum UserOrderByInput {
   subscribeEarlyAccess_DESC
   subscribeNews_ASC
   subscribeNews_DESC
+  role_ASC
+  role_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1700,8 +1707,15 @@ type UserPreviousValues {
   subscribePromo: Boolean!
   subscribeEarlyAccess: Boolean!
   subscribeNews: Boolean!
+  role: UserRole
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+enum UserRole {
+  ADMIN
+  READER
+  CONSUMER
 }
 
 input UserScalarWhereInput {
@@ -1797,6 +1811,10 @@ input UserScalarWhereInput {
   subscribeEarlyAccess_not: Boolean
   subscribeNews: Boolean
   subscribeNews_not: Boolean
+  role: UserRole
+  role_not: UserRole
+  role_in: [UserRole!]
+  role_not_in: [UserRole!]
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1850,6 +1868,7 @@ input UserUpdateInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateipsInput {
@@ -1867,6 +1886,7 @@ input UserUpdateManyDataInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateManyMutationInput {
@@ -1880,6 +1900,7 @@ input UserUpdateManyMutationInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateManyWithoutVideosInput {
@@ -1928,6 +1949,7 @@ input UserUpdateWithoutOrdersDataInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateWithoutPromoCodesDataInput {
@@ -1943,6 +1965,7 @@ input UserUpdateWithoutPromoCodesDataInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateWithoutVideosDataInput {
@@ -1958,6 +1981,7 @@ input UserUpdateWithoutVideosDataInput {
   subscribePromo: Boolean
   subscribeEarlyAccess: Boolean
   subscribeNews: Boolean
+  role: UserRole
 }
 
 input UserUpdateWithWhereUniqueWithoutVideosInput {
@@ -2083,6 +2107,10 @@ input UserWhereInput {
   subscribeEarlyAccess_not: Boolean
   subscribeNews: Boolean
   subscribeNews_not: Boolean
+  role: UserRole
+  role_not: UserRole
+  role_in: [UserRole!]
+  role_not_in: [UserRole!]
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

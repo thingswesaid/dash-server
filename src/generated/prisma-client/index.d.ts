@@ -376,6 +376,8 @@ export interface ClientConstructor<T> {
 
 export type VideoType = "ZODIAC" | "PICKACARD";
 
+export type UserRole = "ADMIN" | "READER" | "CONSUMER";
+
 export type VideoOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -431,6 +433,8 @@ export type UserOrderByInput =
   | "subscribeEarlyAccess_DESC"
   | "subscribeNews_ASC"
   | "subscribeNews_DESC"
+  | "role_ASC"
+  | "role_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -829,6 +833,10 @@ export interface UserWhereInput {
   subscribeEarlyAccess_not?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
   subscribeNews_not?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
+  role_not?: Maybe<UserRole>;
+  role_in?: Maybe<UserRole[] | UserRole>;
+  role_not_in?: Maybe<UserRole[] | UserRole>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1438,6 +1446,7 @@ export interface UserCreateWithoutOrdersInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface UserCreateipsInput {
@@ -1549,6 +1558,7 @@ export interface UserCreateWithoutVideosInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface OrderCreateManyWithoutUserInput {
@@ -1591,6 +1601,7 @@ export interface UserUpdateWithoutOrdersDataInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface UserUpdateipsInput {
@@ -1990,6 +2001,7 @@ export interface UserUpdateWithoutVideosDataInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface OrderUpdateManyWithoutUserInput {
@@ -2202,6 +2214,10 @@ export interface UserScalarWhereInput {
   subscribeEarlyAccess_not?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
   subscribeNews_not?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
+  role_not?: Maybe<UserRole>;
+  role_in?: Maybe<UserRole[] | UserRole>;
+  role_not_in?: Maybe<UserRole[] | UserRole>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2239,6 +2255,7 @@ export interface UserUpdateManyDataInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface VideoUpsertNestedInput {
@@ -2398,6 +2415,7 @@ export interface UserCreateWithoutPromoCodesInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface PromoCodeUpdateInput {
@@ -2429,6 +2447,7 @@ export interface UserUpdateWithoutPromoCodesDataInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface UserUpsertWithoutPromoCodesInput {
@@ -2602,6 +2621,7 @@ export interface UserCreateInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface UserUpdateInput {
@@ -2618,6 +2638,7 @@ export interface UserUpdateInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2631,6 +2652,7 @@ export interface UserUpdateManyMutationInput {
   subscribePromo?: Maybe<Boolean>;
   subscribeEarlyAccess?: Maybe<Boolean>;
   subscribeNews?: Maybe<Boolean>;
+  role?: Maybe<UserRole>;
 }
 
 export interface VideoUpdateInput {
@@ -2837,6 +2859,7 @@ export interface User {
   subscribePromo: Boolean;
   subscribeEarlyAccess: Boolean;
   subscribeNews: Boolean;
+  role?: UserRole;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -2880,6 +2903,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  role: () => Promise<UserRole>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -2925,6 +2949,7 @@ export interface UserSubscription
   subscribePromo: () => Promise<AsyncIterator<Boolean>>;
   subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
   subscribeNews: () => Promise<AsyncIterator<Boolean>>;
+  role: () => Promise<AsyncIterator<UserRole>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -2970,6 +2995,7 @@ export interface UserNullablePromise
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  role: () => Promise<UserRole>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -4186,6 +4212,7 @@ export interface UserPreviousValues {
   subscribePromo: Boolean;
   subscribeEarlyAccess: Boolean;
   subscribeNews: Boolean;
+  role?: UserRole;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -4204,6 +4231,7 @@ export interface UserPreviousValuesPromise
   subscribePromo: () => Promise<Boolean>;
   subscribeEarlyAccess: () => Promise<Boolean>;
   subscribeNews: () => Promise<Boolean>;
+  role: () => Promise<UserRole>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -4222,6 +4250,7 @@ export interface UserPreviousValuesSubscription
   subscribePromo: () => Promise<AsyncIterator<Boolean>>;
   subscribeEarlyAccess: () => Promise<AsyncIterator<Boolean>>;
   subscribeNews: () => Promise<AsyncIterator<Boolean>>;
+  role: () => Promise<AsyncIterator<UserRole>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -4388,6 +4417,10 @@ export const models: Model[] = [
   },
   {
     name: "Quote",
+    embedded: false
+  },
+  {
+    name: "UserRole",
     embedded: false
   },
   {

@@ -70,14 +70,14 @@ const resolvers = {
       const ip = await context.userIp();
       const locationIp = ip ? await iplocation(ip).then(res => res) : '';
       const country = locationIp ? locationIp.country : '';
-      console.log('>>>>>>>> IP STUFF <<<<<<<<<', ip, locationIp, country);
       return { ip, location: country };
     },
 
-    userPage: async (parent, { id }, context) => {
-      const user = await context.prisma.user({ id });
+    userPage: async (parent, { id, email }, context) => { // TODO make name more general: user not page
+      const identifier = email ? { email } : { id };
+      const userQuery = await context.prisma.users({ where: { ...identifier } });
       const quotes = await context.prisma.quotes();
-      return { user, quotes };
+      return { user: userQuery[0], quotes };
     },
 
     async products(parent, args, context) {

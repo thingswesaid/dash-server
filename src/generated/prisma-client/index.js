@@ -37,6 +37,10 @@ var models = [
     embedded: false
   },
   {
+    name: "UserRole",
+    embedded: false
+  },
+  {
     name: "VideoType",
     embedded: false
   },
