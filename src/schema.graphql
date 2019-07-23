@@ -13,10 +13,12 @@ type Mutation {
   signup(token: String!): Auth!
   passwordUpdate(token: String!): Auth!
   createUser(email: String!, ip: String!): User # might need to be removed
+  updateUser(id: ID, email: String, key: String!, valueString: String, valueBoolean: Boolean): User 
   addUserIp(email: String!, ips: [String]!): User
   usePromoCode(code: String!, videoId: String!, videoType: String!, token: String!): General
   subscribeUpdate(email: String!, type: String!, subscribe: Boolean!): User
   sendPasswordResetEmail(email: String!): General
+  createManualOrder(email: String!, videoId: String!): General
   createOrder(
     userToken: String, 
     ips: [String], 
@@ -36,6 +38,10 @@ type Mutation {
     readingType: String!, 
     price: Float!
   ): General
+}
+
+type Subscription {
+  user(id: ID, email: String): User!
 }
 
 type General {

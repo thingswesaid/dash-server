@@ -2,7 +2,7 @@ const { GraphQLServer } = require('graphql-yoga')
 const jwt = require('jsonwebtoken');
 var passwordHash = require('password-hash');
 const iplocation = require("iplocation").default;
-
+var uniqid = require('uniqid');
 
 const { prisma } = require('./generated/prisma-client')
 const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo, sendPasswordReset } = require('./utils');
@@ -267,8 +267,32 @@ const resolvers = {
       }
     },
 
-    async sendPasswordResetEmail(parent, { email }, context) {
+    async updateUser(parent, { id, email, key, valueString, valueBoolean }, context) {
+      const identifier = email ? { email } : { id };
+      await context.prisma.updateUser({
+        where: { ...identifier }, data: { [key]: valueString || valueBoolean },
+      })
+    },
+
+    async createManualOrder(parent, { email, videoId }, context) {
       try {
+        await context.prisma.createOrder({
+          paymentId: `manual-order-${uniqid()}`,
+          paymentEmail: email,
+          video: { connect: { id: videoId } },
+          user: { connect: { email } },
+        });
+        await context.prisma.updateUser({
+          where: { email },
+          data: { videos: { connect: { id: videoId } } },
+        });
+      } catch (error) {
+        return { error };
+      }
+    },
+
+    async sendPasswordResetEmail(parent, { email }, context) {
+      try { // TODO move to BFF
         const user = await context.prisma.users({ where: { email } });
         if (!user.length) return { error: 'User does not exist.' };          
         const token = jwt.sign({ email }, process.env.JWT_SECRET); // TODO get from process
@@ -301,6 +325,22 @@ const resolvers = {
           price,
         });
       })
+    }
+  },
+
+  Subscription: {
+    user: {
+      subscribe: async (parent, { id, email }, context) => {
+          const identifier = email.length ? { email } : { id };
+          const user = await context.prisma.$subscribe.user({ 
+            where: { mutation_in: 'UPDATED' },
+            node: { ...identifier },
+          }).node();
+          return user;
+      },
+      resolve: payload => {
+        return payload
+      }
     }
   },
 }
