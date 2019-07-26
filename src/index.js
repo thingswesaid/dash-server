@@ -2,6 +2,7 @@ const { GraphQLServer } = require('graphql-yoga')
 const jwt = require('jsonwebtoken');
 var passwordHash = require('password-hash');
 const iplocation = require("iplocation").default;
+const promoCodes = require('voucher-code-generator');
 var uniqid = require('uniqid');
 
 const { prisma } = require('./generated/prisma-client')
@@ -285,6 +286,25 @@ const resolvers = {
         await context.prisma.updateUser({
           where: { email },
           data: { videos: { connect: { id: videoId } } },
+        });
+      } catch (error) {
+        return { error };
+      }
+    },
+
+    async createManualPromo(parent, { email, type }, context) {
+      try {
+        const generatedCodes = promoCodes.generate({ 
+          length: 5, 
+          charset: promoCodes.charset("alphabetic") 
+        })
+        const code = generatedCodes[0].toLowerCase();
+        const now = new Date();
+        const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        endDate.setHours(23,59,59,999);
+        await context.prisma.updateUser({
+          where: { email },
+          data: { promoCodes: { create: { code, endDate, type } } },
         });
       } catch (error) {
         return { error };

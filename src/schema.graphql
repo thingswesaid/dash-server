@@ -19,6 +19,7 @@ type Mutation {
   subscribeUpdate(email: String!, type: String!, subscribe: Boolean!): User
   sendPasswordResetEmail(email: String!): General
   createManualOrder(email: String!, videoId: String!): General
+  createManualPromo(email: String!, type: String!): General
   createOrder(
     userToken: String, 
     ips: [String], 
