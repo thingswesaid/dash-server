@@ -399,8 +399,8 @@ export type VideoOrderByInput =
   | "imageVertical_DESC"
   | "placeholderVertical_ASC"
   | "placeholderVertical_DESC"
-  | "published_ASC"
-  | "published_DESC"
+  | "publishDate_ASC"
+  | "publishDate_DESC"
   | "price_ASC"
   | "price_DESC"
   | "start_ASC"
@@ -687,8 +687,20 @@ export interface VideoWhereInput {
   users_every?: Maybe<UserWhereInput>;
   users_some?: Maybe<UserWhereInput>;
   users_none?: Maybe<UserWhereInput>;
-  published?: Maybe<Boolean>;
-  published_not?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
+  publishDate_not?: Maybe<String>;
+  publishDate_in?: Maybe<String[] | String>;
+  publishDate_not_in?: Maybe<String[] | String>;
+  publishDate_lt?: Maybe<String>;
+  publishDate_lte?: Maybe<String>;
+  publishDate_gt?: Maybe<String>;
+  publishDate_gte?: Maybe<String>;
+  publishDate_contains?: Maybe<String>;
+  publishDate_not_contains?: Maybe<String>;
+  publishDate_starts_with?: Maybe<String>;
+  publishDate_not_starts_with?: Maybe<String>;
+  publishDate_ends_with?: Maybe<String>;
+  publishDate_not_ends_with?: Maybe<String>;
   price?: Maybe<Float>;
   price_not?: Maybe<Float>;
   price_in?: Maybe<Float[] | Float>;
@@ -1468,7 +1480,7 @@ export interface VideoCreateWithoutUsersInput {
   placeholder: String;
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price: Float;
   start: Int;
   type: VideoType;
@@ -1530,7 +1542,7 @@ export interface VideoCreateInput {
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price: Float;
   start: Int;
   type: VideoType;
@@ -1643,7 +1655,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   placeholder?: Maybe<String>;
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -1830,8 +1842,20 @@ export interface VideoScalarWhereInput {
   placeholderVertical_not_starts_with?: Maybe<String>;
   placeholderVertical_ends_with?: Maybe<String>;
   placeholderVertical_not_ends_with?: Maybe<String>;
-  published?: Maybe<Boolean>;
-  published_not?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
+  publishDate_not?: Maybe<String>;
+  publishDate_in?: Maybe<String[] | String>;
+  publishDate_not_in?: Maybe<String[] | String>;
+  publishDate_lt?: Maybe<String>;
+  publishDate_lte?: Maybe<String>;
+  publishDate_gt?: Maybe<String>;
+  publishDate_gte?: Maybe<String>;
+  publishDate_contains?: Maybe<String>;
+  publishDate_not_contains?: Maybe<String>;
+  publishDate_starts_with?: Maybe<String>;
+  publishDate_not_starts_with?: Maybe<String>;
+  publishDate_ends_with?: Maybe<String>;
+  publishDate_not_ends_with?: Maybe<String>;
   price?: Maybe<Float>;
   price_not?: Maybe<Float>;
   price_in?: Maybe<Float[] | Float>;
@@ -1888,7 +1912,7 @@ export interface VideoUpdateManyDataInput {
   placeholder?: Maybe<String>;
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -1953,7 +1977,7 @@ export interface VideoUpdateDataInput {
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -2491,7 +2515,7 @@ export interface VideoCreateWithoutPromoVideoInput {
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
   users?: Maybe<UserCreateManyWithoutVideosInput>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price: Float;
   start: Int;
   type: VideoType;
@@ -2533,7 +2557,7 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -2666,7 +2690,7 @@ export interface VideoUpdateInput {
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutVideosInput>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -2686,7 +2710,7 @@ export interface VideoUpdateManyMutationInput {
   placeholder?: Maybe<String>;
   imageVertical?: Maybe<String>;
   placeholderVertical?: Maybe<String>;
-  published?: Maybe<Boolean>;
+  publishDate?: Maybe<String>;
   price?: Maybe<Float>;
   start?: Maybe<Int>;
   type?: Maybe<VideoType>;
@@ -3011,7 +3035,7 @@ export interface Video {
   placeholder: String;
   imageVertical?: String;
   placeholderVertical?: String;
-  published: Boolean;
+  publishDate?: String;
   price: Float;
   start: Int;
   type: VideoType;
@@ -3040,7 +3064,7 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  published: () => Promise<Boolean>;
+  publishDate: () => Promise<String>;
   price: () => Promise<Float>;
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
@@ -3072,7 +3096,7 @@ export interface VideoSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  published: () => Promise<AsyncIterator<Boolean>>;
+  publishDate: () => Promise<AsyncIterator<String>>;
   price: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;
@@ -3104,7 +3128,7 @@ export interface VideoNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  published: () => Promise<Boolean>;
+  publishDate: () => Promise<String>;
   price: () => Promise<Float>;
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
@@ -4291,7 +4315,7 @@ export interface VideoPreviousValues {
   placeholder: String;
   imageVertical?: String;
   placeholderVertical?: String;
-  published: Boolean;
+  publishDate?: String;
   price: Float;
   start: Int;
   type: VideoType;
@@ -4313,7 +4337,7 @@ export interface VideoPreviousValuesPromise
   placeholder: () => Promise<String>;
   imageVertical: () => Promise<String>;
   placeholderVertical: () => Promise<String>;
-  published: () => Promise<Boolean>;
+  publishDate: () => Promise<String>;
   price: () => Promise<Float>;
   start: () => Promise<Int>;
   type: () => Promise<VideoType>;
@@ -4335,7 +4359,7 @@ export interface VideoPreviousValuesSubscription
   placeholder: () => Promise<AsyncIterator<String>>;
   imageVertical: () => Promise<AsyncIterator<String>>;
   placeholderVertical: () => Promise<AsyncIterator<String>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
+  publishDate: () => Promise<AsyncIterator<String>>;
   price: () => Promise<AsyncIterator<Float>>;
   start: () => Promise<AsyncIterator<Int>>;
   type: () => Promise<AsyncIterator<VideoType>>;

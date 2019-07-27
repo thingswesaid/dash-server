@@ -96,7 +96,6 @@ type Video {
   imageVertical: String
   placeholderVertical: String
   price: Float!
-  published: Boolean!
   users: [User]
   start: Int!
   type: String

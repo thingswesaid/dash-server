@@ -30,6 +30,12 @@ const shuffle = function shuffle(startArray) {
   return array.slice(0, 12);
 };
 
+const isVideoActive = function(video) {
+  const now = new Date();
+  const activeDate = new Date(video.publishDate);
+  return now >= activeDate;
+}
+
 const hasActivePromo = function(sitePromos) {
   const promos = sitePromos.filter(({ startDate, endDate }) => {
     const now = new Date();
@@ -105,6 +111,7 @@ sendPasswordReset = (email, url) => {
 module.exports = { 
   sort, 
   shuffle,
+  isVideoActive,
   hasActivePromo, 
   addUserToEmailList, 
   handlePromo,

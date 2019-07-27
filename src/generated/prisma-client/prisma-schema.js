@@ -2149,7 +2149,7 @@ type Video {
   imageVertical: String
   placeholderVertical: String
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  published: Boolean!
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
@@ -2176,7 +2176,7 @@ input VideoCreateInput {
   imageVertical: String
   placeholderVertical: String
   users: UserCreateManyWithoutVideosInput
-  published: Boolean
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
@@ -2216,7 +2216,7 @@ input VideoCreateWithoutPromoVideoInput {
   imageVertical: String
   placeholderVertical: String
   users: UserCreateManyWithoutVideosInput
-  published: Boolean
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
@@ -2235,7 +2235,7 @@ input VideoCreateWithoutUsersInput {
   placeholder: String!
   imageVertical: String
   placeholderVertical: String
-  published: Boolean
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
@@ -2271,8 +2271,8 @@ enum VideoOrderByInput {
   imageVertical_DESC
   placeholderVertical_ASC
   placeholderVertical_DESC
-  published_ASC
-  published_DESC
+  publishDate_ASC
+  publishDate_DESC
   price_ASC
   price_DESC
   start_ASC
@@ -2296,7 +2296,7 @@ type VideoPreviousValues {
   placeholder: String!
   imageVertical: String
   placeholderVertical: String
-  published: Boolean!
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
@@ -2446,8 +2446,20 @@ input VideoScalarWhereInput {
   placeholderVertical_not_starts_with: String
   placeholderVertical_ends_with: String
   placeholderVertical_not_ends_with: String
-  published: Boolean
-  published_not: Boolean
+  publishDate: String
+  publishDate_not: String
+  publishDate_in: [String!]
+  publishDate_not_in: [String!]
+  publishDate_lt: String
+  publishDate_lte: String
+  publishDate_gt: String
+  publishDate_gte: String
+  publishDate_contains: String
+  publishDate_not_contains: String
+  publishDate_starts_with: String
+  publishDate_not_starts_with: String
+  publishDate_ends_with: String
+  publishDate_not_ends_with: String
   price: Float
   price_not: Float
   price_in: [Float!]
@@ -2523,7 +2535,7 @@ input VideoUpdateDataInput {
   imageVertical: String
   placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2544,7 +2556,7 @@ input VideoUpdateInput {
   imageVertical: String
   placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2564,7 +2576,7 @@ input VideoUpdateManyDataInput {
   placeholder: String
   imageVertical: String
   placeholderVertical: String
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2583,7 +2595,7 @@ input VideoUpdateManyMutationInput {
   placeholder: String
   imageVertical: String
   placeholderVertical: String
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2642,7 +2654,7 @@ input VideoUpdateWithoutPromoVideoDataInput {
   imageVertical: String
   placeholderVertical: String
   users: UserUpdateManyWithoutVideosInput
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2661,7 +2673,7 @@ input VideoUpdateWithoutUsersDataInput {
   placeholder: String
   imageVertical: String
   placeholderVertical: String
-  published: Boolean
+  publishDate: String
   price: Float
   start: Int
   type: VideoType
@@ -2836,8 +2848,20 @@ input VideoWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
-  published: Boolean
-  published_not: Boolean
+  publishDate: String
+  publishDate_not: String
+  publishDate_in: [String!]
+  publishDate_not_in: [String!]
+  publishDate_lt: String
+  publishDate_lte: String
+  publishDate_gt: String
+  publishDate_gte: String
+  publishDate_contains: String
+  publishDate_not_contains: String
+  publishDate_starts_with: String
+  publishDate_not_starts_with: String
+  publishDate_ends_with: String
+  publishDate_not_ends_with: String
   price: Float
   price_not: Float
   price_in: [Float!]

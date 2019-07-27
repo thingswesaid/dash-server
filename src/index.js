@@ -6,36 +6,51 @@ const promoCodes = require('voucher-code-generator');
 var uniqid = require('uniqid');
 
 const { prisma } = require('./generated/prisma-client')
-const { sort, shuffle, hasActivePromo, addUserToEmailList, handlePromo, sendPasswordReset } = require('./utils');
+const { 
+  sort, 
+  shuffle, 
+  hasActivePromo, 
+  addUserToEmailList, 
+  handlePromo, 
+  sendPasswordReset,
+  isVideoActive,
+} = require('./utils');
 
 require('dotenv').config();
 
 const resolvers = {
   Query: {
     videoPage: async (parent, { id, userId, showAll }, context) => {
-      const optsPublished = showAll ?  {} : { published: true }; 
       const videos = await context.prisma.videos({   
-        where: { ...optsPublished, ...{ id_contains: id } },
+        where: { id_contains: id },
         first: 1,
       })
 
       if (!videos.length) { return; }      
+
       const video = videos[0];
+      const now = new Date();
+      const activeDate = new Date(video.publishDate);
+      const active = now >= activeDate;
+      
+      if (!showAll && !active) { return; }
+
       const { id: videoId, familyId, type } = video;
       const promoVideoQuery = await context.prisma.videos({   
-        where: { ...optsPublished, ...{ id_contains: videoId } },
+        where: { id_contains: videoId },
         first: 1,
       }).promoVideo();
-      const { promoVideo } = promoVideoQuery[0];  
 
+      const { promoVideo } = promoVideoQuery[0];  
       const latestVideos = await context.prisma.videos({
-        where: { id_not: videoId, published: true, suggest: true }, 
+        where: { id_not: videoId, suggest: true }, 
         orderBy: 'createdAt_DESC', 
         first: 12
       });
 
       const optsFamily = familyId ? { familyId_not: familyId } : {};
-      const latestVideosFormat = shuffle(latestVideos);
+      const latestVideosFormat = shuffle(latestVideos).filter((latestVideo) => isVideoActive(latestVideo));
+
       const promoVideos = promoVideo ? [promoVideo] : 
       await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
       
@@ -53,18 +68,19 @@ const resolvers = {
       };
     },
 
-    videos: (parent, { id='', keywords='', type='' }, context) => {
+    videos: async (parent, { id='', keywords='', type='' }, context) => {
       const typeOpt = type.length? { type } : {};
-      return context.prisma.videos({ 
+      const videosQuery = await context.prisma.videos({ 
         where: { 
           id_contains: id, 
           keywords_contains: keywords,
-          published: true,
           ...typeOpt,
         }, 
         orderBy: 'createdAt_DESC', 
         first: 20
       });
+
+      return videosQuery.filter(video => isVideoActive(video));
     },
 
     userIp: async (parent, args, context) => {
@@ -323,7 +339,7 @@ const resolvers = {
       }
     },
 
-    async bulkAddVideos(parent, { titles, links, previews, starts, month, readingType, price }, context) {
+    async bulkAddVideos(parent, { titles, links, previews, starts, month, readingType, price, publishDate }, context) {
       const signs = [
         'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
         'libra', 'scorpio', 'sagittarius', 'capricorn', 
@@ -336,6 +352,7 @@ const resolvers = {
           link: links[index],
           preview: previews[index],
           start: starts[index],
+          publishDate,
           keywords: `${sign} ${readingType} ${month} 2019`,
           image: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}.jpg`,
           placeholder: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-pl.jpg`,

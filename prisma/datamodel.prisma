@@ -30,7 +30,7 @@ type Video {
   imageVertical: String
   placeholderVertical: String
   users: [User]!
-  published: Boolean! @default(value: "false")
+  publishDate: String
   price: Float!
   start: Int!
   type: VideoType!
