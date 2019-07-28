@@ -1,9 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
 const jwt = require('jsonwebtoken');
-var passwordHash = require('password-hash');
-const iplocation = require("iplocation").default;
+const passwordHash = require('password-hash');
+const iplocation = require('iplocation').default;
 const promoCodes = require('voucher-code-generator');
-var uniqid = require('uniqid');
+const uniqid = require('uniqid');
 
 const { prisma } = require('./generated/prisma-client')
 const { 
@@ -109,22 +109,34 @@ const resolvers = {
       return promoCodes[0];
     },
 
-    async dashboard(parent, { from, to, cloudflare }, context) { 
-      const optsDate = cloudflare
-        ? { createdAt_gte: `${from}T17:00:00.000Z`, createdAt_lte: `${to}T17:00:00.000Z` } 
-        : { createdAt_gte: `${from}T00:00:00.000Z`, createdAt_lte: `${to}T23:59:59.999Z` };
+    async studioPage(parent, { userId, from, to }, context) { 
+      // TODO when migrating to Treader.net will add reader check (reader logged in and url have to match)
+      const user = await context.prisma.user({ id: userId });
+      if (!user || user.role !== 'ADMIN' && user.role !== 'READER' ) return { 
+        error: 'Not Authorized or not logged in.' 
+      }
+      const optsDate = from && to // TODO default 28 days
+        ? { createdAt_gte: `${from}T00:00:00.000Z`, createdAt_lte: `${to}T23:59:59.999Z` }
+        : {}
 
-      const listUsers = await context.prisma.users({ where: { ...optsDate } });
       const listOrders = await context.prisma.orders({ where: { ...optsDate } });
+      let sortOrders = {};
+      listOrders.forEach(async ({ createdAt, amount }) => {
+        const date = createdAt.slice(0, 10);
+        if (sortOrders[date]) { 
+          sortOrders[date].count = sortOrders[date].count + 1;
+          // remove from amount PayPal fee + treaders fee and then round total (create in utility)
+          sortOrders[date].amount = Math.round((sortOrders[date].amount + amount) * 100) / 100;
+        } else {
+          sortOrders[date] = { count: 1, amount: Math.round(amount * 100) / 100 }
+        }
+      });
+
       return {
         orders: {
-          list: listOrders,
+          list: JSON.stringify(sortOrders),
           count: listOrders.length
         },
-        users: {
-          list: listUsers,
-          count: listUsers.length
-        }
       }
     }
   },
@@ -242,6 +254,7 @@ const resolvers = {
       paymentId,
       type,
       paymentEmail,
+      amount,
     }, context) {
       const { userId } = userToken ? jwt.verify(userToken, process.env.JWT_SECRET): false;
       const userSearchField  = userId ? { id: userId } : { email: paymentEmail };
@@ -266,6 +279,7 @@ const resolvers = {
       await context.prisma.createOrder({
         paymentId,
         paymentEmail,
+        amount,
         video: { connect: { id: videoId } },
         user: { connect: { id: user.id } },
       });

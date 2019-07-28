@@ -461,6 +461,8 @@ export type OrderOrderByInput =
   | "id_DESC"
   | "paymentId_ASC"
   | "paymentId_DESC"
+  | "amount_ASC"
+  | "amount_DESC"
   | "paymentEmail_ASC"
   | "paymentEmail_DESC"
   | "createdAt_ASC"
@@ -971,6 +973,14 @@ export interface OrderWhereInput {
   paymentId_not_starts_with?: Maybe<String>;
   paymentId_ends_with?: Maybe<String>;
   paymentId_not_ends_with?: Maybe<String>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
   user?: Maybe<UserWhereInput>;
   video?: Maybe<VideoWhereInput>;
   paymentEmail?: Maybe<String>;
@@ -1435,6 +1445,7 @@ export type VideoWhereUniqueInput = AtLeastOne<{
 
 export interface OrderCreateInput {
   paymentId: String;
+  amount?: Maybe<Float>;
   user?: Maybe<UserCreateOneWithoutOrdersInput>;
   video?: Maybe<VideoCreateOneInput>;
   paymentEmail?: Maybe<String>;
@@ -1580,12 +1591,14 @@ export interface OrderCreateManyWithoutUserInput {
 
 export interface OrderCreateWithoutUserInput {
   paymentId: String;
+  amount?: Maybe<Float>;
   video?: Maybe<VideoCreateOneInput>;
   paymentEmail?: Maybe<String>;
 }
 
 export interface OrderUpdateInput {
   paymentId?: Maybe<String>;
+  amount?: Maybe<Float>;
   user?: Maybe<UserUpdateOneWithoutOrdersInput>;
   video?: Maybe<VideoUpdateOneInput>;
   paymentEmail?: Maybe<String>;
@@ -2055,6 +2068,7 @@ export interface OrderUpdateWithWhereUniqueWithoutUserInput {
 
 export interface OrderUpdateWithoutUserDataInput {
   paymentId?: Maybe<String>;
+  amount?: Maybe<Float>;
   video?: Maybe<VideoUpdateOneInput>;
   paymentEmail?: Maybe<String>;
 }
@@ -2094,6 +2108,14 @@ export interface OrderScalarWhereInput {
   paymentId_not_starts_with?: Maybe<String>;
   paymentId_ends_with?: Maybe<String>;
   paymentId_not_ends_with?: Maybe<String>;
+  amount?: Maybe<Float>;
+  amount_not?: Maybe<Float>;
+  amount_in?: Maybe<Float[] | Float>;
+  amount_not_in?: Maybe<Float[] | Float>;
+  amount_lt?: Maybe<Float>;
+  amount_lte?: Maybe<Float>;
+  amount_gt?: Maybe<Float>;
+  amount_gte?: Maybe<Float>;
   paymentEmail?: Maybe<String>;
   paymentEmail_not?: Maybe<String>;
   paymentEmail_in?: Maybe<String[] | String>;
@@ -2136,6 +2158,7 @@ export interface OrderUpdateManyWithWhereNestedInput {
 
 export interface OrderUpdateManyDataInput {
   paymentId?: Maybe<String>;
+  amount?: Maybe<Float>;
   paymentEmail?: Maybe<String>;
 }
 
@@ -2382,6 +2405,7 @@ export interface UserUpsertWithoutOrdersInput {
 
 export interface OrderUpdateManyMutationInput {
   paymentId?: Maybe<String>;
+  amount?: Maybe<Float>;
   paymentEmail?: Maybe<String>;
 }
 
@@ -2832,6 +2856,7 @@ export interface NodeNode {
 export interface Order {
   id: ID_Output;
   paymentId: String;
+  amount?: Float;
   paymentEmail?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2840,6 +2865,7 @@ export interface Order {
 export interface OrderPromise extends Promise<Order>, Fragmentable {
   id: () => Promise<ID_Output>;
   paymentId: () => Promise<String>;
+  amount: () => Promise<Float>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
   paymentEmail: () => Promise<String>;
@@ -2852,6 +2878,7 @@ export interface OrderSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   paymentId: () => Promise<AsyncIterator<String>>;
+  amount: () => Promise<AsyncIterator<Float>>;
   user: <T = UserSubscription>() => T;
   video: <T = VideoSubscription>() => T;
   paymentEmail: () => Promise<AsyncIterator<String>>;
@@ -2864,6 +2891,7 @@ export interface OrderNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   paymentId: () => Promise<String>;
+  amount: () => Promise<Float>;
   user: <T = UserPromise>() => T;
   video: <T = VideoPromise>() => T;
   paymentEmail: () => Promise<String>;
@@ -3876,6 +3904,7 @@ export interface OrderSubscriptionPayloadSubscription
 export interface OrderPreviousValues {
   id: ID_Output;
   paymentId: String;
+  amount?: Float;
   paymentEmail?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -3886,6 +3915,7 @@ export interface OrderPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   paymentId: () => Promise<String>;
+  amount: () => Promise<Float>;
   paymentEmail: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -3896,6 +3926,7 @@ export interface OrderPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   paymentId: () => Promise<AsyncIterator<String>>;
+  amount: () => Promise<AsyncIterator<Float>>;
   paymentEmail: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -4380,6 +4411,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). 
+*/
+export type Float = number;
+
+/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
@@ -4393,11 +4429,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point). 
-*/
-export type Float = number;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 

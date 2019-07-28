@@ -5,7 +5,7 @@ type Query {
   videoPage(id: ID!, ip: String, userId: String, showAll: Boolean): VideoPage
   userPage(id: ID, email: String): UserPage
   promoCode(code: String): PromoCode
-  dashboard(from: String!, to: String!, cloudflare: Boolean): Dashboard!
+  studioPage(userId: String!, from: String, to: String): Studio!
 }
 
 type Mutation {
@@ -29,6 +29,7 @@ type Mutation {
     paymentId: String,
     type: String,
     paymentEmail: String,
+    amount: Float,
   ): OrderResponse
   bulkAddVideos(
     titles: [String]!, 
@@ -41,12 +42,24 @@ type Mutation {
   ): General
 }
 
-type Subscription {
-  user(id: ID, email: String): User!
-}
-
 type General {
   error: String
+}
+
+type Studio {
+  orders: Orders
+  error: String
+}
+
+scalar Json
+
+type Orders {
+  list: Json
+  count: Int!
+}
+
+type Subscription {
+  user(id: ID, email: String): User!
 }
 
 type UserPage {
@@ -103,27 +116,6 @@ type Video {
   promoVideo: PromoVideo
   keywords: String
   options: [String]
-}
-
-type Dashboard {
-  orders: Orders
-  users: Users
-}
-
-type Orders {
-  list: [Payment]
-  count: Int!
-}
-
-type Users {
-  list: [User]
-  count: Int!
-}
-
-type Payment {
-  id: ID!
-  paymentId: String!
-  createdAt: String!
 }
 
 type PromoVideo {

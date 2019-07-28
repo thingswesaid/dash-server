@@ -107,6 +107,7 @@ interface Node {
 type Order {
   id: ID!
   paymentId: String!
+  amount: Float
   user: User
   video: Video
   paymentEmail: String
@@ -122,6 +123,7 @@ type OrderConnection {
 
 input OrderCreateInput {
   paymentId: String!
+  amount: Float
   user: UserCreateOneWithoutOrdersInput
   video: VideoCreateOneInput
   paymentEmail: String
@@ -134,6 +136,7 @@ input OrderCreateManyWithoutUserInput {
 
 input OrderCreateWithoutUserInput {
   paymentId: String!
+  amount: Float
   video: VideoCreateOneInput
   paymentEmail: String
 }
@@ -148,6 +151,8 @@ enum OrderOrderByInput {
   id_DESC
   paymentId_ASC
   paymentId_DESC
+  amount_ASC
+  amount_DESC
   paymentEmail_ASC
   paymentEmail_DESC
   createdAt_ASC
@@ -159,6 +164,7 @@ enum OrderOrderByInput {
 type OrderPreviousValues {
   id: ID!
   paymentId: String!
+  amount: Float
   paymentEmail: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -193,6 +199,14 @@ input OrderScalarWhereInput {
   paymentId_not_starts_with: String
   paymentId_ends_with: String
   paymentId_not_ends_with: String
+  amount: Float
+  amount_not: Float
+  amount_in: [Float!]
+  amount_not_in: [Float!]
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
   paymentEmail: String
   paymentEmail_not: String
   paymentEmail_in: [String!]
@@ -248,6 +262,7 @@ input OrderSubscriptionWhereInput {
 
 input OrderUpdateInput {
   paymentId: String
+  amount: Float
   user: UserUpdateOneWithoutOrdersInput
   video: VideoUpdateOneInput
   paymentEmail: String
@@ -255,11 +270,13 @@ input OrderUpdateInput {
 
 input OrderUpdateManyDataInput {
   paymentId: String
+  amount: Float
   paymentEmail: String
 }
 
 input OrderUpdateManyMutationInput {
   paymentId: String
+  amount: Float
   paymentEmail: String
 }
 
@@ -282,6 +299,7 @@ input OrderUpdateManyWithWhereNestedInput {
 
 input OrderUpdateWithoutUserDataInput {
   paymentId: String
+  amount: Float
   video: VideoUpdateOneInput
   paymentEmail: String
 }
@@ -326,6 +344,14 @@ input OrderWhereInput {
   paymentId_not_starts_with: String
   paymentId_ends_with: String
   paymentId_not_ends_with: String
+  amount: Float
+  amount_not: Float
+  amount_in: [Float!]
+  amount_not_in: [Float!]
+  amount_lt: Float
+  amount_lte: Float
+  amount_gt: Float
+  amount_gte: Float
   user: UserWhereInput
   video: VideoWhereInput
   paymentEmail: String

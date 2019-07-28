@@ -91,6 +91,7 @@ type Product {
 type Order {
   id: ID! @unique
   paymentId: String! @unique
+  amount: Float
   user: User
   video: Video
   paymentEmail: String
