@@ -36,6 +36,23 @@ const isVideoActive = function(video) {
   return now >= activeDate;
 }
 
+const getActiveVideos = function(videos) {
+  let selectedVideos = [];
+  let selectedVideosTotal = 0;
+  let index = 0;
+  while (selectedVideosTotal < 12) {
+    const video = videos[index];
+    if (!video) { break; }
+    const isActive = isVideoActive(video);
+    if (isActive) {
+      selectedVideos.push(video);
+      selectedVideosTotal = selectedVideosTotal + 1;
+    }
+    index = index + 1;
+  }
+  return selectedVideos;
+};
+
 const hasActivePromo = function(sitePromos) {
   const promos = sitePromos.filter(({ startDate, endDate }) => {
     const now = new Date();
@@ -111,7 +128,7 @@ sendPasswordReset = (email, url) => {
 module.exports = { 
   sort, 
   shuffle,
-  isVideoActive,
+  getActiveVideos,
   hasActivePromo, 
   addUserToEmailList, 
   handlePromo,

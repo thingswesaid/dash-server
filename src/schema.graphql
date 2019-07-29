@@ -37,9 +37,11 @@ type Mutation {
     previews: [String]!, 
     starts: [Int]!, 
     month: String!, 
+    publishDate: String!, 
     readingType: String!, 
+    type: String!, 
     price: Float!
-  ): General
+  ): [String]
 }
 
 type General {

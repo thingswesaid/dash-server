@@ -13,7 +13,7 @@ const {
   addUserToEmailList, 
   handlePromo, 
   sendPasswordReset,
-  isVideoActive,
+  getActiveVideos,
 } = require('./utils');
 
 require('dotenv').config();
@@ -44,15 +44,14 @@ const resolvers = {
       const { promoVideo } = promoVideoQuery[0];  
       const latestVideos = await context.prisma.videos({
         where: { id_not: videoId, suggest: true }, 
-        orderBy: 'createdAt_DESC', 
-        first: 12
+        orderBy: 'createdAt_DESC',
       });
 
       const optsFamily = familyId ? { familyId_not: familyId } : {};
-      const latestVideosFormat = shuffle(latestVideos).filter((latestVideo) => isVideoActive(latestVideo));
-
-      const promoVideos = promoVideo ? [promoVideo] : 
-      await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
+      const latestVideosFormat = shuffle(getActiveVideos(latestVideos));
+      const promoVideos = promoVideo 
+        ? [promoVideo] 
+        : await context.prisma.promoVideos({ where: { ...optsFamily, type: "PICKACARD" } });
       
       const promoVideoSelect = promoVideos[Math.floor(Math.random() * promoVideos.length)];
       const user = userId ? await context.prisma.user({ id: userId }) : null;
@@ -76,11 +75,10 @@ const resolvers = {
           keywords_contains: keywords,
           ...typeOpt,
         }, 
-        orderBy: 'createdAt_DESC', 
-        first: 20
+        orderBy: 'createdAt_DESC',
       });
 
-      return videosQuery.filter(video => isVideoActive(video));
+      return getActiveVideos(videosQuery);
     },
 
     userIp: async (parent, args, context) => {
@@ -353,15 +351,18 @@ const resolvers = {
       }
     },
 
-    async bulkAddVideos(parent, { titles, links, previews, starts, month, readingType, price, publishDate }, context) {
+    async bulkAddVideos(parent, { titles, links, previews, starts, month, readingType, price, publishDate, type }, context) {
       const signs = [
         'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
         'libra', 'scorpio', 'sagittarius', 'capricorn', 
         'aquarius', 'pisces',
-      ]
+      ];
 
-      signs.map(async (sign, index) => {
-        await context.prisma.createVideo({
+      let newVideos = [];
+      let index = 0;
+
+      for await (sign of signs) {
+        const { id } = await context.prisma.createVideo({
           title: titles[index],
           link: links[index],
           preview: previews[index],
@@ -372,10 +373,14 @@ const resolvers = {
           placeholder: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-pl.jpg`,
           imageVertical: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-vertical.jpg`,
           placeholderVertical: `https://s3.us-west-1.wasabisys.com/dash-videos/${month}-19/${sign}-${readingType}-vertical-pl.jpg`,
-          type: "ZODIAC",
+          type,
           price,
         });
-      })
+        index = index + 1;
+        newVideos.push(id.slice(19, id.length));
+      }
+
+      return newVideos;
     }
   },
 
