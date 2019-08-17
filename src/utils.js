@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const promoCodes = require('voucher-code-generator');
 const sgMail = require('@sendgrid/mail');
+const moment = require('moment');
 
 const { 
   PROMO_BUY1GET1,
@@ -115,6 +116,17 @@ const handlePromo = async (context, type, email, name) => {
   return null;
 }
 
+const getAllDates = (from, to) => {
+  let allDates = [];
+  let startDate = moment(from);
+  const endDate = moment(to);
+  while (startDate <= endDate) {
+    allDates.push(moment(startDate).format('YYYY-MM-DD'))
+    startDate = moment(startDate).add(1, 'days');
+  }
+  return allDates;
+}
+
 sendPasswordReset = (email, url) => {
   const msg = {
     to: email,
@@ -125,6 +137,8 @@ sendPasswordReset = (email, url) => {
   sgMail.send(msg); 
 }
 
+
+
 module.exports = { 
   sort, 
   shuffle,
@@ -133,4 +147,5 @@ module.exports = {
   addUserToEmailList, 
   handlePromo,
   sendPasswordReset,
+  getAllDates,
 };

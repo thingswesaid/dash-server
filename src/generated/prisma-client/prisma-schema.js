@@ -1351,6 +1351,7 @@ input QuoteWhereUniqueInput {
 
 type SitePromo {
   id: ID!
+  createdAt: DateTime!
   type: VideoType!
   promoOffer: PromoOffer!
   startDate: String
@@ -1359,6 +1360,7 @@ type SitePromo {
   subtitle: String!
   description: String!
   newPrice: Float
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
 }
 
 type SitePromoConnection {
@@ -1368,6 +1370,23 @@ type SitePromoConnection {
 }
 
 input SitePromoCreateInput {
+  type: VideoType!
+  promoOffer: PromoOffer!
+  startDate: String
+  endDate: String
+  title: String!
+  subtitle: String!
+  description: String!
+  newPrice: Float
+  videos: VideoCreateManyWithoutPromosInput
+}
+
+input SitePromoCreateManyWithoutVideosInput {
+  create: [SitePromoCreateWithoutVideosInput!]
+  connect: [SitePromoWhereUniqueInput!]
+}
+
+input SitePromoCreateWithoutVideosInput {
   type: VideoType!
   promoOffer: PromoOffer!
   startDate: String
@@ -1386,6 +1405,8 @@ type SitePromoEdge {
 enum SitePromoOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
   type_ASC
   type_DESC
   promoOffer_ASC
@@ -1406,6 +1427,7 @@ enum SitePromoOrderByInput {
 
 type SitePromoPreviousValues {
   id: ID!
+  createdAt: DateTime!
   type: VideoType!
   promoOffer: PromoOffer!
   startDate: String
@@ -1416,47 +1438,7 @@ type SitePromoPreviousValues {
   newPrice: Float
 }
 
-type SitePromoSubscriptionPayload {
-  mutation: MutationType!
-  node: SitePromo
-  updatedFields: [String!]
-  previousValues: SitePromoPreviousValues
-}
-
-input SitePromoSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: SitePromoWhereInput
-  AND: [SitePromoSubscriptionWhereInput!]
-  OR: [SitePromoSubscriptionWhereInput!]
-  NOT: [SitePromoSubscriptionWhereInput!]
-}
-
-input SitePromoUpdateInput {
-  type: VideoType
-  promoOffer: PromoOffer
-  startDate: String
-  endDate: String
-  title: String
-  subtitle: String
-  description: String
-  newPrice: Float
-}
-
-input SitePromoUpdateManyMutationInput {
-  type: VideoType
-  promoOffer: PromoOffer
-  startDate: String
-  endDate: String
-  title: String
-  subtitle: String
-  description: String
-  newPrice: Float
-}
-
-input SitePromoWhereInput {
+input SitePromoScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -1471,6 +1453,14 @@ input SitePromoWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   type: VideoType
   type_not: VideoType
   type_in: [VideoType!]
@@ -1557,6 +1547,214 @@ input SitePromoWhereInput {
   newPrice_lte: Float
   newPrice_gt: Float
   newPrice_gte: Float
+  AND: [SitePromoScalarWhereInput!]
+  OR: [SitePromoScalarWhereInput!]
+  NOT: [SitePromoScalarWhereInput!]
+}
+
+type SitePromoSubscriptionPayload {
+  mutation: MutationType!
+  node: SitePromo
+  updatedFields: [String!]
+  previousValues: SitePromoPreviousValues
+}
+
+input SitePromoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SitePromoWhereInput
+  AND: [SitePromoSubscriptionWhereInput!]
+  OR: [SitePromoSubscriptionWhereInput!]
+  NOT: [SitePromoSubscriptionWhereInput!]
+}
+
+input SitePromoUpdateInput {
+  type: VideoType
+  promoOffer: PromoOffer
+  startDate: String
+  endDate: String
+  title: String
+  subtitle: String
+  description: String
+  newPrice: Float
+  videos: VideoUpdateManyWithoutPromosInput
+}
+
+input SitePromoUpdateManyDataInput {
+  type: VideoType
+  promoOffer: PromoOffer
+  startDate: String
+  endDate: String
+  title: String
+  subtitle: String
+  description: String
+  newPrice: Float
+}
+
+input SitePromoUpdateManyMutationInput {
+  type: VideoType
+  promoOffer: PromoOffer
+  startDate: String
+  endDate: String
+  title: String
+  subtitle: String
+  description: String
+  newPrice: Float
+}
+
+input SitePromoUpdateManyWithoutVideosInput {
+  create: [SitePromoCreateWithoutVideosInput!]
+  delete: [SitePromoWhereUniqueInput!]
+  connect: [SitePromoWhereUniqueInput!]
+  set: [SitePromoWhereUniqueInput!]
+  disconnect: [SitePromoWhereUniqueInput!]
+  update: [SitePromoUpdateWithWhereUniqueWithoutVideosInput!]
+  upsert: [SitePromoUpsertWithWhereUniqueWithoutVideosInput!]
+  deleteMany: [SitePromoScalarWhereInput!]
+  updateMany: [SitePromoUpdateManyWithWhereNestedInput!]
+}
+
+input SitePromoUpdateManyWithWhereNestedInput {
+  where: SitePromoScalarWhereInput!
+  data: SitePromoUpdateManyDataInput!
+}
+
+input SitePromoUpdateWithoutVideosDataInput {
+  type: VideoType
+  promoOffer: PromoOffer
+  startDate: String
+  endDate: String
+  title: String
+  subtitle: String
+  description: String
+  newPrice: Float
+}
+
+input SitePromoUpdateWithWhereUniqueWithoutVideosInput {
+  where: SitePromoWhereUniqueInput!
+  data: SitePromoUpdateWithoutVideosDataInput!
+}
+
+input SitePromoUpsertWithWhereUniqueWithoutVideosInput {
+  where: SitePromoWhereUniqueInput!
+  update: SitePromoUpdateWithoutVideosDataInput!
+  create: SitePromoCreateWithoutVideosInput!
+}
+
+input SitePromoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  type: VideoType
+  type_not: VideoType
+  type_in: [VideoType!]
+  type_not_in: [VideoType!]
+  promoOffer: PromoOffer
+  promoOffer_not: PromoOffer
+  promoOffer_in: [PromoOffer!]
+  promoOffer_not_in: [PromoOffer!]
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  subtitle: String
+  subtitle_not: String
+  subtitle_in: [String!]
+  subtitle_not_in: [String!]
+  subtitle_lt: String
+  subtitle_lte: String
+  subtitle_gt: String
+  subtitle_gte: String
+  subtitle_contains: String
+  subtitle_not_contains: String
+  subtitle_starts_with: String
+  subtitle_not_starts_with: String
+  subtitle_ends_with: String
+  subtitle_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  newPrice: Float
+  newPrice_not: Float
+  newPrice_in: [Float!]
+  newPrice_not_in: [Float!]
+  newPrice_lt: Float
+  newPrice_lte: Float
+  newPrice_gt: Float
+  newPrice_gte: Float
+  videos_every: VideoWhereInput
+  videos_some: VideoWhereInput
+  videos_none: VideoWhereInput
   AND: [SitePromoWhereInput!]
   OR: [SitePromoWhereInput!]
   NOT: [SitePromoWhereInput!]
@@ -2183,6 +2381,8 @@ type Video {
   promoVideo: PromoVideo
   suggest: Boolean!
   options: [String!]!
+  promos(where: SitePromoWhereInput, orderBy: SitePromoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SitePromo!]
+  createdAt: DateTime!
 }
 
 type VideoConnection {
@@ -2210,6 +2410,12 @@ input VideoCreateInput {
   promoVideo: PromoVideoCreateOneWithoutVideoInput
   suggest: Boolean
   options: VideoCreateoptionsInput
+  promos: SitePromoCreateManyWithoutVideosInput
+}
+
+input VideoCreateManyWithoutPromosInput {
+  create: [VideoCreateWithoutPromosInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 input VideoCreateManyWithoutUsersInput {
@@ -2231,6 +2437,27 @@ input VideoCreateoptionsInput {
   set: [String!]
 }
 
+input VideoCreateWithoutPromosInput {
+  name: String
+  keywords: String
+  title: String
+  link: String
+  preview: String!
+  image: String!
+  placeholder: String!
+  imageVertical: String
+  placeholderVertical: String
+  users: UserCreateManyWithoutVideosInput
+  publishDate: String
+  price: Float!
+  start: Int!
+  type: VideoType!
+  familyId: String
+  promoVideo: PromoVideoCreateOneWithoutVideoInput
+  suggest: Boolean
+  options: VideoCreateoptionsInput
+}
+
 input VideoCreateWithoutPromoVideoInput {
   name: String
   keywords: String
@@ -2249,6 +2476,7 @@ input VideoCreateWithoutPromoVideoInput {
   familyId: String
   suggest: Boolean
   options: VideoCreateoptionsInput
+  promos: SitePromoCreateManyWithoutVideosInput
 }
 
 input VideoCreateWithoutUsersInput {
@@ -2269,6 +2497,7 @@ input VideoCreateWithoutUsersInput {
   promoVideo: PromoVideoCreateOneWithoutVideoInput
   suggest: Boolean
   options: VideoCreateoptionsInput
+  promos: SitePromoCreateManyWithoutVideosInput
 }
 
 type VideoEdge {
@@ -2309,6 +2538,8 @@ enum VideoOrderByInput {
   familyId_DESC
   suggest_ASC
   suggest_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type VideoPreviousValues {
@@ -2329,6 +2560,7 @@ type VideoPreviousValues {
   familyId: String
   suggest: Boolean!
   options: [String!]!
+  createdAt: DateTime!
 }
 
 input VideoScalarWhereInput {
@@ -2522,6 +2754,14 @@ input VideoScalarWhereInput {
   familyId_not_ends_with: String
   suggest: Boolean
   suggest_not: Boolean
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [VideoScalarWhereInput!]
   OR: [VideoScalarWhereInput!]
   NOT: [VideoScalarWhereInput!]
@@ -2569,6 +2809,7 @@ input VideoUpdateDataInput {
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
   options: VideoUpdateoptionsInput
+  promos: SitePromoUpdateManyWithoutVideosInput
 }
 
 input VideoUpdateInput {
@@ -2590,6 +2831,7 @@ input VideoUpdateInput {
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
   options: VideoUpdateoptionsInput
+  promos: SitePromoUpdateManyWithoutVideosInput
 }
 
 input VideoUpdateManyDataInput {
@@ -2628,6 +2870,18 @@ input VideoUpdateManyMutationInput {
   familyId: String
   suggest: Boolean
   options: VideoUpdateoptionsInput
+}
+
+input VideoUpdateManyWithoutPromosInput {
+  create: [VideoCreateWithoutPromosInput!]
+  delete: [VideoWhereUniqueInput!]
+  connect: [VideoWhereUniqueInput!]
+  set: [VideoWhereUniqueInput!]
+  disconnect: [VideoWhereUniqueInput!]
+  update: [VideoUpdateWithWhereUniqueWithoutPromosInput!]
+  upsert: [VideoUpsertWithWhereUniqueWithoutPromosInput!]
+  deleteMany: [VideoScalarWhereInput!]
+  updateMany: [VideoUpdateManyWithWhereNestedInput!]
 }
 
 input VideoUpdateManyWithoutUsersInput {
@@ -2669,6 +2923,27 @@ input VideoUpdateoptionsInput {
   set: [String!]
 }
 
+input VideoUpdateWithoutPromosDataInput {
+  name: String
+  keywords: String
+  title: String
+  link: String
+  preview: String
+  image: String
+  placeholder: String
+  imageVertical: String
+  placeholderVertical: String
+  users: UserUpdateManyWithoutVideosInput
+  publishDate: String
+  price: Float
+  start: Int
+  type: VideoType
+  familyId: String
+  promoVideo: PromoVideoUpdateOneWithoutVideoInput
+  suggest: Boolean
+  options: VideoUpdateoptionsInput
+}
+
 input VideoUpdateWithoutPromoVideoDataInput {
   name: String
   keywords: String
@@ -2687,6 +2962,7 @@ input VideoUpdateWithoutPromoVideoDataInput {
   familyId: String
   suggest: Boolean
   options: VideoUpdateoptionsInput
+  promos: SitePromoUpdateManyWithoutVideosInput
 }
 
 input VideoUpdateWithoutUsersDataInput {
@@ -2707,6 +2983,12 @@ input VideoUpdateWithoutUsersDataInput {
   promoVideo: PromoVideoUpdateOneWithoutVideoInput
   suggest: Boolean
   options: VideoUpdateoptionsInput
+  promos: SitePromoUpdateManyWithoutVideosInput
+}
+
+input VideoUpdateWithWhereUniqueWithoutPromosInput {
+  where: VideoWhereUniqueInput!
+  data: VideoUpdateWithoutPromosDataInput!
 }
 
 input VideoUpdateWithWhereUniqueWithoutUsersInput {
@@ -2722,6 +3004,12 @@ input VideoUpsertNestedInput {
 input VideoUpsertWithoutPromoVideoInput {
   update: VideoUpdateWithoutPromoVideoDataInput!
   create: VideoCreateWithoutPromoVideoInput!
+}
+
+input VideoUpsertWithWhereUniqueWithoutPromosInput {
+  where: VideoWhereUniqueInput!
+  update: VideoUpdateWithoutPromosDataInput!
+  create: VideoCreateWithoutPromosInput!
 }
 
 input VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -2925,6 +3213,17 @@ input VideoWhereInput {
   promoVideo: PromoVideoWhereInput
   suggest: Boolean
   suggest_not: Boolean
+  promos_every: SitePromoWhereInput
+  promos_some: SitePromoWhereInput
+  promos_none: SitePromoWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [VideoWhereInput!]
   OR: [VideoWhereInput!]
   NOT: [VideoWhereInput!]

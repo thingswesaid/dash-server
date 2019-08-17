@@ -378,6 +378,8 @@ export type VideoType = "ZODIAC" | "PICKACARD";
 
 export type UserRole = "ADMIN" | "READER" | "CONSUMER";
 
+export type PromoOffer = "BUY1GET1" | "DISCOUNT";
+
 export type VideoOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -410,7 +412,9 @@ export type VideoOrderByInput =
   | "familyId_ASC"
   | "familyId_DESC"
   | "suggest_ASC"
-  | "suggest_DESC";
+  | "suggest_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -439,6 +443,28 @@ export type UserOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
+
+export type SitePromoOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "promoOffer_ASC"
+  | "promoOffer_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "subtitle_ASC"
+  | "subtitle_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "newPrice_ASC"
+  | "newPrice_DESC";
 
 export type PromoCodeOrderByInput =
   | "id_ASC"
@@ -515,28 +541,6 @@ export type QuoteOrderByInput =
   | "text_DESC"
   | "linkTo_ASC"
   | "linkTo_DESC";
-
-export type PromoOffer = "BUY1GET1" | "DISCOUNT";
-
-export type SitePromoOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "type_ASC"
-  | "type_DESC"
-  | "promoOffer_ASC"
-  | "promoOffer_DESC"
-  | "startDate_ASC"
-  | "startDate_DESC"
-  | "endDate_ASC"
-  | "endDate_DESC"
-  | "title_ASC"
-  | "title_DESC"
-  | "subtitle_ASC"
-  | "subtitle_DESC"
-  | "description_ASC"
-  | "description_DESC"
-  | "newPrice_ASC"
-  | "newPrice_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -740,6 +744,17 @@ export interface VideoWhereInput {
   promoVideo?: Maybe<PromoVideoWhereInput>;
   suggest?: Maybe<Boolean>;
   suggest_not?: Maybe<Boolean>;
+  promos_every?: Maybe<SitePromoWhereInput>;
+  promos_some?: Maybe<SitePromoWhereInput>;
+  promos_none?: Maybe<SitePromoWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<VideoWhereInput[] | VideoWhereInput>;
   OR?: Maybe<VideoWhereInput[] | VideoWhereInput>;
   NOT?: Maybe<VideoWhereInput[] | VideoWhereInput>;
@@ -1155,6 +1170,123 @@ export interface PromoVideoWhereInput {
   NOT?: Maybe<PromoVideoWhereInput[] | PromoVideoWhereInput>;
 }
 
+export interface SitePromoWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  type?: Maybe<VideoType>;
+  type_not?: Maybe<VideoType>;
+  type_in?: Maybe<VideoType[] | VideoType>;
+  type_not_in?: Maybe<VideoType[] | VideoType>;
+  promoOffer?: Maybe<PromoOffer>;
+  promoOffer_not?: Maybe<PromoOffer>;
+  promoOffer_in?: Maybe<PromoOffer[] | PromoOffer>;
+  promoOffer_not_in?: Maybe<PromoOffer[] | PromoOffer>;
+  startDate?: Maybe<String>;
+  startDate_not?: Maybe<String>;
+  startDate_in?: Maybe<String[] | String>;
+  startDate_not_in?: Maybe<String[] | String>;
+  startDate_lt?: Maybe<String>;
+  startDate_lte?: Maybe<String>;
+  startDate_gt?: Maybe<String>;
+  startDate_gte?: Maybe<String>;
+  startDate_contains?: Maybe<String>;
+  startDate_not_contains?: Maybe<String>;
+  startDate_starts_with?: Maybe<String>;
+  startDate_not_starts_with?: Maybe<String>;
+  startDate_ends_with?: Maybe<String>;
+  startDate_not_ends_with?: Maybe<String>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  subtitle_not?: Maybe<String>;
+  subtitle_in?: Maybe<String[] | String>;
+  subtitle_not_in?: Maybe<String[] | String>;
+  subtitle_lt?: Maybe<String>;
+  subtitle_lte?: Maybe<String>;
+  subtitle_gt?: Maybe<String>;
+  subtitle_gte?: Maybe<String>;
+  subtitle_contains?: Maybe<String>;
+  subtitle_not_contains?: Maybe<String>;
+  subtitle_starts_with?: Maybe<String>;
+  subtitle_not_starts_with?: Maybe<String>;
+  subtitle_ends_with?: Maybe<String>;
+  subtitle_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  newPrice?: Maybe<Float>;
+  newPrice_not?: Maybe<Float>;
+  newPrice_in?: Maybe<Float[] | Float>;
+  newPrice_not_in?: Maybe<Float[] | Float>;
+  newPrice_lt?: Maybe<Float>;
+  newPrice_lte?: Maybe<Float>;
+  newPrice_gt?: Maybe<Float>;
+  newPrice_gte?: Maybe<Float>;
+  videos_every?: Maybe<VideoWhereInput>;
+  videos_some?: Maybe<VideoWhereInput>;
+  videos_none?: Maybe<VideoWhereInput>;
+  AND?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
+  OR?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
+  NOT?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
+}
+
 export type ProductWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1328,112 +1460,6 @@ export type SitePromoWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface SitePromoWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  type?: Maybe<VideoType>;
-  type_not?: Maybe<VideoType>;
-  type_in?: Maybe<VideoType[] | VideoType>;
-  type_not_in?: Maybe<VideoType[] | VideoType>;
-  promoOffer?: Maybe<PromoOffer>;
-  promoOffer_not?: Maybe<PromoOffer>;
-  promoOffer_in?: Maybe<PromoOffer[] | PromoOffer>;
-  promoOffer_not_in?: Maybe<PromoOffer[] | PromoOffer>;
-  startDate?: Maybe<String>;
-  startDate_not?: Maybe<String>;
-  startDate_in?: Maybe<String[] | String>;
-  startDate_not_in?: Maybe<String[] | String>;
-  startDate_lt?: Maybe<String>;
-  startDate_lte?: Maybe<String>;
-  startDate_gt?: Maybe<String>;
-  startDate_gte?: Maybe<String>;
-  startDate_contains?: Maybe<String>;
-  startDate_not_contains?: Maybe<String>;
-  startDate_starts_with?: Maybe<String>;
-  startDate_not_starts_with?: Maybe<String>;
-  startDate_ends_with?: Maybe<String>;
-  startDate_not_ends_with?: Maybe<String>;
-  endDate?: Maybe<String>;
-  endDate_not?: Maybe<String>;
-  endDate_in?: Maybe<String[] | String>;
-  endDate_not_in?: Maybe<String[] | String>;
-  endDate_lt?: Maybe<String>;
-  endDate_lte?: Maybe<String>;
-  endDate_gt?: Maybe<String>;
-  endDate_gte?: Maybe<String>;
-  endDate_contains?: Maybe<String>;
-  endDate_not_contains?: Maybe<String>;
-  endDate_starts_with?: Maybe<String>;
-  endDate_not_starts_with?: Maybe<String>;
-  endDate_ends_with?: Maybe<String>;
-  endDate_not_ends_with?: Maybe<String>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  subtitle_not?: Maybe<String>;
-  subtitle_in?: Maybe<String[] | String>;
-  subtitle_not_in?: Maybe<String[] | String>;
-  subtitle_lt?: Maybe<String>;
-  subtitle_lte?: Maybe<String>;
-  subtitle_gt?: Maybe<String>;
-  subtitle_gte?: Maybe<String>;
-  subtitle_contains?: Maybe<String>;
-  subtitle_not_contains?: Maybe<String>;
-  subtitle_starts_with?: Maybe<String>;
-  subtitle_not_starts_with?: Maybe<String>;
-  subtitle_ends_with?: Maybe<String>;
-  subtitle_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  newPrice?: Maybe<Float>;
-  newPrice_not?: Maybe<Float>;
-  newPrice_in?: Maybe<Float[] | Float>;
-  newPrice_not_in?: Maybe<Float[] | Float>;
-  newPrice_lt?: Maybe<Float>;
-  newPrice_lte?: Maybe<Float>;
-  newPrice_gt?: Maybe<Float>;
-  newPrice_gte?: Maybe<Float>;
-  AND?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
-  OR?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
-  NOT?: Maybe<SitePromoWhereInput[] | SitePromoWhereInput>;
-}
-
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
@@ -1499,6 +1525,7 @@ export interface VideoCreateWithoutUsersInput {
   promoVideo?: Maybe<PromoVideoCreateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoCreateoptionsInput>;
+  promos?: Maybe<SitePromoCreateManyWithoutVideosInput>;
 }
 
 export interface PromoVideoCreateOneWithoutVideoInput {
@@ -1520,6 +1547,24 @@ export interface PromoVideoCreateWithoutVideoInput {
 
 export interface VideoCreateoptionsInput {
   set?: Maybe<String[] | String>;
+}
+
+export interface SitePromoCreateManyWithoutVideosInput {
+  create?: Maybe<
+    SitePromoCreateWithoutVideosInput[] | SitePromoCreateWithoutVideosInput
+  >;
+  connect?: Maybe<SitePromoWhereUniqueInput[] | SitePromoWhereUniqueInput>;
+}
+
+export interface SitePromoCreateWithoutVideosInput {
+  type: VideoType;
+  promoOffer: PromoOffer;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  title: String;
+  subtitle: String;
+  description: String;
+  newPrice?: Maybe<Float>;
 }
 
 export interface PromoCodeCreateManyWithoutUserInput {
@@ -1561,6 +1606,7 @@ export interface VideoCreateInput {
   promoVideo?: Maybe<PromoVideoCreateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoCreateoptionsInput>;
+  promos?: Maybe<SitePromoCreateManyWithoutVideosInput>;
 }
 
 export interface UserCreateManyWithoutVideosInput {
@@ -1676,6 +1722,7 @@ export interface VideoUpdateWithoutUsersDataInput {
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoUpdateoptionsInput>;
+  promos?: Maybe<SitePromoUpdateManyWithoutVideosInput>;
 }
 
 export interface PromoVideoUpdateOneWithoutVideoInput {
@@ -1706,6 +1753,181 @@ export interface PromoVideoUpsertWithoutVideoInput {
 
 export interface VideoUpdateoptionsInput {
   set?: Maybe<String[] | String>;
+}
+
+export interface SitePromoUpdateManyWithoutVideosInput {
+  create?: Maybe<
+    SitePromoCreateWithoutVideosInput[] | SitePromoCreateWithoutVideosInput
+  >;
+  delete?: Maybe<SitePromoWhereUniqueInput[] | SitePromoWhereUniqueInput>;
+  connect?: Maybe<SitePromoWhereUniqueInput[] | SitePromoWhereUniqueInput>;
+  set?: Maybe<SitePromoWhereUniqueInput[] | SitePromoWhereUniqueInput>;
+  disconnect?: Maybe<SitePromoWhereUniqueInput[] | SitePromoWhereUniqueInput>;
+  update?: Maybe<
+    | SitePromoUpdateWithWhereUniqueWithoutVideosInput[]
+    | SitePromoUpdateWithWhereUniqueWithoutVideosInput
+  >;
+  upsert?: Maybe<
+    | SitePromoUpsertWithWhereUniqueWithoutVideosInput[]
+    | SitePromoUpsertWithWhereUniqueWithoutVideosInput
+  >;
+  deleteMany?: Maybe<SitePromoScalarWhereInput[] | SitePromoScalarWhereInput>;
+  updateMany?: Maybe<
+    | SitePromoUpdateManyWithWhereNestedInput[]
+    | SitePromoUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SitePromoUpdateWithWhereUniqueWithoutVideosInput {
+  where: SitePromoWhereUniqueInput;
+  data: SitePromoUpdateWithoutVideosDataInput;
+}
+
+export interface SitePromoUpdateWithoutVideosDataInput {
+  type?: Maybe<VideoType>;
+  promoOffer?: Maybe<PromoOffer>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  description?: Maybe<String>;
+  newPrice?: Maybe<Float>;
+}
+
+export interface SitePromoUpsertWithWhereUniqueWithoutVideosInput {
+  where: SitePromoWhereUniqueInput;
+  update: SitePromoUpdateWithoutVideosDataInput;
+  create: SitePromoCreateWithoutVideosInput;
+}
+
+export interface SitePromoScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  type?: Maybe<VideoType>;
+  type_not?: Maybe<VideoType>;
+  type_in?: Maybe<VideoType[] | VideoType>;
+  type_not_in?: Maybe<VideoType[] | VideoType>;
+  promoOffer?: Maybe<PromoOffer>;
+  promoOffer_not?: Maybe<PromoOffer>;
+  promoOffer_in?: Maybe<PromoOffer[] | PromoOffer>;
+  promoOffer_not_in?: Maybe<PromoOffer[] | PromoOffer>;
+  startDate?: Maybe<String>;
+  startDate_not?: Maybe<String>;
+  startDate_in?: Maybe<String[] | String>;
+  startDate_not_in?: Maybe<String[] | String>;
+  startDate_lt?: Maybe<String>;
+  startDate_lte?: Maybe<String>;
+  startDate_gt?: Maybe<String>;
+  startDate_gte?: Maybe<String>;
+  startDate_contains?: Maybe<String>;
+  startDate_not_contains?: Maybe<String>;
+  startDate_starts_with?: Maybe<String>;
+  startDate_not_starts_with?: Maybe<String>;
+  startDate_ends_with?: Maybe<String>;
+  startDate_not_ends_with?: Maybe<String>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  subtitle_not?: Maybe<String>;
+  subtitle_in?: Maybe<String[] | String>;
+  subtitle_not_in?: Maybe<String[] | String>;
+  subtitle_lt?: Maybe<String>;
+  subtitle_lte?: Maybe<String>;
+  subtitle_gt?: Maybe<String>;
+  subtitle_gte?: Maybe<String>;
+  subtitle_contains?: Maybe<String>;
+  subtitle_not_contains?: Maybe<String>;
+  subtitle_starts_with?: Maybe<String>;
+  subtitle_not_starts_with?: Maybe<String>;
+  subtitle_ends_with?: Maybe<String>;
+  subtitle_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  newPrice?: Maybe<Float>;
+  newPrice_not?: Maybe<Float>;
+  newPrice_in?: Maybe<Float[] | Float>;
+  newPrice_not_in?: Maybe<Float[] | Float>;
+  newPrice_lt?: Maybe<Float>;
+  newPrice_lte?: Maybe<Float>;
+  newPrice_gt?: Maybe<Float>;
+  newPrice_gte?: Maybe<Float>;
+  AND?: Maybe<SitePromoScalarWhereInput[] | SitePromoScalarWhereInput>;
+  OR?: Maybe<SitePromoScalarWhereInput[] | SitePromoScalarWhereInput>;
+  NOT?: Maybe<SitePromoScalarWhereInput[] | SitePromoScalarWhereInput>;
+}
+
+export interface SitePromoUpdateManyWithWhereNestedInput {
+  where: SitePromoScalarWhereInput;
+  data: SitePromoUpdateManyDataInput;
+}
+
+export interface SitePromoUpdateManyDataInput {
+  type?: Maybe<VideoType>;
+  promoOffer?: Maybe<PromoOffer>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  description?: Maybe<String>;
+  newPrice?: Maybe<Float>;
 }
 
 export interface VideoUpsertWithWhereUniqueWithoutUsersInput {
@@ -1905,6 +2127,14 @@ export interface VideoScalarWhereInput {
   familyId_not_ends_with?: Maybe<String>;
   suggest?: Maybe<Boolean>;
   suggest_not?: Maybe<Boolean>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<VideoScalarWhereInput[] | VideoScalarWhereInput>;
   OR?: Maybe<VideoScalarWhereInput[] | VideoScalarWhereInput>;
   NOT?: Maybe<VideoScalarWhereInput[] | VideoScalarWhereInput>;
@@ -1998,6 +2228,7 @@ export interface VideoUpdateDataInput {
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoUpdateoptionsInput>;
+  promos?: Maybe<SitePromoUpdateManyWithoutVideosInput>;
 }
 
 export interface UserUpdateManyWithoutVideosInput {
@@ -2546,6 +2777,7 @@ export interface VideoCreateWithoutPromoVideoInput {
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoCreateoptionsInput>;
+  promos?: Maybe<SitePromoCreateManyWithoutVideosInput>;
 }
 
 export interface PromoVideoUpdateInput {
@@ -2588,6 +2820,7 @@ export interface VideoUpdateWithoutPromoVideoDataInput {
   familyId?: Maybe<String>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoUpdateoptionsInput>;
+  promos?: Maybe<SitePromoUpdateManyWithoutVideosInput>;
 }
 
 export interface VideoUpsertWithoutPromoVideoInput {
@@ -2631,6 +2864,35 @@ export interface SitePromoCreateInput {
   subtitle: String;
   description: String;
   newPrice?: Maybe<Float>;
+  videos?: Maybe<VideoCreateManyWithoutPromosInput>;
+}
+
+export interface VideoCreateManyWithoutPromosInput {
+  create?: Maybe<
+    VideoCreateWithoutPromosInput[] | VideoCreateWithoutPromosInput
+  >;
+  connect?: Maybe<VideoWhereUniqueInput[] | VideoWhereUniqueInput>;
+}
+
+export interface VideoCreateWithoutPromosInput {
+  name?: Maybe<String>;
+  keywords?: Maybe<String>;
+  title?: Maybe<String>;
+  link?: Maybe<String>;
+  preview: String;
+  image: String;
+  placeholder: String;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
+  users?: Maybe<UserCreateManyWithoutVideosInput>;
+  publishDate?: Maybe<String>;
+  price: Float;
+  start: Int;
+  type: VideoType;
+  familyId?: Maybe<String>;
+  promoVideo?: Maybe<PromoVideoCreateOneWithoutVideoInput>;
+  suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoCreateoptionsInput>;
 }
 
 export interface SitePromoUpdateInput {
@@ -2642,6 +2904,61 @@ export interface SitePromoUpdateInput {
   subtitle?: Maybe<String>;
   description?: Maybe<String>;
   newPrice?: Maybe<Float>;
+  videos?: Maybe<VideoUpdateManyWithoutPromosInput>;
+}
+
+export interface VideoUpdateManyWithoutPromosInput {
+  create?: Maybe<
+    VideoCreateWithoutPromosInput[] | VideoCreateWithoutPromosInput
+  >;
+  delete?: Maybe<VideoWhereUniqueInput[] | VideoWhereUniqueInput>;
+  connect?: Maybe<VideoWhereUniqueInput[] | VideoWhereUniqueInput>;
+  set?: Maybe<VideoWhereUniqueInput[] | VideoWhereUniqueInput>;
+  disconnect?: Maybe<VideoWhereUniqueInput[] | VideoWhereUniqueInput>;
+  update?: Maybe<
+    | VideoUpdateWithWhereUniqueWithoutPromosInput[]
+    | VideoUpdateWithWhereUniqueWithoutPromosInput
+  >;
+  upsert?: Maybe<
+    | VideoUpsertWithWhereUniqueWithoutPromosInput[]
+    | VideoUpsertWithWhereUniqueWithoutPromosInput
+  >;
+  deleteMany?: Maybe<VideoScalarWhereInput[] | VideoScalarWhereInput>;
+  updateMany?: Maybe<
+    VideoUpdateManyWithWhereNestedInput[] | VideoUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface VideoUpdateWithWhereUniqueWithoutPromosInput {
+  where: VideoWhereUniqueInput;
+  data: VideoUpdateWithoutPromosDataInput;
+}
+
+export interface VideoUpdateWithoutPromosDataInput {
+  name?: Maybe<String>;
+  keywords?: Maybe<String>;
+  title?: Maybe<String>;
+  link?: Maybe<String>;
+  preview?: Maybe<String>;
+  image?: Maybe<String>;
+  placeholder?: Maybe<String>;
+  imageVertical?: Maybe<String>;
+  placeholderVertical?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutVideosInput>;
+  publishDate?: Maybe<String>;
+  price?: Maybe<Float>;
+  start?: Maybe<Int>;
+  type?: Maybe<VideoType>;
+  familyId?: Maybe<String>;
+  promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
+  suggest?: Maybe<Boolean>;
+  options?: Maybe<VideoUpdateoptionsInput>;
+}
+
+export interface VideoUpsertWithWhereUniqueWithoutPromosInput {
+  where: VideoWhereUniqueInput;
+  update: VideoUpdateWithoutPromosDataInput;
+  create: VideoCreateWithoutPromosInput;
 }
 
 export interface SitePromoUpdateManyMutationInput {
@@ -2722,6 +3039,7 @@ export interface VideoUpdateInput {
   promoVideo?: Maybe<PromoVideoUpdateOneWithoutVideoInput>;
   suggest?: Maybe<Boolean>;
   options?: Maybe<VideoUpdateoptionsInput>;
+  promos?: Maybe<SitePromoUpdateManyWithoutVideosInput>;
 }
 
 export interface VideoUpdateManyMutationInput {
@@ -3070,6 +3388,7 @@ export interface Video {
   familyId?: String;
   suggest: Boolean;
   options: String[];
+  createdAt: DateTimeOutput;
 }
 
 export interface VideoPromise extends Promise<Video>, Fragmentable {
@@ -3100,6 +3419,16 @@ export interface VideoPromise extends Promise<Video>, Fragmentable {
   promoVideo: <T = PromoVideoPromise>() => T;
   suggest: () => Promise<Boolean>;
   options: () => Promise<String[]>;
+  promos: <T = FragmentableArray<SitePromo>>(args?: {
+    where?: SitePromoWhereInput;
+    orderBy?: SitePromoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface VideoSubscription
@@ -3132,6 +3461,16 @@ export interface VideoSubscription
   promoVideo: <T = PromoVideoSubscription>() => T;
   suggest: () => Promise<AsyncIterator<Boolean>>;
   options: () => Promise<AsyncIterator<String[]>>;
+  promos: <T = Promise<AsyncIterator<SitePromoSubscription>>>(args?: {
+    where?: SitePromoWhereInput;
+    orderBy?: SitePromoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface VideoNullablePromise
@@ -3164,6 +3503,16 @@ export interface VideoNullablePromise
   promoVideo: <T = PromoVideoPromise>() => T;
   suggest: () => Promise<Boolean>;
   options: () => Promise<String[]>;
+  promos: <T = FragmentableArray<SitePromo>>(args?: {
+    where?: SitePromoWhereInput;
+    orderBy?: SitePromoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface PromoVideo {
@@ -3223,6 +3572,89 @@ export interface PromoVideoNullablePromise
   bannerMobile: () => Promise<String>;
   type: () => Promise<VideoType>;
   video: <T = VideoPromise>() => T;
+}
+
+export interface SitePromo {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  type: VideoType;
+  promoOffer: PromoOffer;
+  startDate?: String;
+  endDate?: String;
+  title: String;
+  subtitle: String;
+  description: String;
+  newPrice?: Float;
+}
+
+export interface SitePromoPromise extends Promise<SitePromo>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  type: () => Promise<VideoType>;
+  promoOffer: () => Promise<PromoOffer>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  description: () => Promise<String>;
+  newPrice: () => Promise<Float>;
+  videos: <T = FragmentableArray<Video>>(args?: {
+    where?: VideoWhereInput;
+    orderBy?: VideoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SitePromoSubscription
+  extends Promise<AsyncIterator<SitePromo>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  type: () => Promise<AsyncIterator<VideoType>>;
+  promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  subtitle: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  newPrice: () => Promise<AsyncIterator<Float>>;
+  videos: <T = Promise<AsyncIterator<VideoSubscription>>>(args?: {
+    where?: VideoWhereInput;
+    orderBy?: VideoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SitePromoNullablePromise
+  extends Promise<SitePromo | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  type: () => Promise<VideoType>;
+  promoOffer: () => Promise<PromoOffer>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  description: () => Promise<String>;
+  newPrice: () => Promise<Float>;
+  videos: <T = FragmentableArray<Video>>(args?: {
+    where?: VideoWhereInput;
+    orderBy?: VideoOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface PromoCode {
@@ -3642,58 +4074,6 @@ export interface AggregateQuoteSubscription
   extends Promise<AsyncIterator<AggregateQuote>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface SitePromo {
-  id: ID_Output;
-  type: VideoType;
-  promoOffer: PromoOffer;
-  startDate?: String;
-  endDate?: String;
-  title: String;
-  subtitle: String;
-  description: String;
-  newPrice?: Float;
-}
-
-export interface SitePromoPromise extends Promise<SitePromo>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  type: () => Promise<VideoType>;
-  promoOffer: () => Promise<PromoOffer>;
-  startDate: () => Promise<String>;
-  endDate: () => Promise<String>;
-  title: () => Promise<String>;
-  subtitle: () => Promise<String>;
-  description: () => Promise<String>;
-  newPrice: () => Promise<Float>;
-}
-
-export interface SitePromoSubscription
-  extends Promise<AsyncIterator<SitePromo>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  type: () => Promise<AsyncIterator<VideoType>>;
-  promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
-  startDate: () => Promise<AsyncIterator<String>>;
-  endDate: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  subtitle: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  newPrice: () => Promise<AsyncIterator<Float>>;
-}
-
-export interface SitePromoNullablePromise
-  extends Promise<SitePromo | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  type: () => Promise<VideoType>;
-  promoOffer: () => Promise<PromoOffer>;
-  startDate: () => Promise<String>;
-  endDate: () => Promise<String>;
-  title: () => Promise<String>;
-  subtitle: () => Promise<String>;
-  description: () => Promise<String>;
-  newPrice: () => Promise<Float>;
 }
 
 export interface SitePromoConnection {
@@ -4192,6 +4572,7 @@ export interface SitePromoSubscriptionPayloadSubscription
 
 export interface SitePromoPreviousValues {
   id: ID_Output;
+  createdAt: DateTimeOutput;
   type: VideoType;
   promoOffer: PromoOffer;
   startDate?: String;
@@ -4206,6 +4587,7 @@ export interface SitePromoPreviousValuesPromise
   extends Promise<SitePromoPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
   type: () => Promise<VideoType>;
   promoOffer: () => Promise<PromoOffer>;
   startDate: () => Promise<String>;
@@ -4220,6 +4602,7 @@ export interface SitePromoPreviousValuesSubscription
   extends Promise<AsyncIterator<SitePromoPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   type: () => Promise<AsyncIterator<VideoType>>;
   promoOffer: () => Promise<AsyncIterator<PromoOffer>>;
   startDate: () => Promise<AsyncIterator<String>>;
@@ -4353,6 +4736,7 @@ export interface VideoPreviousValues {
   familyId?: String;
   suggest: Boolean;
   options: String[];
+  createdAt: DateTimeOutput;
 }
 
 export interface VideoPreviousValuesPromise
@@ -4375,6 +4759,7 @@ export interface VideoPreviousValuesPromise
   familyId: () => Promise<String>;
   suggest: () => Promise<Boolean>;
   options: () => Promise<String[]>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface VideoPreviousValuesSubscription
@@ -4397,6 +4782,7 @@ export interface VideoPreviousValuesSubscription
   familyId: () => Promise<AsyncIterator<String>>;
   suggest: () => Promise<AsyncIterator<Boolean>>;
   options: () => Promise<AsyncIterator<String[]>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 /*

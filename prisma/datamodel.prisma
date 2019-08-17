@@ -38,6 +38,8 @@ type Video {
   promoVideo: PromoVideo
   suggest: Boolean! @default(value: "true")
   options: [String]
+  promos: [SitePromo]
+  createdAt: DateTime!
 }
 
 type PromoVideo {
@@ -68,6 +70,7 @@ type PromoCode {
 
 type SitePromo {
   id: ID! @unique
+  createdAt: DateTime!
   type: VideoType!
   promoOffer: PromoOffer!
   startDate: String
@@ -76,6 +79,7 @@ type SitePromo {
   subtitle: String!
   description: String!
   newPrice: Float
+  videos: [Video] @default(value: [])
 }
 
 type Product {

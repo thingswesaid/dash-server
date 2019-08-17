@@ -5,7 +5,9 @@ type Query {
   videoPage(id: ID!, ip: String, userId: String, showAll: Boolean): VideoPage
   userPage(id: ID, email: String): UserPage
   promoCode(code: String): PromoCode
-  studioPage(userId: String!, from: String, to: String): Studio!
+  ordersAnalytics(userId: String!, from: String, to: String): OrdersAnalytics!
+  scheduledVideos: Json!
+  scheduledPromos: [ScheduledPromoPayload]
 }
 
 type Mutation {
@@ -48,17 +50,19 @@ type General {
   error: String
 }
 
-type Studio {
-  orders: Orders
+type ScheduledPromoPayload {
+  promo: SitePromo
+  hasVideos: Boolean
+}
+
+type OrdersAnalytics {
+  list: Json
+  count: Int
+  totalAmount: Float
   error: String
 }
 
 scalar Json
-
-type Orders {
-  list: Json
-  count: Int!
-}
 
 type Subscription {
   user(id: ID, email: String): User!
@@ -118,6 +122,7 @@ type Video {
   promoVideo: PromoVideo
   keywords: String
   options: [String]
+  publishDate: String
 }
 
 type PromoVideo {
@@ -173,6 +178,7 @@ type VideoPage {
 
 type SitePromo {
   id: ID!
+  createdAt: String!
   type: VideoType!
   promoOffer: PromoOffer!
   startDate: String!
@@ -181,6 +187,7 @@ type SitePromo {
   subtitle: String!
   description: String!
   newPrice: Float
+  videos: [Video]
 }
 
 type Order {

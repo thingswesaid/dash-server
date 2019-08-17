@@ -4,6 +4,7 @@ const passwordHash = require('password-hash');
 const iplocation = require('iplocation').default;
 const promoCodes = require('voucher-code-generator');
 const uniqid = require('uniqid');
+const moment = require('moment');
 
 const { prisma } = require('./generated/prisma-client')
 const { 
@@ -14,6 +15,7 @@ const {
   handlePromo, 
   sendPasswordReset,
   getActiveVideos,
+  getAllDates,
 } = require('./utils');
 
 require('dotenv').config();
@@ -107,36 +109,84 @@ const resolvers = {
       return promoCodes[0];
     },
 
-    async studioPage(parent, { userId, from, to }, context) { 
-      // TODO when migrating to Treader.net will add reader check (reader logged in and url have to match)
-      const user = await context.prisma.user({ id: userId });
+    async ordersAnalytics(parent, { userId, from, to }, context) { 
+      // TODO when porting the site will add reader check (reader logged in and url have to match)
+      const user = await context.prisma.user({ id: userId }); // TODO move user check call in studio page
       if (!user || user.role !== 'ADMIN' && user.role !== 'READER' ) return { 
         error: 'Not Authorized or not logged in.' 
       }
-      const optsDate = from && to // TODO default 28 days
-        ? { createdAt_gte: `${from}T00:00:00.000Z`, createdAt_lte: `${to}T23:59:59.999Z` }
-        : {}
 
-      const listOrders = await context.prisma.orders({ where: { ...optsDate } });
-      let sortOrders = {};
+      const fromDate = from || moment().subtract(28, 'days').format('YYYY-MM-DD');
+      const toDate = to || moment().format('YYYY-MM-DD');
+      const allDates = getAllDates(fromDate, toDate);  
+      const dateRange =  { createdAt_gte: `${fromDate}T00:00:00.000Z`, createdAt_lte: `${toDate}T23:59:59.999Z` };
+      const listOrders = await context.prisma.orders({ where: { ...dateRange } });
+
+      // TODO - when porting the site remove 30% service fee
+      let sortOrders = [];
       listOrders.forEach(async ({ createdAt, amount }) => {
         const date = createdAt.slice(0, 10);
-        if (sortOrders[date]) { 
-          sortOrders[date].count = sortOrders[date].count + 1;
-          // remove from amount PayPal fee + treaders fee and then round total (create in utility)
-          sortOrders[date].amount = Math.round((sortOrders[date].amount + amount) * 100) / 100;
+        const existingOrder = sortOrders.findIndex(order => order.date === date);
+        const payPalFee = Math.round((amount * 0.050 + 0.30) * 100) / 100;
+        const price = amount - payPalFee;
+        if (existingOrder !== -1) { 
+          sortOrders[existingOrder].count = sortOrders[existingOrder].count + 1;
+          sortOrders[existingOrder].amount = Math.round((sortOrders[existingOrder].amount + price) * 100) / 100;
         } else {
-          sortOrders[date] = { count: 1, amount: Math.round(amount * 100) / 100 }
+          sortOrders = [...sortOrders, { id: uniqid(), date, count: 1, amount: price }];
         }
       });
-
-      return {
-        orders: {
-          list: JSON.stringify(sortOrders),
-          count: listOrders.length
-        },
+      
+      if (!Object.keys(sortOrders).length) {
+        return { list: JSON.stringify({}), count: 0, totalAmount: 0 };
       }
-    }
+
+      let previousIndex;
+      allDates.forEach((date, index) => {
+        const dateExists = sortOrders.some(order => order.date === date);
+        if (!dateExists) {
+          const dayBefore = moment(date).subtract(1, 'days').format('YYYY-MM-DD');
+          const indexOfDayBefore = sortOrders.findIndex(order => order.date === dayBefore);
+          previousIndex = indexOfDayBefore !== -1 ? indexOfDayBefore : previousIndex + 1;
+          sortOrders.splice(previousIndex + 1, 0, { date, count: 0, amount: 0 });
+        }
+      });
+      
+      const totalAmount = Object
+        .values(sortOrders)
+        .map(value => value.amount)
+        .reduce((total, value) => total + value);
+        
+      return {
+        list: JSON.stringify(sortOrders),
+        count: listOrders.length,
+        totalAmount: Math.round(totalAmount * 100) / 100,
+      }
+    },
+
+    async scheduledVideos(parent, args, context) {
+      const today = moment().format('YYYY-MM-DD');
+      const videos = await context.prisma.videos({ where: { publishDate_gte: `${today} 04:30:00` } })
+      const sortedVideos = new Map();
+
+      videos.map((video) => {
+        const key = video.publishDate;
+        const collection = sortedVideos.get(key);
+        if (!collection) { sortedVideos.set(key, [video]) } 
+        else { collection.push(video) }
+      });
+
+      return JSON.stringify([...sortedVideos]);
+    },
+
+    async scheduledPromos(parent, args, context) {
+      const today = moment().format('YYYY-MM-DD');
+      const promos = await context.prisma.sitePromoes({ where: { startDate_gte: `${today} 04:30:00` }, orderBy: 'startDate_ASC' });
+      return promos.map(async promo => { 
+        const hasVideos = await context.prisma.sitePromoes({ where: { id: promo.id } }).videos();
+        return { promo, hasVideos: !!hasVideos[0].videos.length }
+      })
+    },
   },
 
   Video: {
@@ -162,6 +212,7 @@ const resolvers = {
       return prisma.user({ id: parent.id }).orders();
     },
     videos(parent) {
+      console.log('>>>>>>>> in user videos <<<<<<<<<');
       return prisma.user({ id: parent.id }).videos();
     },
     promoCodes(parent) {
