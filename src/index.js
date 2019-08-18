@@ -125,7 +125,12 @@ const resolvers = {
       // TODO - when porting the site remove 30% service fee
       let sortOrders = [];
       listOrders.forEach(async ({ createdAt, amount }) => {
+
         const date = createdAt.slice(0, 10);
+        
+      //  const serverDate = moment(createdAt).toDate();    
+      //  const localDate =  moment(serverDate).local().toDate();
+      //  console.log('localDate', localDate);
         const existingOrder = sortOrders.findIndex(order => order.date === date);
         const payPalFee = Math.round((amount * 0.050 + 0.30) * 100) / 100;
         const price = amount - payPalFee;
@@ -212,7 +217,6 @@ const resolvers = {
       return prisma.user({ id: parent.id }).orders();
     },
     videos(parent) {
-      console.log('>>>>>>>> in user videos <<<<<<<<<');
       return prisma.user({ id: parent.id }).videos();
     },
     promoCodes(parent) {
