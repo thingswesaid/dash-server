@@ -277,13 +277,19 @@ const resolvers = {
         where: { code, user: { id: userId } }
       });
       if (!promoCodes.length) return { error: 'Promo Code does not exist.' }
-      
       const { type, endDate } = promoCodes[0];
       if (type !== videoType) return { error: `Promo valid only for ${type.toLowerCase()} videos.` }
 
       const now = new Date();
       const promoEndDate = new Date(endDate);
       if (promoEndDate < now) return { error: 'Promo code has expired' };
+
+      await context.prisma.createOrder({
+        paymentId: `manual-order-${uniqid()}`,
+        paymentEmail: 'manual-order@no-email',
+        video: { connect: { id: videoId } },
+        user: { connect: { id: userId } },
+      });
 
       await context.prisma.updateUser({
         where: { id: userId },
