@@ -5,6 +5,8 @@ const iplocation = require('iplocation').default;
 const promoCodes = require('voucher-code-generator');
 const uniqid = require('uniqid');
 const moment = require('moment');
+const momentTz = require('moment-timezone');
+var geoip = require('geoip-lite');
 
 const { prisma } = require('./generated/prisma-client')
 const { 
@@ -125,12 +127,30 @@ const resolvers = {
       // TODO - when porting the site remove 30% service fee
       let sortOrders = [];
       listOrders.forEach(async ({ createdAt, amount }) => {
-
-        const date = createdAt.slice(0, 10);
         
-      //  const serverDate = moment(createdAt).toDate();    
-      //  const localDate =  moment(serverDate).local().toDate();
-      //  console.log('localDate', localDate);
+  
+        const ip = await context.userIp();
+        const { timezone } = ip ? await geoip.lookup(ip) : {};
+        const now = momentTz(createdAt);
+        const date = now.tz(timezone).format('YYYY-MM-DD');
+        console.log('dates', date);
+        // const date = createdAt.slice(0, 10);
+        // const serverDate = new Date(createdAt);
+
+
+      // function convertUTCDateToLocalDate(date) { // TODO move to UTIL
+      //   const newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+      //   const offset = date.getTimezoneOffset() / 60;
+      //   const hours = date.getHours();
+      //   newDate.setHours(hours - offset);
+      //   return newDate;   
+      // }
+
+      // const localDate = convertUTCDateToLocalDate(serverDate);
+      // const date = moment(localDate).format('YYYY-MM-DD');
+
+        // if (date === '2019-08-19') console.log(createdAt, '|||', localDate, '--', date);
+
         const existingOrder = sortOrders.findIndex(order => order.date === date);
         const payPalFee = Math.round((amount * 0.050 + 0.30) * 100) / 100;
         const price = amount - payPalFee;
